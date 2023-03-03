@@ -22,6 +22,36 @@ namespace InventoryGenie.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("InventoryGenie.Data.OrderRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsReceived")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("OrderedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityOrdered")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("orderRecords");
+                });
+
             modelBuilder.Entity("InventoryGenie.Data.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -98,6 +128,36 @@ namespace InventoryGenie.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InventoryGenie.Data.SaleRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantitySold")
+                        .HasColumnType("int");
+
+                    b.Property<double>("SellingPrice")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("SoldOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("saleRecords");
+                });
+
             modelBuilder.Entity("InventoryGenie.Data.User", b =>
                 {
                     b.Property<int>("Id")
@@ -132,77 +192,26 @@ namespace InventoryGenie.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("InventoryGenie.Data.Product", b =>
+            modelBuilder.Entity("InventoryGenie.Data.OrderRecord", b =>
                 {
-                    b.OwnsMany("InventoryGenie.Data.OrderRecord", "OrderRecords", b1 =>
-                        {
-                            b1.Property<int>("ProductId")
-                                .HasColumnType("int");
+                    b.HasOne("InventoryGenie.Data.Product", "Product")
+                        .WithMany("OrderRecords")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
+                    b.Navigation("Product");
+                });
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+            modelBuilder.Entity("InventoryGenie.Data.SaleRecord", b =>
+                {
+                    b.HasOne("InventoryGenie.Data.Product", "Product")
+                        .WithMany("SaleRecords")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.Property<double>("Cost")
-                                .HasColumnType("float");
-
-                            b1.Property<bool>("IsReceived")
-                                .HasColumnType("bit");
-
-                            b1.Property<DateTime>("OrderedOn")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<int>("QuantityOrdered")
-                                .HasColumnType("int");
-
-                            b1.HasKey("ProductId", "Id");
-
-                            b1.ToTable("orderRecords");
-
-                            b1.WithOwner("Product")
-                                .HasForeignKey("ProductId");
-
-                            b1.Navigation("Product");
-                        });
-
-                    b.OwnsMany("InventoryGenie.Data.SaleRecord", "SaleRecords", b1 =>
-                        {
-                            b1.Property<int>("ProductId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<double>("Cost")
-                                .HasColumnType("float");
-
-                            b1.Property<int>("QuantitySold")
-                                .HasColumnType("int");
-
-                            b1.Property<double>("SellingPrice")
-                                .HasColumnType("float");
-
-                            b1.Property<DateTime>("SoldOn")
-                                .HasColumnType("datetime2");
-
-                            b1.HasKey("ProductId", "Id");
-
-                            b1.ToTable("saleRecords");
-
-                            b1.WithOwner("Product")
-                                .HasForeignKey("ProductId");
-
-                            b1.Navigation("Product");
-                        });
-
-                    b.Navigation("OrderRecords");
-
-                    b.Navigation("SaleRecords");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("InventoryGenie.Data.User", b =>
@@ -214,6 +223,13 @@ namespace InventoryGenie.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("InventoryGenie.Data.Product", b =>
+                {
+                    b.Navigation("OrderRecords");
+
+                    b.Navigation("SaleRecords");
                 });
 #pragma warning restore 612, 618
         }

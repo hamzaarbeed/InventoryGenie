@@ -2,6 +2,7 @@
 {
     public class OrderRecord
     {
+        public int Id { get; set; }
         public DateTime OrderedOn { get; set; }
         public int QuantityOrdered { get; set; }
         public double Cost { get; set; }

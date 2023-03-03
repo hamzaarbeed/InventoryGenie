@@ -2,6 +2,7 @@
 {
     public class SaleRecord
     {
+        public int Id { get; set; }
         public DateTime SoldOn { get; set; }
         public int QuantitySold { get; set; }
         public double Cost { get; set; }

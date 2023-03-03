@@ -51,17 +51,17 @@ namespace InventoryGenie.Migrations
                 name: "orderRecords",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuantityOrdered = table.Column<int>(type: "int", nullable: false),
                     Cost = table.Column<double>(type: "float", nullable: false),
-                    IsReceived = table.Column<bool>(type: "bit", nullable: false)
+                    IsReceived = table.Column<bool>(type: "bit", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orderRecords", x => new { x.ProductId, x.Id });
+                    table.PrimaryKey("PK_orderRecords", x => x.Id);
                     table.ForeignKey(
                         name: "FK_orderRecords_products_ProductId",
                         column: x => x.ProductId,
@@ -74,17 +74,17 @@ namespace InventoryGenie.Migrations
                 name: "saleRecords",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SoldOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuantitySold = table.Column<int>(type: "int", nullable: false),
                     Cost = table.Column<double>(type: "float", nullable: false),
-                    SellingPrice = table.Column<double>(type: "float", nullable: false)
+                    SellingPrice = table.Column<double>(type: "float", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_saleRecords", x => new { x.ProductId, x.Id });
+                    table.PrimaryKey("PK_saleRecords", x => x.Id);
                     table.ForeignKey(
                         name: "FK_saleRecords_products_ProductId",
                         column: x => x.ProductId,
@@ -125,6 +125,16 @@ namespace InventoryGenie.Migrations
                     { 2, "Warehouse Leader" },
                     { 3, "Associate" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_orderRecords_ProductId",
+                table: "orderRecords",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_saleRecords_ProductId",
+                table: "saleRecords",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",

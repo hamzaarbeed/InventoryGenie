@@ -14,11 +14,7 @@ namespace InventoryGenie.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //added to fix SaleRecord and OrderRecord has no primaryKey
-            modelBuilder.Entity<Product>().OwnsMany(x => x.OrderRecords);
-            modelBuilder.Entity<Product>().OwnsMany(x => x.SaleRecords);
-
-
+            
             modelBuilder.Entity<Role>().HasData(
 
                 new Role
