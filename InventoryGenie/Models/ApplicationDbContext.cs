@@ -6,11 +6,11 @@ namespace InventoryGenie.Models
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        DbSet<User> Users { get; set; } = null!;
-        DbSet<OrderRecord> orderRecords { get; set; } = null!;
-        DbSet<SaleRecord> saleRecords { get; set; } = null!;
-        DbSet<Product> products { get; set; } = null!;
-        DbSet<Role> roles { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<OrderRecord> OrderRecords { get; set; } = null!;
+        public DbSet<SaleRecord> SaleRecords { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
