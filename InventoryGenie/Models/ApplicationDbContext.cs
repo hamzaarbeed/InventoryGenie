@@ -14,7 +14,13 @@ namespace InventoryGenie.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            //to make Username unique in db
+            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+            //to make Product Name unique in db
+            modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
+            // note probably needs validation at data entry
+
+
             modelBuilder.Entity<Role>().HasData(
 
                 new Role
