@@ -12,7 +12,7 @@ namespace InventoryGenie.Controllers
             context = ctx;
         }
 
-
+        
         [HttpGet]
         public IActionResult Index()
         {
@@ -23,15 +23,18 @@ namespace InventoryGenie.Controllers
         public IActionResult Index(User user)
         {
 
-            int count = context.Users.Where(x => x.UserName == user.UserName && x.Password == user.Password).Count();
-            if (count > 0)
+            var usr = context.Users.FirstOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
+            if (usr != null)
             {
+                TempData["UserID"] = usr.Id;
                 return RedirectToAction("Index", "Home");
             }
             else
             {
+                //clears form
                 ModelState.Clear();
-                return View();
+                ViewBag.Msg = "Incorrect User name/password";
+                return View(new User());
             }
         }
     }
