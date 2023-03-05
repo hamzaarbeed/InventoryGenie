@@ -27,6 +27,8 @@ namespace InventoryGenie.Controllers
             if (usr != null)
             {
                 TempData["UserID"] = usr.Id;
+                TempData["UserRole"] = usr.RoleId;
+                TempData["UserFullName"] = usr.FirstName + " " + usr.LastName;
                 return RedirectToAction("Index", "Home");
             }
             else

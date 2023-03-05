@@ -19,9 +19,7 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Login");
             else
             {
-                int userID = (int)TempData["UserID"];
-                User? user = context.Users.FirstOrDefault(x => x.Id == userID);
-                return View(user);
+                return View();
             }
 
         }
