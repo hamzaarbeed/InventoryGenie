@@ -1,4 +1,4 @@
-﻿namespace InventoryGenie.Data
+﻿namespace InventoryGenie.Models
 {
     public class Role
     {

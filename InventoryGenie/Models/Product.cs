@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InventoryGenie.Data
+namespace InventoryGenie.Models
 {
     public class Product
     {

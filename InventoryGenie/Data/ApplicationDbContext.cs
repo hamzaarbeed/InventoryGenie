@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using InventoryGenie.Data;
+﻿using InventoryGenie.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryGenie.Models
+namespace InventoryGenie.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -20,6 +20,7 @@ namespace InventoryGenie.Models
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
             // note probably needs validation at data entry
 
+            
 
             modelBuilder.Entity<Role>().HasData(
 
@@ -39,6 +40,23 @@ namespace InventoryGenie.Models
                     RoleName = "Associate",
                 }
                 );
+            addDummyData(modelBuilder);
+        }
+        private void addDummyData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(
+
+                new User
+                {
+                    Id = 1,
+                    UserName = "admin",
+                    RoleId = 1,
+                    FirstName = "Tom",
+                    LastName = "Smith",
+                    Password = "password",
+                }
+            );
+
         }
     }
 }

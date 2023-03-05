@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace InventoryGenie.Data
+namespace InventoryGenie.Models
 {
     public class User
     {
