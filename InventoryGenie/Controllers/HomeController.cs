@@ -15,7 +15,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (TempData["UserID"] == null)
+            if (TempData.Peek("UserID") == null)
                 return RedirectToAction("Index", "Login");
             else
             {

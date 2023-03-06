@@ -29,6 +29,7 @@ namespace InventoryGenie.Controllers
                 TempData["UserID"] = usr.Id;
                 TempData["UserRole"] = usr.RoleId;
                 TempData["UserFullName"] = usr.FirstName + " " + usr.LastName;
+                TempData["UserRoleName"] = ((Role)context.Roles.FirstOrDefault(x => x.RoleId == usr.RoleId)).RoleName;
                 return RedirectToAction("Index", "Home");
             }
             else
