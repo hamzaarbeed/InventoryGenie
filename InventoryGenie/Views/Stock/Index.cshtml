@@ -1,0 +1,41 @@
+﻿@model List<Product>
+
+<form method="post" asp-controller="Stock" asp-action="Search">
+    <input class="form-control col-3" type="text" name="searchText">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <th>@product.Id</th>
+                <th>@product.Name</th>
+                <th>@product.Description</th>
+                <th>@product.Category</th>
+                <th>
+                    <form method="post" asp-controller="Stock" asp-action="Update">
+                    <input type="number" name="newQuantity" value=@product.Quantity>
+                    <input type ="number" hidden name="productID" value="@product.Id">
+                    <button type="submit">Update</button>
+                    </form>
+                </th>
+                
+            </tr>
+            
+        }
+    </tbody>
+    
+</table>
+
+

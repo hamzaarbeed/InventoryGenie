@@ -56,6 +56,35 @@ namespace InventoryGenie.Data
                     Password = "password",
                 }
             );
+            modelBuilder.Entity<Product>().HasData(
+                    new Product
+                    {
+                        Id = 1,
+                        Name = "Monster Energy Drink",
+                        Category = "Energy Drinks",
+                        Quantity = 400,
+                        Description = "Energy Drinks",
+                        SellingPrice = 1.52,
+                        Cost = 1.15,
+                        MinimumLevel = 30,
+                        MaximumLevel= 500,
+                        SupplierName ="Monster Company"
+                    },
+                    new Product
+                    {
+                        Id = 2,
+                        Name = "Lays Chips",
+                        Category = "Snacks",
+                        Quantity = 100,
+                        Description = "Lays Chips Original Taste",
+                        SellingPrice = 2.52,
+                        Cost = 2.00,
+                        MinimumLevel = 30,
+                        MaximumLevel = 150,
+                        SupplierName = "Lays"
+                    }
+
+                );
 
         }
     }
