@@ -6,7 +6,7 @@
 
 <h2 class="mb-2">Welcome to Inventory Genie! Please enter your username and password.</h2>
 <h2 class="mb-2">@ViewBag.Title</h2>
-<form method="post" asp-action="Index">
+<form method="post" asp-action="Login">
     <div class="mb-3">
         <label asp-for="UserName" class="form-label">User Name</label>
         <input asp-for="UserName" class="form-control">
@@ -16,16 +16,11 @@
         <input asp-for="Password" type="password" class="form-control">
     </div>
     @{
-        try{
-            if(ViewBag.Msg !=null){
-                <div class="mb-3">
-                    <label class="text-danger">@ViewBag.Msg</label>
-                </div>
-            }
-        }
-        catch
-        {
-            
+
+        if(TempData["Msg"] !=null){
+            <div class="mb-3">
+                <label class="text-danger">@TempData["Msg"]</label>
+            </div>
         }
     }
     <button type="submit" class="btn btn-primary">Login</button>

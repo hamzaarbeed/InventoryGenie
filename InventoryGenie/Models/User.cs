@@ -10,6 +10,7 @@ namespace InventoryGenie.Models
         public string LastName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public bool ChangePassword { get; set; } = true;
 
         [Required(ErrorMessage = "Please select role")]
         public int RoleId { get; set; }
