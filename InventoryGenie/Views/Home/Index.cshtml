@@ -5,8 +5,10 @@
 <div class="text-center">
     <h1 class="display-4">Hi @TempData.Peek("UserFullName")!</h1>
     <h6 class="mb-5">(@TempData.Peek("UserRoleName"))</h6>
-
-    <div>@ViewBag.stockoutCount stockouts </div>
-    <div>@ViewBag.lowstockCount low stocks</div>
-
+    @{
+        if ((int)TempData.Peek("UserRole") != 3){
+            <div>@ViewBag.stockoutCount stockouts </div>
+            <div>@ViewBag.lowstockCount low stocks</div>
+        }
+    }
 </div>
