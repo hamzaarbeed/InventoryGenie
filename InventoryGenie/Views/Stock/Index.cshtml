@@ -11,7 +11,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Category</th>
+            <th>Minimum Level</th>
             <th>Quantity</th>
         </tr>
     </thead>
@@ -22,12 +22,12 @@
                 <th>@product.Id</th>
                 <th>@product.Name</th>
                 <th>@product.Description</th>
-                <th>@product.Category</th>
+                <th>@product.MinimumLevel</th>
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">
                     <input type="number" name="newQuantity" value=@product.Quantity>
                     <input type ="number" hidden name="productID" value="@product.Id">
-                    <button type="submit">Update</button>
+                    <button class="btn btn-outline-primary" type="submit">Update</button>
                     </form>
                 </th>
                 
