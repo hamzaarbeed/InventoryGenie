@@ -12,6 +12,12 @@ namespace InventoryGenie.Controllers
             context = ctx;
         }
 
+        public IActionResult LogOut()
+        {
+            TempData.Clear();
+            return View("Index");
+        }
+
         [HttpPost]
         public IActionResult ChangePassword(User user,int userID, string oldPassword, string newPassword, string confirmedNewPassword)
         {

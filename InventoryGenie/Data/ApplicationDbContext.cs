@@ -54,6 +54,26 @@ namespace InventoryGenie.Data
                     FirstName = "Tom",
                     LastName = "Smith",
                     Password = "password",
+                },
+                new User
+                {
+                    Id = 2,
+                    UserName = "wl",
+                    RoleId = 2,
+                    FirstName = "William",
+                    LastName = "Leonard",
+                    Password = "password",
+                    ChangePassword = false,
+                },
+                new User
+                {
+                    Id=3,
+                    UserName = "associate",
+                    RoleId = 3,
+                    FirstName = "Adam",
+                    LastName = "Cash",
+                    Password = "password",
+                    ChangePassword = false,
                 }
             );
             modelBuilder.Entity<Product>().HasData(
