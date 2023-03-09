@@ -5,6 +5,14 @@ namespace InventoryGenie.Models
 {
     public class User
     {
+        public enum RoleType
+        {
+            General_Manager =1,
+            Warehouse_Leader=2,
+            Associate=3
+        }
+
+        [Range(1000,int.MaxValue)]
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -13,10 +21,7 @@ namespace InventoryGenie.Models
         public bool ChangePassword { get; set; } = true;
 
         [Required(ErrorMessage = "Please select role")]
-        public int RoleId { get; set; }
-
-        [ValidateNever]
-        public Role Role { get; set; } = null!;
+        public RoleType Role { get; set; }
 
 
 
