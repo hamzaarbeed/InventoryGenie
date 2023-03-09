@@ -1,0 +1,46 @@
+﻿
+ViewBag and ViewData are only available between the controller and its views. if you go to another contoller data in them will be lost
+If you read them once they will be marked as read and will be erased. (one time use)
+ 
+TempData are available between different contollers and Views. if you go to another contoller data in them will NOT be lost
+If you read them once they will be marked as read and will be erased. (one time use)
+I use peek, TempData.peek("UserID") This will not mark it as read. Data will not be erased
+if you write if (TempData["UserID"] == 1) this line will mark it as read and erase it.
+You can do this instead if (TempData.peek("UserID") == 1) this will not mark it as read. It will stay for a long time
+Look at saveLoginData function when you assign them a value you can use TempData["UserID"] = 1
+
+
+View can't access anydata, unless you pass it from its controller by
+1. passing the object(model). For example "return view(user)"
+2. or through ViewBag, or ViewData
+3. or through TempData
+4. there are other ways sessions, but I'm not familiar with them
+
+
+View return data to specified contoller and action that you put in the <form> by these ways.
+1. asp-for will change a field in the object(model). Example, model is user, asp-for="FirstName" 
+2. name, you can give anything a name this will be passed back to controller
+Look at ChangePassword View. name=newPassword type="password" value="Whatever". 
+you are passing back "Whatever" value using newPassword parameter
+
+3. ViewBag, ViewData  
+4. TempData
+
+When you pass an object(model) from contoller to view
+you are passing the object with all its fields to the view.
+,but when you pass the object back from view to a controller using "asp-for"
+you are actually creating a new object(model) that only has the fields that you used "asp-for" with them
+Example,
+you are passing object(model) called of type User from contoller to view
+in the view, this object has these fields (Username = "admin", Password = "password", Id=1, Role=1, FirstName="Tom", LastName = "Smith")
+you used asp-for for FirstName, LastName, which means you changed their values.
+when you click submit you are creating an new object that has these fields only
+(Username = "", Password = "", Id=0, Role=0, FirstName="Tom", LastName = "Smith")
+, to solve use asp-for with Id and make it hidden input this way you are passing back to the controller
+(Username = "", Password = "", Id=1, Role=0, FirstName="Tom", LastName = "Smith")
+
+When passing back to the contoller this new object that has alot of fields empty.
+You want to grap the object again from the database and assign it to another one of type User, for example.
+example var usssr = context.Users.Find(Id);
+
+ 
