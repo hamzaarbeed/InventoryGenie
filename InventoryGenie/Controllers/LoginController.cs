@@ -30,20 +30,20 @@ namespace InventoryGenie.Controllers
         public IActionResult Login(User user)
         {
             //find usr with the same username and password
-            var usr = context.Users.FirstOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
+            user = context.Users.FirstOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
             
             
-            if (usr != null) //if user was found
+            if (user != null) //if user was found
             {
-                if (usr.ChangePassword == true) //if user needs to change password it directs user to ChangePassword
+                if (user.ChangePassword == true) //if user needs to change password it directs user to ChangePassword
                 {
 
-                    return View("ChangePassword", usr);
+                    return View("ChangePassword", user);
                 }
 
                 //if user doesn't need to change password then userdata will be saved
                 //in TempData, so they are accessable from all the different conrollers and view
-                saveLoginDate(usr);
+                saveLoginDate(user);
                 return RedirectToAction("Index", "Home");
             }
             else//usr was not found then it's incorrect user name and password
