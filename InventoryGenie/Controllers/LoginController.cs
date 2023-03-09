@@ -15,70 +15,108 @@ namespace InventoryGenie.Controllers
 
         //first function called in Login Page
         //it will create a new temproray User that will get
-        //username and password back to Login
+        //username and password back to Login action
         [HttpGet]
         public IActionResult Index()
         {
             return View(new User());
         }
 
-        [HttpGet]
-        public IActionResult LogOut()
-        {
-            //clear loged in user data
-            TempData.Clear();
-            return View("Index");
-        }
 
-
-        [HttpPost]
-        public IActionResult ChangePassword(User user,int userID, string oldPassword, string newPassword, string confirmedNewPassword)
-        {
-            user = context.Users.Find(userID);
-            if (user.Password != oldPassword) {
-                ViewBag.Msg = "old password doesn't match record";
-                return View(user);
-            }
-            if (newPassword != confirmedNewPassword)
-            {
-                ViewBag.Msg = "new password doesn't match confirmed new password";
-                return View(user);
-            }
-            user.Password = newPassword;
-            user.ChangePassword = false;
-            context.SaveChanges();
-            return RedirectToAction("Index","Login");
-        }
-        [HttpGet]
-        public IActionResult ChangePassword(User user)
-        { 
-            return View(user);
-        }
+        //after user enter username and password inside Index view
+        //it comes back to here user holds username and password only. other field are empty
 
         [HttpPost]
         public IActionResult Login(User user)
         {
+            //find usr with the same username and password
             var usr = context.Users.FirstOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
-            if (usr != null)
+            
+            
+            if (usr != null) //if user was found
             {
-                if (usr.ChangePassword == true)
+                if (usr.ChangePassword == true) //if user needs to change password it directs user to ChangePassword
                 {
-                    ViewBag.ChangePassword = true;
+
                     return View("ChangePassword", usr);
                 }
-                TempData["UserID"] = usr.Id;
-                TempData["UserRole"] = usr.Role;
-                TempData["UserFullName"] = usr.FirstName + " " + usr.LastName;
-                TempData["UserRoleName"] = user.Role.ToString();
+
+                //if user doesn't need to change password then userdata will be saved
+                //in TempData, so they are accessable from all the different conrollers and view
+                saveLoginDate(usr);
                 return RedirectToAction("Index", "Home");
             }
-            else
+            else//usr was not found then it's incorrect user name and password
             {
                 //clears form
                 ModelState.Clear();
+
+                //stored to show this message in Login View
                 TempData["Msg"] = "Incorrect User name/password";
-                return RedirectToAction ("Index","Login");
+
+                //direct user to Login page so the user tries again
+                // we can write return view("index"); it will do the same 
+                return RedirectToAction("Index", "Login");
             }
+        }
+
+        //this will hand over user to ChangePassword View
+        [HttpGet]
+        public IActionResult ChangePassword(User user)
+        {
+            return View(user);
+        }
+
+        //Post method it brings back from ChangePassword View user(username, (old)password, and ID), new password and Confirmed new password
+        [HttpPost]
+        public IActionResult ChangePassword(User user, string newPassword, string confirmedNewPassword)
+        {
+            int y= user.Id;
+            //This to get back a user with all the fields
+            user = context.Users.Find(user.Id);//User before this line had only username, (old)password, and ID
+
+            //if new password doesn't match confirmed new password
+            if (newPassword != confirmedNewPassword)
+            {
+                //then save this message to be shown in ChangePassword view
+                ViewBag.Msg = "new password doesn't match confirmed new password";
+                return View(user);
+            }
+
+            //if new password matches confirmed new password then
+            //change the password
+            user.Password = newPassword;
+            //this user doesn't need to change password in the coming logins.
+            user.ChangePassword = false;
+
+            //save changes
+            context.SaveChanges();
+
+            // save logged in user data
+            saveLoginDate(user);
+            // go to home page( index get)
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        //logs current user out
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            //clear logged in user data
+            TempData.Clear();
+
+            //return to Login page
+            return View("Index");
+        }
+        
+        private void saveLoginDate(User user)
+        {
+            // save logged in user data
+            TempData["UserID"] = user.Id;
+            TempData["UserRole"] = user.Role;
+            TempData["UserFullName"] = user.FirstName + " " + user.LastName;
+            TempData["UserRoleName"] = user.Role.ToString().Replace("_"," ");
         }
 
     }
