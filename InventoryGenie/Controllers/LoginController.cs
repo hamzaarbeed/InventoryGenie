@@ -12,11 +12,24 @@ namespace InventoryGenie.Controllers
             context = ctx;
         }
 
+
+        //first function called in Login Page
+        //it will create a new temproray User that will get
+        //username and password back to Login
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View(new User());
+        }
+
+        [HttpGet]
         public IActionResult LogOut()
         {
+            //clear loged in user data
             TempData.Clear();
             return View("Index");
         }
+
 
         [HttpPost]
         public IActionResult ChangePassword(User user,int userID, string oldPassword, string newPassword, string confirmedNewPassword)
@@ -54,9 +67,9 @@ namespace InventoryGenie.Controllers
                     return View("ChangePassword", usr);
                 }
                 TempData["UserID"] = usr.Id;
-                TempData["UserRole"] = usr.RoleId;
+                TempData["UserRole"] = usr.Role;
                 TempData["UserFullName"] = usr.FirstName + " " + usr.LastName;
-                TempData["UserRoleName"] = ((Role)context.Roles.FirstOrDefault(x => x.RoleId == usr.RoleId)).RoleName;
+                TempData["UserRoleName"] = user.Role.ToString();
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -67,9 +80,6 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction ("Index","Login");
             }
         }
-        public IActionResult Index()
-        {
-            return View(new User());
-        }
+
     }
 }

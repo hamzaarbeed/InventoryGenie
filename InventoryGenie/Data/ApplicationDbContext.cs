@@ -10,7 +10,7 @@ namespace InventoryGenie.Data
         public DbSet<OrderRecord> OrderRecords { get; set; } = null!;
         public DbSet<SaleRecord> SaleRecords { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<Role> Roles { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,26 +20,6 @@ namespace InventoryGenie.Data
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
             // note probably needs validation at data entry
 
-            
-
-            modelBuilder.Entity<Role>().HasData(
-
-                new Role
-                {
-                    RoleId = 1,
-                    RoleName = "General Manager",
-                },
-                new Role
-                {
-                    RoleId = 2,
-                    RoleName = "Warehouse Leader",
-                },
-                new Role
-                {
-                    RoleId = 3,
-                    RoleName = "Associate",
-                }
-                );
             addDummyData(modelBuilder);
         }
         private void addDummyData(ModelBuilder modelBuilder)
@@ -50,7 +30,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 1,
                     UserName = "admin",
-                    RoleId = 1,
+                    Role = User.RoleType.General_Manager,
                     FirstName = "Tom",
                     LastName = "Smith",
                     Password = "password",
@@ -59,7 +39,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 2,
                     UserName = "wl",
-                    RoleId = 2,
+                    Role = User.RoleType.Warehouse_Leader,
                     FirstName = "William",
                     LastName = "Leonard",
                     Password = "password",
@@ -69,7 +49,7 @@ namespace InventoryGenie.Data
                 {
                     Id=3,
                     UserName = "associate",
-                    RoleId = 3,
+                    Role = User.RoleType.Associate,
                     FirstName = "Adam",
                     LastName = "Cash",
                     Password = "password",
