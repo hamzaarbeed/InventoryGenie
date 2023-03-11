@@ -4,18 +4,40 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class AssociateFunctions:EmployeeFunctions
     {
-        public static List<Product> GetAllProductsList()
+        public enum SortProductByType
         {
-            return Context.Products.ToList();
+            Default,
+            ID,
+            Name,
+            Category,
+            Description, 
+            Supplier_Name,
+            Quantity, 
+            Maximum_Level, 
+            Minimum_Level,
+            Wholesale_Price, 
+            Shelf_Price
+        };
+
+        protected static List<Product> SortProductByFunction(SortProductByType sortBy, IQueryable<Product> Query)
+        {
+            if (sortBy ==SortProductByType.Default) 
+                return Query.ToList();
+
+            return Query.OrderBy(x => x.GetType().GetProperty(sortBy.ToString().Replace("_", ""))).ToList();
+        }
+        public static List<Product> GetAllProductsList(SortProductByType sortBy)
+        {
+            return SortProductByFunction(sortBy,Context.Products);
         }
 
         // Might change Search to Modular where you specify to search by what
-        public static List<Product> SearchProducts(string searchText, bool byID, bool byName, bool byCategory,
+        public static List<Product> SearchProducts(SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
             bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
             bool byWholesalePrice, bool byShelfPrice)
         {
-
-            return Context.Products.Include(x=>x.Supplier).Where(x =>
+            
+            IQueryable<Product> Query= Context.Products.Include(x=>x.Supplier).Where(x =>
                 x.Id.ToString().Contains(byID ? searchText : null) ||
                 x.Quantity.ToString().Contains(byQuantity ? searchText : null) ||
                 x.MaximumLevel.ToString().Contains(byMaximumLevel ? searchText : null) ||
@@ -26,7 +48,9 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                 x.Category.Contains(byCategory ? searchText:null) ||
                 x.Description.Contains(byDescription?searchText:null) ||
                 x.Supplier.SupplierName.Contains(bySupplierName?searchText:null)
-           ).ToList(); ;
+            );
+            return SortProductByFunction(sortBy, Query);
+
         }
 
         public static void ChangeQuantityTo( int newQuantity, int productID)

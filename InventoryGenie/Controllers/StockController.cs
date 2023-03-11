@@ -16,7 +16,9 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Product> products= AssociateFunctions.SearchProducts(searchText,true,true,false,true,false,true,false,true,false,false);
+            List<Product> products= AssociateFunctions.SearchProducts(
+                AssociateFunctions.SortProductByType.Default, searchText,
+                true,true,false,true,false,true,false,true,false,false);
             return View("Index", products);
         }
 
@@ -36,7 +38,7 @@ namespace InventoryGenie.Controllers
             else
             {
                 if (!products.Any())
-                    products = AssociateFunctions.GetAllProductsList();
+                    products = AssociateFunctions.GetAllProductsList(AssociateFunctions.SortProductByType.Default);
                 return View(products);
             }
         }
