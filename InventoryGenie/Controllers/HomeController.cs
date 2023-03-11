@@ -15,7 +15,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Index()
         {
 
-            if (Employee.employee == null)
+            if (Employee.LoggedInEmployee == null)
                 return RedirectToAction("Index", "Login");
             else
             {

@@ -1,7 +1,7 @@
 ﻿@{
-    if (Employee.employee != null)
+    if (Employee.LoggedInEmployee != null)
     {
-        ViewBag.RoleID = (int)Employee.employee.Role;
+        ViewBag.RoleID = (int)Employee.LoggedInEmployee.Role;
     }
     else
     {

@@ -30,7 +30,7 @@ namespace InventoryGenie.Controllers
             //return user with the same username and password, if not found returns null
             EmployeeFunctions.Login(employee.UserName, employee.Password);
             
-            if (Employee.employee == null)//usr was not found then it's incorrect user name and password
+            if (Employee.LoggedInEmployee == null)//usr was not found then it's incorrect user name and password
             {
                 //clears form
                 ModelState.Clear();
@@ -43,9 +43,9 @@ namespace InventoryGenie.Controllers
             }
             else //if user was found
             {
-                if (Employee.employee.IsTemporaryPassword == true) //if user needs to change password it directs user to ChangePassword
+                if (Employee.LoggedInEmployee.IsTemporaryPassword == true) //if user needs to change password it directs user to ChangePassword
                 {
-                    return View("ChangePassword", Employee.employee);
+                    return View("ChangePassword", Employee.LoggedInEmployee);
                 }
                 //if user doesn't need to change password then userdata will be directed to Home page
                 return RedirectToAction("Index", "Home");
@@ -55,24 +55,24 @@ namespace InventoryGenie.Controllers
 
         //this will hand over user to ChangePassword View
         [HttpGet]
-        public IActionResult ChangePassword(Employee employee)
+        public IActionResult ChangePassword(Employee LoggedInEmployee)
         {
-            return View(employee);
+            return View(LoggedInEmployee);
         }
 
         //Post method it brings back from ChangePassword View user(username, (old)password, and ID), new password and Confirmed new password
         [HttpPost]
-        public IActionResult ChangePassword(Employee employee, string newPassword, string confirmedNewPassword)
+        public IActionResult ChangePassword(Employee LoggedInEmployee, string newPassword, string confirmedNewPassword)
         {
 
             //change password if all fields are ok, if not, it returns a message 
-            ViewBag.Msg = EmployeeFunctions.ChangePassword(employee.Id, newPassword, confirmedNewPassword);
+            ViewBag.Msg = EmployeeFunctions.ChangePassword(LoggedInEmployee.Id, newPassword, confirmedNewPassword);
             
             //if password fields are not ok
             if (ViewBag.Msg != null)
             {
                 //open the same page again for another try
-                View("ChangePassword",employee);
+                View("ChangePassword", LoggedInEmployee);
             }
 
             //if sucessful in changing the password. employee will be logged in

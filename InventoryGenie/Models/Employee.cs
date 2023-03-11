@@ -7,7 +7,7 @@ namespace InventoryGenie.Models
     public class Employee
     {
 
-        public static Employee employee { get; set; }
+        public static Employee LoggedInEmployee { get; set; }
 
         public static ApplicationDbContext Context { get; set; }
         public enum RoleType

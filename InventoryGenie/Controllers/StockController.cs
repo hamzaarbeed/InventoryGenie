@@ -31,7 +31,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index(List<Product> products)
         {
-            if (Employee.employee == null)
+            if (Employee.LoggedInEmployee == null)
                 return RedirectToAction("Index", "Login");
             else
             {

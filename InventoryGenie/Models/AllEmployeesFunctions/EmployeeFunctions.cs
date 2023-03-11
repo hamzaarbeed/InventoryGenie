@@ -6,12 +6,12 @@
         public static void Login(string UserName, string Password)
         {
             //finds employee with the same Username and password
-            employee = Context.Employees.FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
+            LoggedInEmployee = Context.Employees.FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
         }
 
         public static void Logout()
         {
-            employee = null;
+            LoggedInEmployee = null;
         }
 
         public static string ChangePassword(int Id, string newPassword, string confirmedNewPassword)
@@ -23,10 +23,10 @@
                 return "new password doesn't match confirmed new password";
             }
 
-            employee = Context.Employees.Find(Id);//gets an employee that has that Id
+            LoggedInEmployee = Context.Employees.Find(Id);//gets an employee that has that Id
 
             //if the new password the same as old password
-            if (newPassword == employee.Password)
+            if (newPassword == LoggedInEmployee.Password)
             {
                 //then save this message to be shown in ChangePassword view
                 return "new password doesn't match confirmed new password";
@@ -34,9 +34,9 @@
 
 
             //if all field are ok then change password
-            employee.Password = newPassword;
+            LoggedInEmployee.Password = newPassword;
             //this user doesn't need to change password in the coming logins.
-            employee.IsTemporaryPassword = false;
+            LoggedInEmployee.IsTemporaryPassword = false;
 
             //save changes
             Context.SaveChanges();
