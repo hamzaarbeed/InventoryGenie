@@ -1,31 +1,29 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
+using InventoryGenie.Models.AllEmployeesFunctions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryGenie.Controllers
 {
     public class StockController : Controller
     {
-        private ApplicationDbContext context { get; set; }
         public StockController(ApplicationDbContext ctx)
         {
-            context = ctx;
+            Employee.Context = ctx;
         }
 
 
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Product> products= context.Products.Where(x=>x.Name.Contains(searchText)).ToList();
+            List<Product> products= AssociateFunctions.Search(searchText);
             return View("Index", products);
         }
 
         [HttpPost]
         public IActionResult Update(int newQuantity,int productID)
         {
-            Product product = context.Products.Find(productID);
-            product.Quantity = newQuantity;
-            context.SaveChanges();
+            AssociateFunctions.ChangeQuantitiyTo(newQuantity,productID);
             return RedirectToAction("Index","Stock");
         }
 
@@ -33,12 +31,12 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index(List<Product> products)
         {
-            if (TempData.Peek("UserID") == null)
+            if (Employee.employee == null)
                 return RedirectToAction("Index", "Login");
             else
             {
                 if (!products.Any())
-                    products = context.Products.ToList();
+                    products = AssociateFunctions.GetAllProductsList();
                 return View(products);
             }
         }

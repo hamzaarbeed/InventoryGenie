@@ -1,6 +1,6 @@
 ﻿
-ViewBag and ViewData are only available between the controller and its views. if you go to another contoller data in them will be lost
-If you read them once they will be marked as read and will be erased. (one time use)
+ViewBag and ViewData are only available between the controller and its views. if you go to another contoller, data in them will be lost
+If you read them once, they will be marked as read and will be erased. (one time use)
  
 TempData are available between different contollers and Views. if you go to another contoller data in them will NOT be lost
 If you read them once they will be marked as read and will be erased. (one time use)
@@ -41,6 +41,6 @@ when you click submit you are creating an new object that has these fields only
 
 When passing back to the contoller this new object that has alot of fields empty.
 You want to grap the object again from the database and assign it to another one of type User, for example.
-example var usssr = context.Users.Find(Id);
+example var usssr = context.Users.Find(User.Id);
 
  

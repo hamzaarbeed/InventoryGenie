@@ -1,7 +1,7 @@
 ﻿@{
-    if (TempData.Peek("UserRole") != null)
+    if (Employee.employee != null)
     {
-        ViewBag.RoleID = (int)TempData.Peek("UserRole");
+        ViewBag.RoleID = (int)Employee.employee.Role;
     }
     else
     {

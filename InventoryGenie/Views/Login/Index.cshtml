@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model Employee
 @{
     ViewData["Title"] = "Login";
 }
@@ -17,9 +17,10 @@
     </div>
     @{
 
-        if(TempData["Msg"] !=null){
+        if (ViewBag.Msg != null)
+        {
             <div class="mb-3">
-                <label class="text-danger">@TempData["Msg"]</label>
+                <label class="text-danger">@ViewBag.Msg</label>
             </div>
         }
     }

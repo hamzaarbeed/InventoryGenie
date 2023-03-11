@@ -3,10 +3,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Hi @TempData.Peek("UserFullName")!</h1>
-    <h6 class="mb-5">(@TempData.Peek("UserRoleName"))</h6>
+    <h1 class="display-4">Hi @Employee.employee.FirstName @Employee.employee.LastName!</h1>
+    <h6 class="mb-5">(@Employee.employee.Role.ToString().Replace("_"," "))</h6>
     @{
-        if ((int)TempData.Peek("UserRole") != 3){
+        if ((int)Employee.employee.Role != 3)
+        {
             <div>@ViewBag.stockoutCount stockouts </div>
             <div>@ViewBag.lowstockCount low stocks</div>
         }

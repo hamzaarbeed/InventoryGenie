@@ -6,7 +6,7 @@ namespace InventoryGenie.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<OrderRecord> OrderRecords { get; set; } = null!;
         public DbSet<SaleRecord> SaleRecords { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
@@ -15,7 +15,7 @@ namespace InventoryGenie.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //to make Username unique in db
-            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+            modelBuilder.Entity<Employee>().HasIndex(u => u.UserName).IsUnique();
             //to make Product Name unique in db
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
             // note probably needs validation at data entry
@@ -24,36 +24,36 @@ namespace InventoryGenie.Data
         }
         private void addDummyData(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
+            modelBuilder.Entity<Employee>().HasData(
 
-                new User
+                new Employee
                 {
                     Id = 1,
                     UserName = "admin",
-                    Role = User.RoleType.General_Manager,
+                    Role = Employee.RoleType.General_Manager,
                     FirstName = "Tom",
                     LastName = "Smith",
                     Password = "password",
                 },
-                new User
+                new Employee
                 {
                     Id = 2,
                     UserName = "wl",
-                    Role = User.RoleType.Warehouse_Leader,
+                    Role = Employee.RoleType.Warehouse_Leader,
                     FirstName = "William",
                     LastName = "Leonard",
                     Password = "password",
-                    ChangePassword = false,
+                    IsTemporaryPassword = false,
                 },
-                new User
+                new Employee
                 {
                     Id=3,
                     UserName = "associate",
-                    Role = User.RoleType.Associate,
+                    Role = Employee.RoleType.Associate,
                     FirstName = "Adam",
                     LastName = "Cash",
                     Password = "password",
-                    ChangePassword = false,
+                    IsTemporaryPassword = false,
                 }
             );
             modelBuilder.Entity<Product>().HasData(
