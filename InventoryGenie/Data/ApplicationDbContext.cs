@@ -64,8 +64,8 @@ namespace InventoryGenie.Data
                         Category = "Energy Drinks",
                         Quantity = 400,
                         Description = "Energy Drinks",
-                        SellingPrice = 1.52,
-                        Cost = 1.15,
+                        ShelfPrice = 1.52,
+                        WholesalePrice = 1.15,
                         MinimumLevel = 30,
                         MaximumLevel= 500,
                         SupplierName ="Monster Company"
@@ -77,8 +77,8 @@ namespace InventoryGenie.Data
                         Category = "Snacks",
                         Quantity = 100,
                         Description = "Lays Chips Original Taste",
-                        SellingPrice = 2.52,
-                        Cost = 2.00,
+                        ShelfPrice = 2.52,
+                        WholesalePrice = 2.00,
                         MinimumLevel = 30,
                         MaximumLevel = 150,
                         SupplierName = "Lays"

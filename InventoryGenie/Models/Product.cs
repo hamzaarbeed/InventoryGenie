@@ -8,7 +8,7 @@ namespace InventoryGenie.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter product name")]
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
         public string? Category { get; set; }
@@ -27,14 +27,11 @@ namespace InventoryGenie.Models
 
         [Required(ErrorMessage = "Please Enter cost for the product")]
         [Range(0, double.MaxValue, ErrorMessage = "Enter a valid decimal")]
-        public double Cost { get; set; }
+        public double WholesalePrice { get; set; }
 
         [Required(ErrorMessage = "Please Enter selling price for the product")]
         [Range(0, double.MaxValue, ErrorMessage = "Enter a valid decimal")]
-        public double SellingPrice { get; set; }
-
-        public ICollection<SaleRecord> SaleRecords { get; set; } = new List<SaleRecord>();
-        public ICollection<OrderRecord> OrderRecords { get; set; } = new List<OrderRecord>();
+        public double ShelfPrice { get; set; }
 
     }
 }

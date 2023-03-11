@@ -3,11 +3,11 @@
     public class SaleRecord
     {
         public int Id { get; set; }
-        public DateTime SoldOn { get; set; }
-        public int QuantitySold { get; set; }
-        public double Cost { get; set; }
-        public double SellingPrice { get; set; }
-        public Product Product { get; set; } = null!;
+        public DateTime CreatedOn { get; set; }
+        public int QuantityExchanged { get; set; }
+        public double WholesalePrice { get; set; }
+        public double ShelfPrice { get; set; }
+        public int ProductID { get; set; }
 
     }
 }

@@ -16,14 +16,14 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Product> products= AssociateFunctions.Search(searchText);
+            List<Product> products= AssociateFunctions.SearchProducts(searchText,true,true,false,true,false,true,false,true,false,false);
             return View("Index", products);
         }
 
         [HttpPost]
         public IActionResult Update(int newQuantity,int productID)
         {
-            AssociateFunctions.ChangeQuantitiyTo(newQuantity,productID);
+            AssociateFunctions.ChangeQuantityTo(newQuantity,productID);
             return RedirectToAction("Index","Stock");
         }
 
