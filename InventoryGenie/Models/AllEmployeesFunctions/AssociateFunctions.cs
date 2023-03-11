@@ -1,4 +1,6 @@
-﻿namespace InventoryGenie.Models.AllEmployeesFunctions
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class AssociateFunctions:EmployeeFunctions
     {
@@ -13,7 +15,7 @@
             bool byWholesalePrice, bool byShelfPrice)
         {
 
-            return Context.Products.Where(x =>
+            return Context.Products.Include(x=>x.Supplier).Where(x =>
                 x.Id.ToString().Contains(byID ? searchText : null) ||
                 x.Quantity.ToString().Contains(byQuantity ? searchText : null) ||
                 x.MaximumLevel.ToString().Contains(byMaximumLevel ? searchText : null) ||
@@ -23,7 +25,7 @@
                 x.Name.Contains(byName ? searchText : null) ||
                 x.Category.Contains(byCategory ? searchText:null) ||
                 x.Description.Contains(byDescription?searchText:null) ||
-                x.SupplierName.Contains(bySupplierName?searchText:null)
+                x.Supplier.SupplierName.Contains(bySupplierName?searchText:null)
            ).ToList(); ;
         }
 

@@ -56,6 +56,22 @@ namespace InventoryGenie.Data
                     IsTemporaryPassword = false,
                 }
             );
+
+            modelBuilder.Entity<Supplier>().HasData(
+                    new Supplier
+                    {
+                        Id = 1,
+                        SupplierName = "Monster",
+                        
+                    },
+                    new Supplier
+                    {
+                        Id = 2,
+                        SupplierName = "Hamza",
+                    }
+
+                );
+
             modelBuilder.Entity<Product>().HasData(
                     new Product
                     {
@@ -68,7 +84,7 @@ namespace InventoryGenie.Data
                         WholesalePrice = 1.15,
                         MinimumLevel = 30,
                         MaximumLevel= 500,
-                        SupplierName ="Monster Company"
+                        SupplierID = 1
                     },
                     new Product
                     {
@@ -81,7 +97,7 @@ namespace InventoryGenie.Data
                         WholesalePrice = 2.00,
                         MinimumLevel = 30,
                         MaximumLevel = 150,
-                        SupplierName = "Lays"
+                        SupplierID = 2
                     }
 
                 );
