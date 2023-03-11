@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
@@ -36,19 +37,21 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
             bool byWholesalePrice, bool byShelfPrice)
         {
-            
-            IQueryable<Product> Query= Context.Products.Include(x=>x.Supplier).Where(x =>
-                x.Id.ToString().Contains(byID ? searchText : null) ||
-                x.Quantity.ToString().Contains(byQuantity ? searchText : null) ||
-                x.MaximumLevel.ToString().Contains(byMaximumLevel ? searchText : null) ||
-                x.MinimumLevel.ToString().Contains(byMinimumLevel ? searchText : null) ||
-                x.WholesalePrice.ToString().Contains(byWholesalePrice ? searchText : null) ||
-                x.ShelfPrice.ToString().Contains(byShelfPrice ? searchText : null) ||
-                x.Name.Contains(byName ? searchText : null) ||
-                x.Category.Contains(byCategory ? searchText:null) ||
-                x.Description.Contains(byDescription?searchText:null) ||
-                x.Supplier.SupplierName.Contains(bySupplierName?searchText:null)
+  
+            IQueryable<Product> Query = Context.Products.Include(x => x.Supplier).Where(x =>
+                byID? x.Id.ToString().Contains(searchText):false ||
+                byQuantity ? x.Quantity.ToString().Contains(searchText) : false ||
+                byMaximumLevel ? x.MaximumLevel.ToString().Contains(searchText) : false ||
+                byMinimumLevel ? x.MinimumLevel.ToString().Contains(searchText) : false ||
+                byWholesalePrice?x.WholesalePrice.ToString().Contains(searchText):false ||
+                byShelfPrice ? x.ShelfPrice.ToString().Contains(searchText) : false ||
+                byName ? x.Name.Contains(searchText) : false ||
+                byCategory ? x.Category.Contains(searchText) : false ||
+                byDescription ? x.Description.Contains(searchText) : false ||
+                bySupplierName ? x.Supplier.SupplierName.Contains(searchText) : false
             );
+
+
             return SortProductByFunction(sortBy, Query);
 
         }
