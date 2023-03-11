@@ -30,17 +30,18 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (ViewBag.RoleID != 0)
-                        {
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                        }
+                        
                         @if (ViewBag.RoleID == 1)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                            </li>
+                        }
+                        @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2)
+                        {
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Supplier" asp-action="Index">Suppliers</a>
                             </li>
                         }
                         @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2)
