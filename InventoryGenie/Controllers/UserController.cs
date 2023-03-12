@@ -52,14 +52,20 @@ namespace InventoryGenie.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Employee employee)
+        public IActionResult Edit(Employee employee, string tempPassword)
         {
             if (ModelState.IsValid)
             {
+                if (tempPassword != "")
+                {
+                    employee.Password = tempPassword;
+                    employee.IsTemporaryPassword = true;
+                }
                 GeneralManagerFunctions.UpdateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
+            
             return View("Edit", employee);
         }
 //-------------------------------------------------------------------------------------------
@@ -73,8 +79,10 @@ namespace InventoryGenie.Controllers
 
         [HttpPost]
         public IActionResult Delete(Employee employee)
-        { 
-            GeneralManagerFunctions.DeleteEmployee(employee);
+        {
+            //Employee can't delete himself
+            if(Employee.LoggedInEmployee.Id!=employee.Id)
+                GeneralManagerFunctions.DeleteEmployee(employee);
             return RedirectToAction("Index");
         }
 
