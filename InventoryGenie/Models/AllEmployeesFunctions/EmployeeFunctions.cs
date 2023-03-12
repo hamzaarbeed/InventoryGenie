@@ -14,6 +14,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
         public static List<Role> GetAllRoles() {
             return Context.Roles.OrderBy(x=>x.RoleName).ToList();
         }
+
         public static void Logout()
         {
             LoggedInEmployee = null;

@@ -16,7 +16,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Index()
         {
             
-            List<Employee> employees= GeneralManager.GetAllEmployeesList();
+            List<Employee> employees= GeneralManagerFunctions.GetAllEmployeesList();
 
             return View(employees);
         }
@@ -34,17 +34,54 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                GeneralManager.CreateEmployee(employee);
+                GeneralManagerFunctions.CreateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
             return View("Edit",employee);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+
+            Employee employee = GeneralManagerFunctions.GetEmployeeById(id);
+            ViewBag.Action = "Edit";
+            ViewBag.Roles = EmployeeFunctions.GetAllRoles();
+            return View("Edit", employee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                GeneralManagerFunctions.UpdateEmployee(employee);
+                return RedirectToAction("Index");
+            }
+
+            return View("Edit", employee);
+        }
+//-------------------------------------------------------------------------------------------
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+
+            Employee employee = GeneralManagerFunctions.GetEmployeeById(id);
+            return View("Delete", employee);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Employee employee)
+        { 
+            GeneralManagerFunctions.DeleteEmployee(employee);
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Employee> employees = GeneralManager.SearchEmployees(searchText);
+            List<Employee> employees = GeneralManagerFunctions.SearchEmployees(searchText);
             return View("Index",employees);
         }
     }

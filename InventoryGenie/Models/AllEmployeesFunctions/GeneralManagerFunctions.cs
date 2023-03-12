@@ -2,7 +2,7 @@
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
-    public class GeneralManager:WarehouseLeaderFunctions
+    public class GeneralManagerFunctions:WarehouseLeaderFunctions
     {
         public static List<Employee> GetAllEmployeesList()
         {
@@ -26,8 +26,21 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.Employees.Add(employee);
             Context.SaveChanges();
         }
+        public static void UpdateEmployee(Employee employee)
+        {
+            Context.Employees.Update(employee);
+            Context.SaveChanges();
+        }
 
-
+        public static void DeleteEmployee(Employee employee)
+        {
+            Context.Employees.Remove(employee);
+            Context.SaveChanges();
+        }
+        public static Employee GetEmployeeById(int Id)
+        {
+            return Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.Id == Id);
+        }
 
     }
 }
