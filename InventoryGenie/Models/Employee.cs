@@ -1,5 +1,4 @@
 ﻿using InventoryGenie.Data;
-using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace InventoryGenie.Models
@@ -16,6 +15,11 @@ namespace InventoryGenie.Models
             Warehouse_Leader=2,
             Associate=3
         }
+        public static string GetRoleName(RoleType role)
+        {
+            string roleName = role.ToString().Replace("_"," ");
+            return roleName;
+        }
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -24,7 +28,8 @@ namespace InventoryGenie.Models
         public bool IsTemporaryPassword { get; set; } = true;
 
         [Required(ErrorMessage = "Please select role")]
-        public RoleType Role { get; set; }
+        public string Role { get; set; }
+
 
 
 

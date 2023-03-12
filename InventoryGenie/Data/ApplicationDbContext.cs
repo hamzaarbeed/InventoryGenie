@@ -1,5 +1,6 @@
 ﻿using InventoryGenie.Models;
 using Microsoft.EntityFrameworkCore;
+using static InventoryGenie.Models.Employee;
 
 namespace InventoryGenie.Data
 {
@@ -14,6 +15,7 @@ namespace InventoryGenie.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             //to make Username unique in db
             modelBuilder.Entity<Employee>().HasIndex(u => u.UserName).IsUnique();
             //to make Product Name unique in db
@@ -30,7 +32,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 1,
                     UserName = "admin",
-                    Role = Employee.RoleType.General_Manager,
+                    Role = GetRoleName(Employee.RoleType.General_Manager),
                     FirstName = "Tom",
                     LastName = "Smith",
                     Password = "password",
@@ -39,7 +41,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 2,
                     UserName = "wl",
-                    Role = Employee.RoleType.Warehouse_Leader,
+                    Role = GetRoleName(Employee.RoleType.Warehouse_Leader),
                     FirstName = "William",
                     LastName = "Leonard",
                     Password = "password",
@@ -49,7 +51,7 @@ namespace InventoryGenie.Data
                 {
                     Id=3,
                     UserName = "associate",
-                    Role = Employee.RoleType.Associate,
+                    Role = GetRoleName(Employee.RoleType.Associate),
                     FirstName = "Adam",
                     LastName = "Cash",
                     Password = "password",
@@ -67,7 +69,7 @@ namespace InventoryGenie.Data
                     new Supplier
                     {
                         Id = 2,
-                        SupplierName = "Hamza",
+                        SupplierName = "Lays",
                     }
 
                 );

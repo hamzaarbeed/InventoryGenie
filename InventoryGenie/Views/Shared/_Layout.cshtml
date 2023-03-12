@@ -1,11 +1,11 @@
 ﻿@{
     if (Employee.LoggedInEmployee != null)
     {
-        ViewBag.RoleID = (int)Employee.LoggedInEmployee.Role;
+        ViewBag.Role = Employee.LoggedInEmployee.Role;
     }
     else
     {
-        ViewBag.RoleID = 0;
+        ViewBag.Role = "";
     }
 }
 <!DOCTYPE html>
@@ -31,38 +31,38 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         
-                        @if (ViewBag.RoleID == 1)
+                        @if (ViewBag.Role == "General Manager")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
                             </li>
                         }
-                        @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2)
+                        @if (ViewBag.Role == "General Manager" || ViewBag.Role == "Warehouse Leader")
                         {
                             <li class="nav-item">
 
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Supplier" asp-action="Index">Suppliers</a>
                             </li>
                         }
-                        @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2)
+                        @if (ViewBag.Role == "General Manager" || ViewBag.Role == "Warehouse Leader")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                             </li>
                         }
-                        @if (ViewBag.RoleID != 0)
+                        @if (ViewBag.Role !="")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Stock" asp-action="Index">Stocks</a>
                             </li>
                         }
-                        @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2)
+                        @if (ViewBag.Role == "General Manager" || ViewBag.Role == "Warehouse Leader")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Reporting" asp-action="Index">Reports</a>
                             </li>
                         }
-                        @if (ViewBag.RoleID != 0)
+                        @if (ViewBag.Role != "")
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
@@ -70,7 +70,7 @@
                         }
                     </ul>
                 </div>
-                @if (ViewBag.RoleID != 0)
+                @if (ViewBag.Role != "")
                 {
                     <a class="nav-tabs" asp-area="" asp-controller="Login" asp-action="LogOut">Log Out</a>
                 }

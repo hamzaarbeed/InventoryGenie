@@ -6,7 +6,7 @@
     <h1 class="display-4">Hi @Employee.LoggedInEmployee.FirstName @Employee.LoggedInEmployee.LastName!</h1>
     <h6 class="mb-5">(@Employee.LoggedInEmployee.Role.ToString().Replace("_"," "))</h6>
     @{
-        if ((int)Employee.LoggedInEmployee.Role != 3)
+        if (Employee.LoggedInEmployee.Role != "Associate")
         {
             <div>@ViewBag.stockoutCount stockouts </div>
             <div>@ViewBag.lowstockCount low stocks</div>

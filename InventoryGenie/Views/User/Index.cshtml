@@ -1,5 +1,37 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<Employee>
+
+<form method="post" asp-controller="User" asp-action="Search">
+    <input class="form-control col-3" type="text" name="searchText">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <th>@employee.Id</th>
+                <th>@employee.FirstName</th>
+                <th>@employee.LastName</th>
+                <th>@employee.UserName</th>
+                <th>@employee.Role.ToString().Replace("_"," ")</th>
+
+                <th>
+                   
+                    
+                </th>
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>
