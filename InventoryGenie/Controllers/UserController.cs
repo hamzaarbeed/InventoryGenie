@@ -25,9 +25,21 @@ namespace InventoryGenie.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
+            ViewBag.Roles = EmployeeFunctions.GetAllRoles();
             return View("Edit",new Employee());
         }
 
+        [HttpPost]
+        public IActionResult Add(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                GeneralManager.CreateEmployee(employee);
+                return RedirectToAction("Index");
+            }
+
+            return View("Edit",employee);
+        }
 
         [HttpPost]
         public IActionResult Search(string searchText)

@@ -11,6 +11,9 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
         }
 
+        public static List<Role> GetAllRoles() {
+            return Context.Roles.OrderBy(x=>x.RoleName).ToList();
+        }
         public static void Logout()
         {
             LoggedInEmployee = null;

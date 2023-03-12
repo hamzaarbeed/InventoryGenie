@@ -12,6 +12,8 @@ namespace InventoryGenie.Models
         public static ApplicationDbContext Context { get; set; }
 
         public int Id { get; set; }
+
+        [Required]
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;

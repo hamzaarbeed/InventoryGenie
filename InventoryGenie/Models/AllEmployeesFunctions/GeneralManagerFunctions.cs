@@ -21,24 +21,10 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
         }
         
         
-        public static void CreateEmployee(string firstName,string lastName,int roleID,string username, string tempPassword)
+        public static void CreateEmployee(Employee employee)
         {
-            Employee employee = new Employee
-            {
-                UserName = username,
-                FirstName = firstName,
-                LastName = lastName,
-                RoleID = roleID,
-                Password = tempPassword
-            };
-
             Context.Employees.Add(employee);
             Context.SaveChanges();
-            /*//to auto generate id
-            //generate username from id
-            employee.UserName = "E" + (1000 + employee.Id);
-            Context.SaveChanges();
-            */
         }
 
 
