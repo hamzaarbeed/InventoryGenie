@@ -4,9 +4,9 @@
 
 <div class="text-center">
     <h1 class="display-4">Hi @Employee.LoggedInEmployee.FirstName @Employee.LoggedInEmployee.LastName!</h1>
-    <h6 class="mb-5">(@Employee.LoggedInEmployee.Role.ToString().Replace("_"," "))</h6>
+    <h6 class="mb-5">(@Employee.LoggedInEmployee.Role.RoleName)</h6>
     @{
-        if (Employee.LoggedInEmployee.Role != "Associate")
+        if (Employee.LoggedInEmployee.RoleID == 1 || Employee.LoggedInEmployee.RoleID == 2)
         {
             <div>@ViewBag.stockoutCount stockouts </div>
             <div>@ViewBag.lowstockCount low stocks</div>

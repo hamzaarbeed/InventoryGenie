@@ -1,0 +1,30 @@
+﻿@model Employee
+
+<h2 class="mb-2">@ViewBag.Action Employee</h2>
+<form method="post" asp-action="Add">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Role" class="form-label">Role</label>
+        @*<select asp-for="Role">*@
+    </div>
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label">User Name</label>
+        <input asp-for="UserName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Temporary Password</label>
+        <input asp-for="Password" type="password" class="form-control">
+    </div>
+
+    
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

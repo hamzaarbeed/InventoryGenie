@@ -27,7 +27,7 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Login(Employee employee)
         {
-            //return user with the same username and password, if not found returns null
+            //will search for user with the same username and password, and save it in LoggedInEmployee if not found it saves null
             EmployeeFunctions.Login(employee.UserName, employee.Password);
             
             if (Employee.LoggedInEmployee == null)//usr was not found then it's incorrect user name and password

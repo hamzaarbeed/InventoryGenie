@@ -21,6 +21,14 @@ namespace InventoryGenie.Controllers
             return View(employees);
         }
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            ViewBag.Action = "Add";
+            return View("Edit",new Employee());
+        }
+
+
         [HttpPost]
         public IActionResult Search(string searchText)
         {

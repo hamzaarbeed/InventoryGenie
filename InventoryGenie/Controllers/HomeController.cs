@@ -1,7 +1,6 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
 using InventoryGenie.Models.AllEmployeesFunctions;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryGenie.Controllers

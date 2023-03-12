@@ -1,4 +1,6 @@
-﻿namespace InventoryGenie.Models.AllEmployeesFunctions
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class EmployeeFunctions:Employee
     {
@@ -6,7 +8,7 @@
         public static void Login(string UserName, string Password)
         {
             //finds employee with the same Username and password
-            LoggedInEmployee = Context.Employees.FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
+            LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
         }
 
         public static void Logout()
@@ -23,8 +25,7 @@
                 return "new password doesn't match confirmed new password";
             }
 
-            LoggedInEmployee = Context.Employees.Find(Id);//gets an employee that has that Id
-
+            LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x=> x.Id == Id);//gets an employee that has that Id
             //if the new password the same as old password
             if (newPassword == LoggedInEmployee.Password)
             {

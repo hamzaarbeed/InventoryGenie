@@ -1,6 +1,5 @@
 ﻿using InventoryGenie.Models;
 using Microsoft.EntityFrameworkCore;
-using static InventoryGenie.Models.Employee;
 
 namespace InventoryGenie.Data
 {
@@ -11,7 +10,7 @@ namespace InventoryGenie.Data
         public DbSet<OrderRecord> OrderRecords { get; set; } = null!;
         public DbSet<SaleRecord> SaleRecords { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
-
+        public DbSet<Role> Roles { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +20,26 @@ namespace InventoryGenie.Data
             //to make Product Name unique in db
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
             // note probably needs validation at data entry
+            modelBuilder.Entity<Role>().HasData(
+
+                new Role
+                {
+                    Id = 1,
+                    RoleName = "General Manager"
+                },
+                new Role
+                {
+                    Id = 2,
+                    RoleName = "Warehouse Leader"
+                },
+                new Role
+                {
+                    Id = 3,
+                    RoleName = "Associate"
+                }
+            );
+
+
 
             addDummyData(modelBuilder);
         }
@@ -32,7 +51,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 1,
                     UserName = "admin",
-                    Role = GetRoleName(Employee.RoleType.General_Manager),
+                    RoleID = 1, 
                     FirstName = "Tom",
                     LastName = "Smith",
                     Password = "password",
@@ -41,7 +60,7 @@ namespace InventoryGenie.Data
                 {
                     Id = 2,
                     UserName = "wl",
-                    Role = GetRoleName(Employee.RoleType.Warehouse_Leader),
+                    RoleID = 2,
                     FirstName = "William",
                     LastName = "Leonard",
                     Password = "password",
@@ -51,7 +70,7 @@ namespace InventoryGenie.Data
                 {
                     Id=3,
                     UserName = "associate",
-                    Role = GetRoleName(Employee.RoleType.Associate),
+                    RoleID = 3,
                     FirstName = "Adam",
                     LastName = "Cash",
                     Password = "password",
