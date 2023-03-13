@@ -14,12 +14,12 @@ namespace InventoryGenie.Models
         public string? Description { get; set; }
         public string? Category { get; set; }
 
-        [Required(ErrorMessage = "Please choose supplier, if not in list add new supplier")]
+
 
         //SupplierID is foriegn key
-        public int SupplierID { get; set; }
+        public int? SupplierID { get; set; } = 0;
         [ValidateNever]
-        public Supplier Supplier { get; set; } = null;
+        public Supplier? Supplier { get; set; } = null;
 
         public int Quantity { get; set; } = 0;
 

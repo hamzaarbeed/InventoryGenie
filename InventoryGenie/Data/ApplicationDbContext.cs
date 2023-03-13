@@ -14,6 +14,9 @@ namespace InventoryGenie.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //prevent deleting all products that has certain supplier when deleting that supplier
+            modelBuilder.Entity<Supplier>().HasMany(b => b.Products).WithOne(x => x.Supplier).
+                OnDelete(DeleteBehavior.SetNull);
 
             //to make Username unique in db
             modelBuilder.Entity<Employee>().HasIndex(u => u.UserName).IsUnique();

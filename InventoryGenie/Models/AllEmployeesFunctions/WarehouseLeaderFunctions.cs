@@ -8,7 +8,8 @@
         }
         public static int getLowStockCount()
         {
-            return Context.Products.Where(x => x.Quantity > 0 && x.Quantity <= x.MinimumLevel).Count();
+            return Context.Products.Where(x => 
+                x.Quantity > 0 && x.Quantity <= x.MinimumLevel).Count();
         }
     }
 }

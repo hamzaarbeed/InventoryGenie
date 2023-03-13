@@ -15,5 +15,7 @@ namespace InventoryGenie.Models
 
         public string? OrderingInstructions { get; set; }
 
+        public ICollection<Product> Products { get; set;}
+
     }
 }
