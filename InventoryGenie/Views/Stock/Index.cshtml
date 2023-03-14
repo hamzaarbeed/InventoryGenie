@@ -8,7 +8,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Product ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Minimum Level</th>
@@ -19,14 +19,14 @@
         @foreach (var product in Model)
         {
             <tr>
-                <th>@product.Id</th>
+                <th>@product.ProductID</th>
                 <th>@product.Name</th>
                 <th>@product.Description</th>
                 <th>@product.MinimumLevel</th>
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">
                     <input type="number" name="newQuantity" value=@product.Quantity>
-                    <input type ="number" hidden name="productID" value="@product.Id">
+                    <input type ="number" hidden name="productID" value="@product.ProductID">
                     <button class="btn btn-outline-primary" type="submit">Update</button>
                     </form>
                 </th>

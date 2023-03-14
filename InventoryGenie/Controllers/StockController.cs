@@ -17,7 +17,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Search(string searchText)
         {
             List<Product> products= Employee.LoggedInEmployee.SearchProducts(
-                Associate.SortProductByType.Default, searchText,
+                Product.SortProductByType.Default, searchText,
                 true,true,false,true,false,true,false,true,false,false);
             return View("Index", products);
         }
@@ -38,7 +38,7 @@ namespace InventoryGenie.Controllers
             else
             {
                 if (!products.Any())
-                    products = Employee.LoggedInEmployee.GetAllProductsList(Associate.SortProductByType.Default);
+                    products = Employee.LoggedInEmployee.GetAllProductsList(Product.SortProductByType.Default);
                 return View(products);
             }
         }

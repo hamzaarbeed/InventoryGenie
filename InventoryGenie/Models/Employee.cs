@@ -10,12 +10,12 @@ namespace InventoryGenie.Models
 {
     public class Employee
     {
-
+        
         public static Employee? LoggedInEmployee;
 
         public static ApplicationDbContext? Context { get; set; }
 
-        public int Id { get; set; }
+        public int EmployeeID { get; set; }
 
         [Required]
         public string FirstName { get; set; } = string.Empty;
@@ -25,7 +25,7 @@ namespace InventoryGenie.Models
         public bool IsTemporaryPassword { get; set; } = true;
 
         [Required(ErrorMessage = "Please select a role")]
-        public int RoleID { get; set; }
+        public int RoleId { get; set; }
         [ValidateNever]
         public Role Role { get; set; } = null;
 
@@ -35,10 +35,10 @@ namespace InventoryGenie.Models
             LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
             var serializedEmployee = JsonConvert.SerializeObject(LoggedInEmployee);
 
-            if (LoggedInEmployee.RoleID == 1) {
+            if (LoggedInEmployee.RoleId == 1) {
                 LoggedInEmployee = JsonConvert.DeserializeObject<GeneralManager>(serializedEmployee);
             }
-            else if (LoggedInEmployee.RoleID == 2)
+            else if (LoggedInEmployee.RoleId == 2)
             {
                 LoggedInEmployee = LoggedInEmployee = JsonConvert.DeserializeObject<WarehouseLeader>(serializedEmployee);
             }
@@ -58,7 +58,7 @@ namespace InventoryGenie.Models
             LoggedInEmployee = null;
         }
 
-        public static string ChangePassword(int Id, string newPassword, string confirmedNewPassword)
+        public static string ChangePassword(int Employeeid, string newPassword, string confirmedNewPassword)
         {
             //if new password doesn't match confirmed new password
             if (newPassword != confirmedNewPassword)
@@ -67,7 +67,7 @@ namespace InventoryGenie.Models
                 return "new password doesn't match confirmed new password";
             }
 
-            LoggedInEmployee = Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.Id == Id);//gets an employee that has that Id
+            LoggedInEmployee = Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.EmployeeID == Employeeid);//gets an employee that has that Id
             //if the new password the same as old password
             if (newPassword == LoggedInEmployee.Password)
             {
@@ -84,81 +84,86 @@ namespace InventoryGenie.Models
             //save changes
             Context.SaveChanges();
 
-            //save Login Data
-
+            // no errot messages
             return null;
-
-
-
         }
         //------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------
-        //Virtual functions that will be overidden
+        //Virtual functions that will be overridden, functions that are not overridden will not do
+        //any action and will throw exception. If the object created override the a function it means
+        //that this object is authorized to use this function
         //------------------------------------------------------------------------------------------
         
         //---------------------Associate Functions--------------------------------------------------
-        public virtual List<Product> GetAllProductsList(SortProductByType sortBy)
+        public virtual List<Product> GetAllProductsList(Product.SortProductByType sortBy)
         {
-            return null;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         // Might change Search to Modular where you specify to search by what
-        public virtual List<Product> SearchProducts(SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
+        public virtual List<Product> SearchProducts(Product.SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
             bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
             bool byWholesalePrice, bool byShelfPrice)
         {
-            return null;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         public virtual void ChangeQuantityTo(int newQuantity, int productID)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         //quantityChange can be positive(to increase Quantity) or negative (to decrease Quantity)
         public virtual void ChangeQuantityBy(int quantityChange, Product product)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         public virtual void ChangeQuantityBy(int quantityChange, int productID)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
         public virtual void CheckOut(int quantityExchanged, int productID)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         //----------------------------Warehouse Leader Functions -------------------------------------
         public virtual int GetStockOutCount()
         {
-            return -1;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         public virtual int GetLowStockCount()
         {
-            return -1;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         //----------------------General Manager Functions--------------------------------------------
         public virtual List<Employee> GetAllEmployeesList()
         {
-            return null;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         public virtual List<Employee> SearchEmployees(string searchText)
         {
-            return null;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         public virtual void CreateEmployee(Employee employee)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         public virtual void UpdateEmployee(Employee employee)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
         public virtual void DeleteEmployee(Employee employee)
         {
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
         public virtual Employee GetEmployeeById(int Id)
         {
-            return null;
+            throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
 

@@ -3,7 +3,7 @@
 <h3>@Model.FirstName @Model.LastName (@Model.UserName)</h3>
 <form method="post" asp-action="Delete">
 
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="EmployeeID" />
     <button type="submit" class="btn btn-primary" >Delete</button>
     <a asp-controller="User" asp-action="Index" class="btn btn-primary">Cancel</a>
 </form>

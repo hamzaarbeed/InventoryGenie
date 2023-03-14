@@ -18,12 +18,14 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Login");
             else
             {
-                //stockouts are products with quantity 0
-                ViewBag.stockoutCount = Employee.LoggedInEmployee.GetStockOutCount();
+                if (Employee.LoggedInEmployee.RoleId != 3)
+                {
+                    //stockouts are products with quantity 0
+                    ViewBag.stockoutCount = Employee.LoggedInEmployee.GetStockOutCount();
 
-                //lowstock are products below their minimim level not including stockouts
-                ViewBag.lowstockCount = Employee.LoggedInEmployee.GetLowStockCount();
-
+                    //lowstock are products below their minimim level not including stockouts
+                    ViewBag.lowstockCount = Employee.LoggedInEmployee.GetLowStockCount();
+                }
                 return View();
             }
 

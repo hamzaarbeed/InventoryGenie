@@ -5,8 +5,21 @@ namespace InventoryGenie.Models
 {
     public class Product
     {
-
-        public int Id { get; set; }
+        public enum SortProductByType
+        {
+            Default,
+            Product_ID,
+            Name,
+            Category,
+            Description,
+            Supplier_Name,
+            Quantity,
+            Maximum_Level,
+            Minimum_Level,
+            Wholesale_Price,
+            Shelf_Price
+        };
+        public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Please enter product name")]
         public string Name { get; set; } = string.Empty;
@@ -17,7 +30,7 @@ namespace InventoryGenie.Models
 
 
         //SupplierID is foriegn key
-        public int? SupplierID { get; set; } = 0;
+        public int? SupplierId { get; set; } = 0;
         [ValidateNever]
         public Supplier? Supplier { get; set; } = null;
 

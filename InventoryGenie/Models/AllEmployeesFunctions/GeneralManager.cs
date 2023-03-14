@@ -14,7 +14,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             return Context.Employees.Include(x=>x.Role).Where(x => 
                 x.Role.RoleName.Contains(searchText)  ||
                 x.UserName.Contains(searchText) ||
-                x.Id.ToString().Contains(searchText) ||
+                x.EmployeeID.ToString().Contains(searchText) ||
                 x.FirstName.Contains(searchText) ||
                 x.LastName.Contains(searchText)
                 ).ToList();
@@ -37,9 +37,9 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.Employees.Remove(employee);
             Context.SaveChanges();
         }
-        public override Employee GetEmployeeById(int Id)
+        public override Employee GetEmployeeById(int employeeId)
         {
-            return Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.Id == Id);
+            return Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.EmployeeID == employeeId);
         }
 
     }

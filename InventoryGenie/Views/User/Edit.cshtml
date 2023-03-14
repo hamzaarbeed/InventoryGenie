@@ -2,7 +2,7 @@
 
 <h2 class="mb-2">@ViewBag.Action Employee</h2>
 <form method="post" asp-action=@ViewBag.Action>
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="EmployeeID" />
 
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label">First Name</label>
@@ -13,12 +13,12 @@
         <input asp-for="LastName" class="form-control">
     </div>
     <div class="mb-3">
-        <label asp-for="RoleID" class="form-label">Role</label>
-        <select asp-for="RoleID" class="form-select">
+        <label asp-for="RoleId" class="form-label">Role</label>
+        <select asp-for="RoleId" class="form-select">
             <option value="">Select Role</option>
             @foreach(Role r in ViewBag.Roles)
             {
-                <option value=@r.Id>@r.RoleName</option>
+                <option value=@r.RoleID>@r.RoleName</option>
             }
         </select>
     </div>

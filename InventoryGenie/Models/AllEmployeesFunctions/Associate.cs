@@ -4,41 +4,28 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class Associate:Employee
     {
-        public enum SortProductByType
-        {
-            Default,
-            ID,
-            Name,
-            Category,
-            Description, 
-            Supplier_Name,
-            Quantity, 
-            Maximum_Level, 
-            Minimum_Level,
-            Wholesale_Price, 
-            Shelf_Price
-        };
+        
 
-        protected List<Product> SortProductByFunction(SortProductByType sortBy, IQueryable<Product> Query)
+        protected List<Product> SortProductByFunction(Product.SortProductByType sortBy, IQueryable<Product> Query)
         {
-            if (sortBy ==SortProductByType.Default) 
+            if (sortBy == Product.SortProductByType.Default) 
                 return Query.ToList();
 
             return Query.OrderBy(x => x.GetType().GetProperty(sortBy.ToString().Replace("_", ""))).ToList();
         }
-        public override List<Product> GetAllProductsList(SortProductByType sortBy)
+        public override List<Product> GetAllProductsList(Product.SortProductByType sortBy)
         {
             return SortProductByFunction(sortBy,Context.Products);
         }
 
         // Might change Search to Modular where you specify to search by what
-        public override List<Product> SearchProducts(SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
+        public override List<Product> SearchProducts(Product.SortProductByType sortBy, string searchText, bool byProductID, bool byName, bool byCategory,
             bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
             bool byWholesalePrice, bool byShelfPrice)
         {
   
             IQueryable<Product> Query = Context.Products.Include(x => x.Supplier).Where(x =>
-                byID? x.Id.ToString().Contains(searchText):false ||
+                byProductID? x.ProductID.ToString().Contains(searchText):false ||
                 byQuantity ? x.Quantity.ToString().Contains(searchText) : false ||
                 byMaximumLevel ? x.MaximumLevel.ToString().Contains(searchText) : false ||
                 byMinimumLevel ? x.MinimumLevel.ToString().Contains(searchText) : false ||
@@ -78,7 +65,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Product product = Context.Products.Find(productID);
             SaleRecord SaleRecord = new SaleRecord()
             {
-                ProductID = productID,
+                ProductId = productID,
                 QuantityExchanged = quantityExchanged,
                 ShelfPrice = product.ShelfPrice * quantityExchanged,
                 WholesalePrice = product.WholesalePrice * quantityExchanged,

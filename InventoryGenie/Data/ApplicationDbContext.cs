@@ -23,28 +23,58 @@ namespace InventoryGenie.Data
             //to make Product Name unique in db
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
             // note probably needs validation at data entry
+
+            //these must exist in db Everytime the application start
+            addEssentialData(modelBuilder);
+
+            //these are optional. For demonstration purpose
+            addDummyData(modelBuilder);
+        }
+
+        private void addEssentialData(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Role>().HasData(
 
                 new Role
                 {
-                    Id = 1,
+                    RoleID = 1,
                     RoleName = "General Manager"
                 },
                 new Role
                 {
-                    Id = 2,
+                    RoleID = 2,
                     RoleName = "Warehouse Leader"
                 },
                 new Role
                 {
-                    Id = 3,
+                    RoleID = 3,
                     RoleName = "Associate"
                 }
             );
+            modelBuilder.Entity<Employee>().HasData(
 
+                new Employee
+                {
+                    EmployeeID = 1,
+                    UserName = "admin",
+                    RoleId = 1,
+                    FirstName = "Tom",
+                    LastName = "Smith",
+                    Password = "password",
+                    IsTemporaryPassword = false,
+                }
+            ) ;
 
+            //when deleting a supplier products connected to that supplier will hava supplier ID = 9
+            modelBuilder.Entity<Supplier>().HasData(
 
-            addDummyData(modelBuilder);
+                new Supplier
+                {
+                    SupplierID = 1000,
+                    SupplierName = "Unspecified",
+                }
+            );
+
         }
         private void addDummyData(ModelBuilder modelBuilder)
         {
@@ -52,18 +82,9 @@ namespace InventoryGenie.Data
 
                 new Employee
                 {
-                    Id = 1,
-                    UserName = "admin",
-                    RoleID = 1, 
-                    FirstName = "Tom",
-                    LastName = "Smith",
-                    Password = "password",
-                },
-                new Employee
-                {
-                    Id = 2,
-                    UserName = "wl",
-                    RoleID = 2,
+                    EmployeeID = 2,
+                    UserName = "E1002",
+                    RoleId = 2,
                     FirstName = "William",
                     LastName = "Leonard",
                     Password = "password",
@@ -71,26 +92,26 @@ namespace InventoryGenie.Data
                 },
                 new Employee
                 {
-                    Id=3,
-                    UserName = "associate",
-                    RoleID = 3,
+                    EmployeeID =3,
+                    UserName = "E1003",
+                    RoleId = 3,
                     FirstName = "Adam",
                     LastName = "Cash",
                     Password = "password",
-                    IsTemporaryPassword = false,
+                    IsTemporaryPassword = true,
                 }
             );
 
             modelBuilder.Entity<Supplier>().HasData(
                     new Supplier
                     {
-                        Id = 1,
+                        SupplierID = 1,
                         SupplierName = "Monster",
                         
                     },
                     new Supplier
                     {
-                        Id = 2,
+                        SupplierID = 2,
                         SupplierName = "Lays",
                     }
 
@@ -99,7 +120,7 @@ namespace InventoryGenie.Data
             modelBuilder.Entity<Product>().HasData(
                     new Product
                     {
-                        Id = 1,
+                        ProductID = 1,
                         Name = "Monster Energy Drink",
                         Category = "Energy Drinks",
                         Quantity = 400,
@@ -108,11 +129,11 @@ namespace InventoryGenie.Data
                         WholesalePrice = 1.15,
                         MinimumLevel = 30,
                         MaximumLevel= 500,
-                        SupplierID = 1
+                        SupplierId = 1
                     },
                     new Product
                     {
-                        Id = 2,
+                        ProductID = 2,
                         Name = "Lays Chips",
                         Category = "Snacks",
                         Quantity = 100,
@@ -121,7 +142,7 @@ namespace InventoryGenie.Data
                         WholesalePrice = 2.00,
                         MinimumLevel = 30,
                         MaximumLevel = 150,
-                        SupplierID = 2
+                        SupplierId = 2
                     }
 
                 );

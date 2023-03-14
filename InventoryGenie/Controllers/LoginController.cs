@@ -66,7 +66,7 @@ namespace InventoryGenie.Controllers
         {
 
             //change password if all fields are ok, if not, it returns a message 
-            ViewBag.Msg = Employee.ChangePassword(LoggedInEmployee.Id, newPassword, confirmedNewPassword);
+            ViewBag.Msg = Employee.ChangePassword(LoggedInEmployee.EmployeeID, newPassword, confirmedNewPassword);
             
             //if password fields are not ok
             if (ViewBag.Msg != null)

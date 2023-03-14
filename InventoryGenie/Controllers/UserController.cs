@@ -68,7 +68,7 @@ namespace InventoryGenie.Controllers
             
             return View("Edit", employee);
         }
-//-------------------------------------------------------------------------------------------
+
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -81,7 +81,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Delete(Employee employee)
         {
             //Employee can't delete himself
-            if(Employee.LoggedInEmployee.Id!=employee.Id)
+            if(Employee.LoggedInEmployee.EmployeeID!=employee.EmployeeID)
                 Employee.LoggedInEmployee.DeleteEmployee(employee);
             return RedirectToAction("Index");
         }

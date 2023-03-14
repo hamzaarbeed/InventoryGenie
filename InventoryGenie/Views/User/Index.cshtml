@@ -8,7 +8,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Employee ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Username</th>
@@ -19,15 +19,15 @@
         @foreach (var employee in Model)
         {
             <tr>
-                <th>@employee.Id</th>
+                <th>@employee.EmployeeID</th>
                 <th>@employee.FirstName</th>
                 <th>@employee.LastName</th>
                 <th>@employee.UserName</th>
                 <th>@employee.Role.RoleName</th>
 
                 <th>
-                    <a asp-controller="User" asp-action="Edit" asp-route-id=@employee.Id>Edit</a>
-                    <a asp-controller="User" asp-action="Delete" asp-route-id=@employee.Id>Delete</a>
+                    <a asp-controller="User" asp-action="Edit" asp-route-id=@employee.EmployeeID>Edit</a>
+                    <a asp-controller="User" asp-action="Delete" asp-route-id=@employee.EmployeeID>Delete</a>
                 </th>
 
             </tr>
