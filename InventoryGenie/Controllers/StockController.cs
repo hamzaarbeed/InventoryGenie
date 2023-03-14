@@ -16,8 +16,8 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Product> products= AssociateFunctions.SearchProducts(
-                AssociateFunctions.SortProductByType.Default, searchText,
+            List<Product> products= Employee.LoggedInEmployee.SearchProducts(
+                Associate.SortProductByType.Default, searchText,
                 true,true,false,true,false,true,false,true,false,false);
             return View("Index", products);
         }
@@ -25,7 +25,7 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Update(int newQuantity,int productID)
         {
-            AssociateFunctions.ChangeQuantityTo(newQuantity,productID);
+            Employee.LoggedInEmployee.ChangeQuantityTo(newQuantity,productID);
             return RedirectToAction("Index","Stock");
         }
 
@@ -38,7 +38,7 @@ namespace InventoryGenie.Controllers
             else
             {
                 if (!products.Any())
-                    products = AssociateFunctions.GetAllProductsList(AssociateFunctions.SortProductByType.Default);
+                    products = Employee.LoggedInEmployee.GetAllProductsList(Associate.SortProductByType.Default);
                 return View(products);
             }
         }

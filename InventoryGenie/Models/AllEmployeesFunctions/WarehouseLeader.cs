@@ -1,12 +1,12 @@
 ﻿namespace InventoryGenie.Models.AllEmployeesFunctions
 {
-    public class WarehouseLeaderFunctions:AssociateFunctions
+    public class WarehouseLeader:Associate
     {
-        public static int getStockOutCount()
+        public override int GetStockOutCount()
         {
             return Context.Products.Where(x=>x.Quantity ==0).Count();
         }
-        public static int getLowStockCount()
+        public override int GetLowStockCount()
         {
             return Context.Products.Where(x => 
                 x.Quantity > 0 && x.Quantity <= x.MinimumLevel).Count();

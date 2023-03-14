@@ -19,10 +19,10 @@ namespace InventoryGenie.Controllers
             else
             {
                 //stockouts are products with quantity 0
-                ViewBag.stockoutCount = WarehouseLeaderFunctions.getStockOutCount();
+                ViewBag.stockoutCount = Employee.LoggedInEmployee.GetStockOutCount();
 
                 //lowstock are products below their minimim level not including stockouts
-                ViewBag.lowstockCount = WarehouseLeaderFunctions.getLowStockCount();
+                ViewBag.lowstockCount = Employee.LoggedInEmployee.GetLowStockCount();
 
                 return View();
             }

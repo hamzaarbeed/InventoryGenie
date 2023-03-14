@@ -28,7 +28,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Login(Employee employee)
         {
             //will search for user with the same username and password, and save it in LoggedInEmployee if not found it saves null
-            EmployeeFunctions.Login(employee.UserName, employee.Password);
+            Employee.Login(employee.UserName, employee.Password);
             
             if (Employee.LoggedInEmployee == null)//usr was not found then it's incorrect user name and password
             {
@@ -66,7 +66,7 @@ namespace InventoryGenie.Controllers
         {
 
             //change password if all fields are ok, if not, it returns a message 
-            ViewBag.Msg = EmployeeFunctions.ChangePassword(LoggedInEmployee.Id, newPassword, confirmedNewPassword);
+            ViewBag.Msg = Employee.ChangePassword(LoggedInEmployee.Id, newPassword, confirmedNewPassword);
             
             //if password fields are not ok
             if (ViewBag.Msg != null)
@@ -86,7 +86,7 @@ namespace InventoryGenie.Controllers
         public IActionResult LogOut()
         {
             //clear logged in user data
-            EmployeeFunctions.Logout();
+            Employee.Logout();
             //return to Login page
             return View("Index");
         }

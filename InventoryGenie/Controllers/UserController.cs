@@ -16,7 +16,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Index()
         {
             
-            List<Employee> employees= GeneralManagerFunctions.GetAllEmployeesList();
+            List<Employee> employees= Employee.LoggedInEmployee.GetAllEmployeesList();
 
             return View(employees);
         }
@@ -25,7 +25,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
-            ViewBag.Roles = EmployeeFunctions.GetAllRoles();
+            ViewBag.Roles = Employee.GetAllRoles();
             return View("Edit",new Employee());
         }
 
@@ -34,7 +34,7 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                GeneralManagerFunctions.CreateEmployee(employee);
+                Employee.LoggedInEmployee.CreateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
@@ -45,9 +45,9 @@ namespace InventoryGenie.Controllers
         public IActionResult Edit(int id)
         {
 
-            Employee employee = GeneralManagerFunctions.GetEmployeeById(id);
+            Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             ViewBag.Action = "Edit";
-            ViewBag.Roles = EmployeeFunctions.GetAllRoles();
+            ViewBag.Roles = Employee.GetAllRoles();
             return View("Edit", employee);
         }
 
@@ -61,7 +61,7 @@ namespace InventoryGenie.Controllers
                     employee.Password = tempPassword;
                     employee.IsTemporaryPassword = true;
                 }
-                GeneralManagerFunctions.UpdateEmployee(employee);
+                Employee.LoggedInEmployee.UpdateEmployee(employee);
                 return RedirectToAction("Index");
             }
 
@@ -73,7 +73,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Delete(int id)
         {
 
-            Employee employee = GeneralManagerFunctions.GetEmployeeById(id);
+            Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             return View("Delete", employee);
         }
 
@@ -82,14 +82,14 @@ namespace InventoryGenie.Controllers
         {
             //Employee can't delete himself
             if(Employee.LoggedInEmployee.Id!=employee.Id)
-                GeneralManagerFunctions.DeleteEmployee(employee);
+                Employee.LoggedInEmployee.DeleteEmployee(employee);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            List<Employee> employees = GeneralManagerFunctions.SearchEmployees(searchText);
+            List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(searchText);
             return View("Index",employees);
         }
     }

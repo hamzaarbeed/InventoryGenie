@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
-    public class AssociateFunctions:EmployeeFunctions
+    public class Associate:Employee
     {
         public enum SortProductByType
         {
@@ -20,20 +19,20 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Shelf_Price
         };
 
-        protected static List<Product> SortProductByFunction(SortProductByType sortBy, IQueryable<Product> Query)
+        protected List<Product> SortProductByFunction(SortProductByType sortBy, IQueryable<Product> Query)
         {
             if (sortBy ==SortProductByType.Default) 
                 return Query.ToList();
 
             return Query.OrderBy(x => x.GetType().GetProperty(sortBy.ToString().Replace("_", ""))).ToList();
         }
-        public static List<Product> GetAllProductsList(SortProductByType sortBy)
+        public override List<Product> GetAllProductsList(SortProductByType sortBy)
         {
             return SortProductByFunction(sortBy,Context.Products);
         }
 
         // Might change Search to Modular where you specify to search by what
-        public static List<Product> SearchProducts(SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
+        public override List<Product> SearchProducts(SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
             bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
             bool byWholesalePrice, bool byShelfPrice)
         {
@@ -56,25 +55,25 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 
         }
 
-        public static void ChangeQuantityTo( int newQuantity, int productID)
+        public override void ChangeQuantityTo( int newQuantity, int productID)
         {
             Context.Products.Find(productID).Quantity = newQuantity;
             Context.SaveChanges();
         }
 
         //quantityChange can be positive(to increase Quantity) or negative (to decrease Quantity)
-        public static void ChangeQuantityBy(int quantityChange, Product product)
+        public override void ChangeQuantityBy(int quantityChange, Product product)
         {
             product.Quantity += quantityChange;
             Context.SaveChanges();
         }
-        public static void ChangeQuantityBy(int quantityChange, int productID)
+        public override void ChangeQuantityBy(int quantityChange, int productID)
         {
             Context.Products.Find(productID).Quantity += quantityChange;
             Context.SaveChanges();
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
-        public static void CheckOut(int quantityExchanged, int productID)
+        public override void CheckOut(int quantityExchanged, int productID)
         {
             Product product = Context.Products.Find(productID);
             SaleRecord SaleRecord = new SaleRecord()

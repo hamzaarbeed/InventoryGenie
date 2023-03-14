@@ -2,13 +2,13 @@
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
-    public class GeneralManagerFunctions:WarehouseLeaderFunctions
+    public class GeneralManager:WarehouseLeader
     {
-        public static List<Employee> GetAllEmployeesList()
+        public override List<Employee> GetAllEmployeesList()
         {
             return Context.Employees.Include(x=>x.Role).ToList();
         }
-        public static List<Employee> SearchEmployees(string searchText)
+        public override List<Employee> SearchEmployees(string searchText)
         {
 
             return Context.Employees.Include(x=>x.Role).Where(x => 
@@ -21,23 +21,23 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
         }
         
         
-        public static void CreateEmployee(Employee employee)
+        public override void CreateEmployee(Employee employee)
         {
             Context.Employees.Add(employee);
             Context.SaveChanges();
         }
-        public static void UpdateEmployee(Employee employee)
+        public override void UpdateEmployee(Employee employee)
         {
             Context.Employees.Update(employee);
             Context.SaveChanges();
         }
 
-        public static void DeleteEmployee(Employee employee)
+        public override void DeleteEmployee(Employee employee)
         {
             Context.Employees.Remove(employee);
             Context.SaveChanges();
         }
-        public static Employee GetEmployeeById(int Id)
+        public override Employee GetEmployeeById(int Id)
         {
             return Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.Id == Id);
         }
