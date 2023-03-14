@@ -1,0 +1,39 @@
+﻿@model Employee
+<h2 class="mb-2">View Employee</h2>
+
+<div class="mb-3">
+    <label class="form-label">Employee ID</label>
+    <input disabled class="form-control" value=@Model.EmployeeID>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Username</label>
+    <input disabled class="form-control" value=@Model.UserName>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">First Name</label>
+    <input disabled class="form-control" value=@Model.FirstName>
+</div>
+<div class="mb-3">
+    <label class="form-label">Last Name</label>
+    <input disabled class="form-control" value=@Model.FirstName>
+</div>
+@if (Model.IsTemporaryPassword == true)
+{
+    <div class="mb-3">
+        <label class="form-label">Temporary Password</label>
+        <input disabled class="form-control" value=@Model.Password>
+    </div>
+}
+else
+{
+    <div class="mb-3">
+        <label class="form-label">User Changed Temporary Password</label>
+    </div>
+}
+<div class="mb-3">
+    <label class="form-label">Role</label>
+    <input disabled class="form-control" value=@Model.Role.RoleName>
+</div>
+<a class="btn btn-primary" asp-contoller="User" asp-action="Index">OK</a>

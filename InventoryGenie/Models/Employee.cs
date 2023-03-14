@@ -158,10 +158,6 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
-        public virtual Employee AutoGenerateUsername()
-        {
-            throw new Exception("Unauthorized Access. Can't perform this function");
-        }
         public virtual void CreateEmployee(Employee employee)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");

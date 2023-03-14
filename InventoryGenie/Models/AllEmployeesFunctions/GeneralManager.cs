@@ -20,39 +20,19 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                 ).ToList();
         }
 
-        public override Employee AutoGenerateUsername()
-        {
-            //to auto generate Username From ID
-            //Employee must be added to database and commit changes to get EmployeeID
-            //if GM decided to cancel adding this Employee, this dummy employee will be deleted from db
-            Employee e = new Employee()
-            {
-                FirstName = " ",
-                LastName = " ",
-                UserName = " ",
-                RoleId = 3,
-                Password = " ",
-
-            };
-            Context.Employees.Add(e);
-            Context.SaveChanges();
-            //Generated username will be "E"+1000 + ID. eg ID 3 will generate E1003 
-            e.UserName = "E" + (e.EmployeeID + 1000);
-            e.RoleId = 0;
-            e.FirstName = String.Empty;
-            e.LastName = String.Empty;
-            return e;
-            
-        }
         public override void CreateEmployee(Employee employee)
         {
-            
-
-            
+            employee.UserName = "jbivuvukbnuhquheqhweuidqd12341e31ws123";
             Context.Employees.Add(employee);
             Context.SaveChanges();
+            //this will generate ID which will be used to create Username
 
-
+            //this will load Role object and attach it to employee, so employee.Role will not be null
+            employee = Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.EmployeeID== employee.EmployeeID);
+            
+            //username will be generated automatically. eg ID = 3 username is E1003. which will be unique too
+            employee.UserName = "E" + (1000 + employee.EmployeeID);
+            Context.SaveChanges();
         }
         public override void UpdateEmployee(Employee employee)
         {

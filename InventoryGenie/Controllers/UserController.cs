@@ -26,10 +26,15 @@ namespace InventoryGenie.Controllers
         {
 
             ViewBag.Action = "Add";
-            TempData["Adding"] = "Yes";
             ViewBag.Roles = Employee.GetAllRoles();
-            Employee e = Employee.LoggedInEmployee.AutoGenerateUsername();
-            return View("Edit",e);
+            return View("Edit",new Employee());
+        }
+
+        [HttpGet]
+        public IActionResult View(int id)
+        {
+            Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
+            return View("View", employee);
         }
 
         [HttpPost]
@@ -37,8 +42,9 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee.LoggedInEmployee.UpdateEmployee(employee);
-                return RedirectToAction("Index");
+                Employee.LoggedInEmployee.CreateEmployee(employee);
+                
+                return View("View",employee);
             }
 
             return View("Edit",employee);
@@ -72,15 +78,6 @@ namespace InventoryGenie.Controllers
             return View("Edit", employee);
         }
 
-        [HttpGet]
-        public IActionResult CancelAddEdit(Employee employee)
-        {
-            if (TempData["Adding"] == "Yes")
-            {
-                Employee.LoggedInEmployee.DeleteEmployee(employee);
-            }
-            return RedirectToAction("Index");
-        }
 
         [HttpGet]
         public IActionResult Delete(int id)

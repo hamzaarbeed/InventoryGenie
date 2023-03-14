@@ -26,6 +26,7 @@
                 <th>@employee.Role.RoleName</th>
 
                 <th>
+                    <a asp-controller="User" asp-action="View" asp-route-id=@employee.EmployeeID>View</a>
                     <a asp-controller="User" asp-action="Edit" asp-route-id=@employee.EmployeeID>Edit</a>
                     <a asp-controller="User" asp-action="Delete" asp-route-id=@employee.EmployeeID>Delete</a>
                 </th>
