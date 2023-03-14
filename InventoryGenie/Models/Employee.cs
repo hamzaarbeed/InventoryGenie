@@ -33,9 +33,16 @@ namespace InventoryGenie.Models
         {
             //finds employee with the same Username and password
             LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
+            //this convert LoggedInEmployee from Employee to General Manager, for example.
+            CastDownFromEmployeeToRole();
+        }
+
+        protected static void CastDownFromEmployeeToRole()
+        {
             var serializedEmployee = JsonConvert.SerializeObject(LoggedInEmployee);
 
-            if (LoggedInEmployee.RoleId == 1) {
+            if (LoggedInEmployee.RoleId == 1)
+            {
                 LoggedInEmployee = JsonConvert.DeserializeObject<GeneralManager>(serializedEmployee);
             }
             else if (LoggedInEmployee.RoleId == 2)
@@ -83,6 +90,9 @@ namespace InventoryGenie.Models
 
             //save changes
             Context.SaveChanges();
+
+            //this convert LoggedInEmployee from Employee to General Manager, for example.
+            CastDownFromEmployeeToRole();
 
             // no errot messages
             return null;
@@ -148,6 +158,10 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
+        public virtual Employee AutoGenerateUsername()
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
         public virtual void CreateEmployee(Employee employee)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");

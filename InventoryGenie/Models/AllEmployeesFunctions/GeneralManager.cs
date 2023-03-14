@@ -19,12 +19,40 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                 x.LastName.Contains(searchText)
                 ).ToList();
         }
-        
-        
+
+        public override Employee AutoGenerateUsername()
+        {
+            //to auto generate Username From ID
+            //Employee must be added to database and commit changes to get EmployeeID
+            //if GM decided to cancel adding this Employee, this dummy employee will be deleted from db
+            Employee e = new Employee()
+            {
+                FirstName = " ",
+                LastName = " ",
+                UserName = " ",
+                RoleId = 3,
+                Password = " ",
+
+            };
+            Context.Employees.Add(e);
+            Context.SaveChanges();
+            //Generated username will be "E"+1000 + ID. eg ID 3 will generate E1003 
+            e.UserName = "E" + (e.EmployeeID + 1000);
+            e.RoleId = 0;
+            e.FirstName = String.Empty;
+            e.LastName = String.Empty;
+            return e;
+            
+        }
         public override void CreateEmployee(Employee employee)
         {
+            
+
+            
             Context.Employees.Add(employee);
             Context.SaveChanges();
+
+
         }
         public override void UpdateEmployee(Employee employee)
         {

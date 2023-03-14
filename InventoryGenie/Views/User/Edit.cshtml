@@ -1,5 +1,4 @@
 ﻿@model Employee
-
 <h2 class="mb-2">@ViewBag.Action Employee</h2>
 <form method="post" asp-action=@ViewBag.Action>
     <input type="hidden" asp-for="EmployeeID" />
@@ -23,7 +22,7 @@
         </select>
     </div>
     <div class="mb-3">
-        <label asp-for="UserName" class="form-label">User Name</label>
+        <label class="form-label">User Name</label>
         <input asp-for="UserName" class="form-control">
     </div>
     @if (ViewBag.Action == "Edit")
@@ -40,4 +39,6 @@
         </div>
     }
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <a class="btn btn-primary" asp-contoller="User" asp-action="CancelAddEdit">Cancel</a>
+
 </form>
