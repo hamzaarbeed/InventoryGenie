@@ -1,7 +1,14 @@
 ﻿@model List<Product>
 
-<form method="post" asp-controller="Stock" asp-action="Search">
+<form method="post" asp-controller="Stock" asp-action="Index">
     <input class="form-control col-3" type="text" name="searchText">
+    
+    <select name="sortBy" class="form-select">
+        @foreach (string columnName in ViewBag.SortByOptions)
+        {
+            <option value=@columnName>@columnName</option>
+        }
+    </select>
     <button class="btn btn-primary" type="submit">Search</button>
 </form>
 
@@ -10,7 +17,6 @@
         <tr>
             <th>Product ID</th>
             <th>Name</th>
-            <th>Description</th>
             <th>Minimum Level</th>
             <th>Quantity</th>
         </tr>
@@ -21,7 +27,6 @@
             <tr>
                 <th>@product.ProductID</th>
                 <th>@product.Name</th>
-                <th>@product.Description</th>
                 <th>@product.MinimumLevel</th>
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">

@@ -4,20 +4,38 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class GeneralManager:WarehouseLeader
     {
-        public override List<Employee> GetAllEmployeesList()
-        {
-            return Context.Employees.Include(x=>x.Role).ToList();
-        }
-        public override List<Employee> SearchEmployees(string searchText)
-        {
 
-            return Context.Employees.Include(x=>x.Role).Where(x => 
-                x.Role.RoleName.Contains(searchText)  ||
-                x.UserName.Contains(searchText) ||
-                x.EmployeeID.ToString().Contains(searchText) ||
-                x.FirstName.Contains(searchText) ||
-                x.LastName.Contains(searchText)
-                ).ToList();
+        public override List<Employee> SearchEmployees(string sortBy, string searchText)
+        {
+            IQueryable<Employee> query;
+            if (searchText != null)
+            {
+                query = Context.Employees.Include(x => x.Role).Where(x =>
+                    x.Role.RoleName.Contains(searchText) ||
+                    x.UserName.Contains(searchText) ||
+                    x.EmployeeID.ToString().Contains(searchText) ||
+                    x.FirstName.Contains(searchText) ||
+                    x.LastName.Contains(searchText)
+                );
+            }
+            else
+            {
+                query = Context.Employees.Include(x => x.Role);
+            }
+            switch (sortBy)
+            {
+                default:
+                case "Employee ID":
+                    return query.OrderBy(x => x.EmployeeID).ToList();
+                case "Username":
+                    return query.OrderBy(x => x.UserName).ToList();
+                case "First Name":
+                    return query.OrderBy(x => x.FirstName).ToList();
+                case "Last Name":
+                    return query.OrderBy(x => x.LastName).ToList();
+                case "Role":
+                    return query.OrderBy(x => x.Role.RoleName).ToList();
+            }
         }
 
         public override void CreateEmployee(Employee employee)
@@ -30,8 +48,8 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             //this will load Role object and attach it to employee, so employee.Role will not be null
             employee = Context.Employees.Include(x => x.Role).FirstOrDefault(x => x.EmployeeID== employee.EmployeeID);
             
-            //username will be generated automatically. eg ID = 3 username is E1003. which will be unique too
-            employee.UserName = "E" + (1000 + employee.EmployeeID);
+            //username will be generated automatically. eg ID = 3 username is e1003. which will be unique too
+            employee.UserName = "e" + (1000 + employee.EmployeeID);
             Context.SaveChanges();
         }
         public override void UpdateEmployee(Employee employee)

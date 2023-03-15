@@ -1,25 +1,22 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
-using InventoryGenie.Models.AllEmployeesFunctions;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace InventoryGenie.Controllers
 {
     public class StockController : Controller
     {
+        readonly string[] sortByOptions =
+        {
+            "Name",
+            "Product ID",
+            "Quantity",
+            "Minimum Level"
+        };
         public StockController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-        }
-
-
-        [HttpPost]
-        public IActionResult Search(string searchText)
-        {
-            List<Product> products= Employee.LoggedInEmployee.SearchProducts(
-                Product.SortProductByType.Default, searchText,
-                true,true,false,true,false,true,false,true,false,false);
-            return View("Index", products);
         }
 
         [HttpPost]
@@ -29,18 +26,29 @@ namespace InventoryGenie.Controllers
             return RedirectToAction("Index","Stock");
         }
 
-
         [HttpGet]
-        public IActionResult Index(List<Product> products)
+        public IActionResult Index()
         {
             if (Employee.LoggedInEmployee == null)
                 return RedirectToAction("Index", "Login");
             else
             {
-                if (!products.Any())
-                    products = Employee.LoggedInEmployee.GetAllProductsList(Product.SortProductByType.Default);
+                ViewBag.SortByOptions = sortByOptions;
+                string defaultSortBy = "Name";
+                List<Product> products =
+                    Employee.LoggedInEmployee.StockManagementSearchProducts(defaultSortBy, null);
                 return View(products);
             }
+        }
+
+        [HttpPost]
+        public IActionResult Index(string searchText,string sortBy)
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            List<Product> products =
+                Employee.LoggedInEmployee.StockManagementSearchProducts(sortBy, searchText); 
+            return View(products);
+
         }
     }
 }

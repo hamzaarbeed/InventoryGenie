@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<Supplier>
+
+<form method="post" asp-controller="Supplier" asp-action="Index">
+    <input class="form-control col-3" type="text" name="searchText">
+    <select name="sortBy" class="form-select">
+        @foreach (string columnName in ViewBag.SortByOptions)
+        {
+            <option value=@columnName>@columnName</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Search</button>
+    <a class="btn btn-primary" asp-controller="Supplier" asp-action="Add">Add New Employee</a>
+</form>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Supplier ID</th>
+            <th>Supplier Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <th>@supplier.SupplierID</th>
+                <th>@supplier.SupplierName</th>
+
+                <th>
+                    <a asp-controller="Supplier" asp-action="View" asp-route-id=@supplier.SupplierID>View</a>
+                    <a asp-controller="Supplier" asp-action="Edit" asp-route-id=@supplier.SupplierID>Edit</a>
+                    <a asp-controller="Supplier" asp-action="Delete" asp-route-id=@supplier.SupplierID>Delete</a>
+                </th>
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>

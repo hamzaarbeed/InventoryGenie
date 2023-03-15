@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using static InventoryGenie.Models.AllEmployeesFunctions.Associate;
+
 
 namespace InventoryGenie.Models
 {
@@ -34,7 +34,8 @@ namespace InventoryGenie.Models
             //finds employee with the same Username and password
             LoggedInEmployee = Context.Employees.Include(x=>x.Role).FirstOrDefault(x => x.UserName == UserName && x.Password == Password);
             //this convert LoggedInEmployee from Employee to General Manager, for example.
-            CastDownFromEmployeeToRole();
+            if (LoggedInEmployee != null)
+                CastDownFromEmployeeToRole();
         }
 
         protected static void CastDownFromEmployeeToRole()
@@ -91,29 +92,23 @@ namespace InventoryGenie.Models
             //save changes
             Context.SaveChanges();
 
-            //this convert LoggedInEmployee from Employee to General Manager, for example.
+            //this convert LoggedInEmployee from Employee to General Manager, Warehouse leader, or associate
             CastDownFromEmployeeToRole();
 
-            // no errot messages
+            // no error messages
             return null;
         }
         //------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------
         //Virtual functions that will be overridden, functions that are not overridden will not do
-        //any action and will throw exception. If the object created override the a function it means
+        //any action and will throw exception. If the object created overrides a function, it means
         //that this object is authorized to use this function
         //------------------------------------------------------------------------------------------
-        
-        //---------------------Associate Functions--------------------------------------------------
-        public virtual List<Product> GetAllProductsList(Product.SortProductByType sortBy)
-        {
-            throw new Exception("Unauthorized Access. Can't perform this function");
-        }
 
-        // Might change Search to Modular where you specify to search by what
-        public virtual List<Product> SearchProducts(Product.SortProductByType sortBy, string searchText, bool byID, bool byName, bool byCategory,
-            bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
-            bool byWholesalePrice, bool byShelfPrice)
+        //---------------------Associate Functions--------------------------------------------------
+
+
+        public virtual List<Product> StockManagementSearchProducts(string sortBy, string searchText)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
@@ -147,13 +142,14 @@ namespace InventoryGenie.Models
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
-
-        //----------------------General Manager Functions--------------------------------------------
-        public virtual List<Employee> GetAllEmployeesList()
+        public virtual List<Supplier> SearchSuppliers(string sortBy, string searchText)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
-        public virtual List<Employee> SearchEmployees(string searchText)
+
+        //----------------------General Manager Functions--------------------------------------------
+
+        public virtual List<Employee> SearchEmployees(string sortBy, string searchText)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
@@ -175,7 +171,5 @@ namespace InventoryGenie.Models
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
-
-
     }
 }

@@ -11,6 +11,7 @@ namespace InventoryGenie.Data
         public DbSet<SaleRecord> SaleRecords { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<Supplier> Suppliers { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

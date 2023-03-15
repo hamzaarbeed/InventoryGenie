@@ -2,11 +2,19 @@
 using InventoryGenie.Models;
 using InventoryGenie.Models.AllEmployeesFunctions;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Eventing.Reader;
 
 namespace InventoryGenie.Controllers
 {
     public class UserController : Controller
     {
+        readonly string[] sortByOptions ={
+            "Employee ID",
+            "Username",
+            "First Name",
+            "Last Name",
+            "Role"
+        };
         public UserController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
@@ -15,9 +23,22 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            
-            List<Employee> employees= Employee.LoggedInEmployee.GetAllEmployeesList();
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                Employee.Logout();
+                return RedirectToAction("Index","Login");
+            }
+            ViewBag.SortByOptions = sortByOptions;
+            string defaultSortBy = "Employee ID";
+            List<Employee> employees= Employee.LoggedInEmployee.SearchEmployees(defaultSortBy,null);
+            return View(employees);
+        }
 
+        [HttpPost]
+        public IActionResult Index(string sortBy, string searchText)
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(sortBy, searchText);
             return View(employees);
         }
 
@@ -96,11 +117,6 @@ namespace InventoryGenie.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public IActionResult Search(string searchText)
-        {
-            List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(searchText);
-            return View("Index",employees);
-        }
+        
     }
 }

@@ -1,29 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class Associate:Employee
     {
-        
+        /*
+         
+            Product_ID,
+            Name,
+            Category,
+            Description,
+            Supplier_Name,
+            Quantity,
+            Maximum_Level,
+            Minimum_Level,
+            Wholesale_Price,
+            Shelf_Price
+         */
 
-        protected List<Product> SortProductByFunction(Product.SortProductByType sortBy, IQueryable<Product> Query)
-        {
-            if (sortBy == Product.SortProductByType.Default) 
-                return Query.ToList();
-
-            return Query.OrderBy(x => x.GetType().GetProperty(sortBy.ToString().Replace("_", ""))).ToList();
-        }
-        public override List<Product> GetAllProductsList(Product.SortProductByType sortBy)
-        {
-            return SortProductByFunction(sortBy,Context.Products);
-        }
-
-        // Might change Search to Modular where you specify to search by what
-        public override List<Product> SearchProducts(Product.SortProductByType sortBy, string searchText, bool byProductID, bool byName, bool byCategory,
-            bool byDescription, bool bySupplierName, bool byQuantity, bool byMaximumLevel, bool byMinimumLevel,
-            bool byWholesalePrice, bool byShelfPrice)
-        {
-  
+        /*
             IQueryable<Product> Query = Context.Products.Include(x => x.Supplier).Where(x =>
                 byProductID? x.ProductID.ToString().Contains(searchText):false ||
                 byQuantity ? x.Quantity.ToString().Contains(searchText) : false ||
@@ -36,10 +32,36 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                 byDescription ? x.Description.Contains(searchText) : false ||
                 bySupplierName ? x.Supplier.SupplierName.Contains(searchText) : false
             );
+            */
+        
 
-
-            return SortProductByFunction(sortBy, Query);
-
+        public override List<Product> StockManagementSearchProducts(string sortBy, string searchText)
+        {
+            IQueryable<Product> query;
+            if (searchText != null)
+            {
+                query = Context.Products.Where(x =>
+                    x.ProductID.ToString().Contains(searchText) ||
+                    x.Quantity.ToString().Contains(searchText) ||
+                    x.MinimumLevel.ToString().Contains(searchText) ||
+                    x.Name.Contains(searchText));
+            }
+            else
+            {
+                query = Context.Products;
+            }
+            switch (sortBy)
+            {
+                default:
+                case "Product ID":
+                    return query.OrderBy(x => x.ProductID).ToList();
+                case "Name":
+                    return query.OrderBy(x => x.Name).ToList();
+                case "Quantity":
+                    return query.OrderBy(x => x.Quantity).ToList();
+                case "Minimum Level":
+                    return query.OrderBy(x => x.MinimumLevel).ToList();
+            }
         }
 
         public override void ChangeQuantityTo( int newQuantity, int productID)

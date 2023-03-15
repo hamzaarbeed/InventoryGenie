@@ -1,0 +1,25 @@
+﻿@model Supplier
+<h2 class="mb-2">@ViewBag.Action Supplier</h2>
+<form method="post" asp-action=@ViewBag.Action>
+    <input type="hidden" asp-for="SupplierID" />
+
+    <div class="mb-3">
+        <label asp-for="SupplierName" class="form-label">Supplier Name</label>
+        <input asp-for="SupplierName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="OrderingInstructions" class="form-label">Ordering Instructions</label>
+        <textarea asp-for="OrderingInstructions" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <a class="btn btn-primary" asp-contoller="Supplier" asp-action="Index">Cancel</a>
+
+</form>
