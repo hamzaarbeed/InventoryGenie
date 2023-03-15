@@ -42,20 +42,22 @@ namespace InventoryGenie.Controllers
             return View(employees);
         }
 
-        [HttpGet]
-        public IActionResult Add()
-        {
-
-            ViewBag.Action = "Add";
-            ViewBag.Roles = Employee.GetAllRoles();
-            return View("Edit",new Employee());
-        }
+        
 
         [HttpGet]
         public IActionResult View(int id)
         {
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             return View("View", employee);
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+
+            ViewBag.Action = "Add";
+            ViewBag.Roles = Employee.GetAllRoles();
+            return View("Edit", new Employee());
         }
 
         [HttpPost]
@@ -67,8 +69,7 @@ namespace InventoryGenie.Controllers
                 
                 return View("View",employee);
             }
-
-            return View("Edit",employee);
+            return RedirectToAction("Add");
         }
 
         [HttpGet]

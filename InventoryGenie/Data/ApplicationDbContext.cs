@@ -66,16 +66,6 @@ namespace InventoryGenie.Data
                 }
             ) ;
 
-            //when deleting a supplier products connected to that supplier will hava supplier ID = 9
-            modelBuilder.Entity<Supplier>().HasData(
-
-                new Supplier
-                {
-                    SupplierID = 1000,
-                    SupplierName = "Unspecified",
-                }
-            );
-
         }
         private void addDummyData(ModelBuilder modelBuilder)
         {

@@ -5,35 +5,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class Associate:Employee
     {
-        /*
-         
-            Product_ID,
-            Name,
-            Category,
-            Description,
-            Supplier_Name,
-            Quantity,
-            Maximum_Level,
-            Minimum_Level,
-            Wholesale_Price,
-            Shelf_Price
-         */
-
-        /*
-            IQueryable<Product> Query = Context.Products.Include(x => x.Supplier).Where(x =>
-                byProductID? x.ProductID.ToString().Contains(searchText):false ||
-                byQuantity ? x.Quantity.ToString().Contains(searchText) : false ||
-                byMaximumLevel ? x.MaximumLevel.ToString().Contains(searchText) : false ||
-                byMinimumLevel ? x.MinimumLevel.ToString().Contains(searchText) : false ||
-                byWholesalePrice?x.WholesalePrice.ToString().Contains(searchText):false ||
-                byShelfPrice ? x.ShelfPrice.ToString().Contains(searchText) : false ||
-                byName ? x.Name.Contains(searchText) : false ||
-                byCategory ? x.Category.Contains(searchText) : false ||
-                byDescription ? x.Description.Contains(searchText) : false ||
-                bySupplierName ? x.Supplier.SupplierName.Contains(searchText) : false
-            );
-            */
-        
+               
 
         public override List<Product> StockManagementSearchProducts(string sortBy, string searchText)
         {

@@ -146,6 +146,23 @@ namespace InventoryGenie.Models
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
+        public virtual Supplier GetSupplierByID(int supplierID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+        public virtual void CreateSupplier(Supplier supplierID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+        public virtual void UpdateSupplier(Supplier supplierID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void DeleteSupplier(Supplier supplier)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
 
         //----------------------General Manager Functions--------------------------------------------
 

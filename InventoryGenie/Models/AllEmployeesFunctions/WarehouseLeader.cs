@@ -37,5 +37,27 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                     return query.OrderBy(x => x.SupplierName).ToList();
             }
         }
+
+        public override Supplier GetSupplierByID(int supplierID) {
+            return Context.Suppliers.Find(supplierID);
+        }
+
+        public override void CreateSupplier(Supplier supplierID)
+        {
+            Context.Suppliers.Add(supplierID);
+            Context.SaveChanges();
+        }
+
+        public override void UpdateSupplier(Supplier supplierID)
+        {
+            Context.Suppliers.Update(supplierID);
+            Context.SaveChanges();
+        }
+
+        public override void DeleteSupplier(Supplier supplier)
+        {
+            Context.Suppliers.Remove(supplier);
+            Context.SaveChanges();
+        }
     }
 }
