@@ -45,7 +45,7 @@ namespace InventoryGenie.Controllers
 
 
         [HttpGet]
-        public IActionResult View(int id)
+        public IActionResult Details(int id)
         {
             Supplier supplier=Employee.LoggedInEmployee.GetSupplierByID(id);
             return View(supplier);
@@ -65,7 +65,7 @@ namespace InventoryGenie.Controllers
             {
                 Employee.LoggedInEmployee.CreateSupplier(supplier);
 
-                return View("View", supplier);
+                return View("Details", supplier);
             }
             return RedirectToAction("Add");
         }

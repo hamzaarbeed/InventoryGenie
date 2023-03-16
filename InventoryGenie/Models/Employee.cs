@@ -27,7 +27,7 @@ namespace InventoryGenie.Models
         [Required(ErrorMessage = "Please select a role")]
         public int RoleId { get; set; }
         [ValidateNever]
-        public Role Role { get; set; } = null;
+        public Role Role { get; set; } = null!;
 
         public static void Login(string UserName, string Password)
         {
@@ -54,11 +54,6 @@ namespace InventoryGenie.Models
             {
                 LoggedInEmployee = LoggedInEmployee = JsonConvert.DeserializeObject<Associate>(serializedEmployee);
             }
-        }
-
-        public static List<Role> GetAllRoles()
-        {
-            return Context.Roles.OrderBy(x => x.RoleName).ToList();
         }
 
         public static void Logout()
@@ -164,9 +159,49 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
+        public virtual List<Product> ProductManagementSearchProducts(string sortBy, string searchText)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual Product GetProductByID(int productID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual List<Category> GetAllCategories()
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual List<Supplier> GetAllSuppliers()
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void CreateProduct(Product productID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void UpdateProduct(Product productID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void DeleteProduct(Product product)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
         //----------------------General Manager Functions--------------------------------------------
 
         public virtual List<Employee> SearchEmployees(string sortBy, string searchText)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual List<Role> GetAllRoles()
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

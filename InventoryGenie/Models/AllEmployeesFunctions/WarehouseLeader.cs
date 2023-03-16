@@ -59,5 +59,66 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.Suppliers.Remove(supplier);
             Context.SaveChanges();
         }
+
+        public override List<Product> ProductManagementSearchProducts(string sortBy, string searchText)
+        {
+            IQueryable<Product> query;
+            if (searchText != null)
+            {
+                query = Context.Products.Include(x=>x.Category).Where(x =>
+                    x.ProductID.ToString().Contains(searchText) ||
+                    x.Name.Contains(searchText) ||
+                    x.Category.Name.Contains(searchText) ||
+                    x.Description.Contains(searchText));
+            }
+            else
+            {
+                query = Context.Products.Include(x=>x.Category);
+            }
+            switch (sortBy)
+            {
+                default:
+                case "Product ID":
+                    return query.OrderBy(x => x.ProductID).ToList();
+                case "Name":
+                    return query.OrderBy(x => x.Name).ToList();
+                case "Category":
+                    return query.OrderBy(x => x.Category.Name).ToList();
+                case "Description":
+                    return query.OrderBy(x => x.Description).ToList();
+            }
+        }
+
+        public override List<Category> GetAllCategories()
+        {
+            return Context.Categories.OrderBy(x => x.Name).ToList();
+        }
+
+        public override List<Supplier> GetAllSuppliers()
+        {
+            return Context.Suppliers.OrderBy(x => x.SupplierName).ToList();
+        }
+        public override Product? GetProductByID(int productID)
+        {
+            return Context.Products.Include(x=>x.Category).Include(x=>x.Supplier).FirstOrDefault(x=>x.ProductID==productID);
+        }
+
+        public override void CreateProduct(Product productID)
+        {
+            Context.Products.Add(productID);
+            Context.SaveChanges();
+        }
+
+        public override void UpdateProduct(Product productID)
+        {
+            Context.Products.Update(productID);
+            Context.SaveChanges();
+        }
+
+        public override void DeleteProduct(Product product)
+        {
+            Context.Products.Remove(product);
+            Context.SaveChanges();
+        }
     }
 }

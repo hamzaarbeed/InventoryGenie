@@ -34,7 +34,7 @@ namespace InventoryGenie.Controllers
             else
             {
                 ViewBag.SortByOptions = sortByOptions;
-                string defaultSortBy = "Name";
+                string defaultSortBy = "Product ID";
                 List<Product> products =
                     Employee.LoggedInEmployee.StockManagementSearchProducts(defaultSortBy, null);
                 return View(products);

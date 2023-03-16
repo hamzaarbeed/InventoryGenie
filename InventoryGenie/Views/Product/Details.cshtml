@@ -1,0 +1,36 @@
+﻿@model Product
+<h2 class="mb-2">View Product</h2>
+
+<div class="mb-3">
+    <label class="form-label">Name</label>
+    <input readonly value=@Model.Name class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Description</label>
+    <input readonly value=@Model.Description class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Category</label>
+    <input readonly value=@Model.Category.Name class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Supplier</label>
+    <input readonly value=@Model.Supplier.SupplierName class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Wholesale Price</label>
+    <input readonly value=@Model.WholesalePrice class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">ShelfPrice</label>
+    <input readonly value=@Model.ShelfPrice class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Minimum Level</label>
+    <input readonly value=@Model.MinimumLevel class="form-control">
+</div>
+<div class="mb-3">
+    <label class="form-label">Maximum Level</label>
+    <input readonly value=@Model.MaximumLevel class="form-control">
+</div>
+<a class="btn btn-primary" asp-contoller="Product" asp-action="Index">OK</a>

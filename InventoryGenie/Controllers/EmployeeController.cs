@@ -1,12 +1,10 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
-using InventoryGenie.Models.AllEmployeesFunctions;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Eventing.Reader;
 
 namespace InventoryGenie.Controllers
 {
-    public class UserController : Controller
+    public class EmployeeController : Controller
     {
         readonly string[] sortByOptions ={
             "Employee ID",
@@ -15,7 +13,7 @@ namespace InventoryGenie.Controllers
             "Last Name",
             "Role"
         };
-        public UserController(ApplicationDbContext ctx)
+        public EmployeeController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
         }
@@ -45,10 +43,10 @@ namespace InventoryGenie.Controllers
         
 
         [HttpGet]
-        public IActionResult View(int id)
+        public IActionResult Details(int id)
         {
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
-            return View("View", employee);
+            return View("Details", employee);
         }
 
         [HttpGet]
@@ -56,7 +54,7 @@ namespace InventoryGenie.Controllers
         {
 
             ViewBag.Action = "Add";
-            ViewBag.Roles = Employee.GetAllRoles();
+            ViewBag.Roles = Employee.LoggedInEmployee.GetAllRoles();
             return View("Edit", new Employee());
         }
 
@@ -67,7 +65,7 @@ namespace InventoryGenie.Controllers
             {
                 Employee.LoggedInEmployee.CreateEmployee(employee);
                 
-                return View("View",employee);
+                return View("Details",employee);
             }
             return RedirectToAction("Add");
         }
@@ -78,7 +76,7 @@ namespace InventoryGenie.Controllers
 
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             ViewBag.Action = "Edit";
-            ViewBag.Roles = Employee.GetAllRoles();
+            ViewBag.Roles = Employee.LoggedInEmployee.GetAllRoles();
             return View("Edit", employee);
         }
 

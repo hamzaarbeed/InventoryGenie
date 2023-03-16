@@ -34,7 +34,7 @@
                         @if (ViewBag.Role == 1)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2)
@@ -66,6 +66,12 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+                            </li>
+                        }
+                        @if (ViewBag.Role == 1 || ViewBag.Role == 2)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
                             </li>
                         }
                     </ul>

@@ -12,7 +12,7 @@ namespace InventoryGenie.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
-
+        public DbSet<Category> Categories { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //prevent deleting all products that has certain supplier when deleting that supplier
@@ -23,7 +23,8 @@ namespace InventoryGenie.Data
             modelBuilder.Entity<Employee>().HasIndex(u => u.UserName).IsUnique();
             //to make Product Name unique in db
             modelBuilder.Entity<Product>().HasIndex(u => u.Name).IsUnique();
-            // note probably needs validation at data entry
+            // to make supplier name unique
+            modelBuilder.Entity<Supplier>().HasIndex(u => u.SupplierName).IsUnique();
 
             //these must exist in db Everytime the application start
             addEssentialData(modelBuilder);
@@ -65,6 +66,54 @@ namespace InventoryGenie.Data
                     IsTemporaryPassword = false,
                 }
             ) ;
+            modelBuilder.Entity<Category>().HasData(
+
+                new Category
+                {
+                    CategoryID = 1,
+                    Name = "Food",
+                },
+                new Category
+                {
+                    CategoryID = 2,
+                    Name = "Clothing",
+                },
+                new Category
+                {
+                    CategoryID = 3,
+                    Name = "Electronics",
+                },
+                new Category
+                {
+                    CategoryID = 4,
+                    Name = "Office",
+                },
+                new Category
+                {
+                    CategoryID = 5,
+                    Name = "Garden",
+                },
+                new Category
+                {
+                    CategoryID = 6,
+                    Name = "Toys",
+                },
+                new Category
+                {
+                    CategoryID = 7,
+                    Name = "House Improvent",
+                },
+                new Category
+                {
+                    CategoryID = 8,
+                    Name = "Auto",
+                },
+                new Category
+                {
+                    CategoryID = 10,
+                    Name = "Other",
+                }
+            );
 
         }
         private void addDummyData(ModelBuilder modelBuilder)
@@ -113,7 +162,7 @@ namespace InventoryGenie.Data
                     {
                         ProductID = 1,
                         Name = "Monster Energy Drink",
-                        Category = "Energy Drinks",
+                        CategoryId = 1,
                         Quantity = 400,
                         Description = "Energy Drinks",
                         ShelfPrice = 1.52,
@@ -126,7 +175,7 @@ namespace InventoryGenie.Data
                     {
                         ProductID = 2,
                         Name = "Lays Chips",
-                        Category = "Snacks",
+                        CategoryId = 1,
                         Quantity = 100,
                         Description = "Lays Chips Original Taste",
                         ShelfPrice = 2.52,

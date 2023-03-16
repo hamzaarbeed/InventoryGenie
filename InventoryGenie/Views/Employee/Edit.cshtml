@@ -14,10 +14,24 @@
     <div class="mb-3">
         <label asp-for="RoleId" class="form-label">Role</label>
         <select asp-for="RoleId" class="form-select">
-            <option value="">Select Role</option>
-            @foreach(Role r in ViewBag.Roles)
+            @if (ViewBag.Action == "Edit")
             {
-                <option value=@r.RoleID>@r.RoleName</option>
+                <option value=@Model.RoleId>@Model.Role.RoleName</option>
+                @foreach (Role r in ViewBag.Roles)
+                {
+                    if (r.RoleID != Model.RoleId)
+                    {
+                        <option value=@r.RoleID>@r.RoleName</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value="">Select Role</option>
+                @foreach(Role r in ViewBag.Roles)
+                {
+                    <option value=@r.RoleID>@r.RoleName</option>
+                }
             }
         </select>
     </div>
@@ -38,6 +52,6 @@
         </div>
     }
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
-    <a class="btn btn-primary" asp-contoller="User" asp-action="Index">Cancel</a>
+    <a class="btn btn-primary" asp-contoller="Employee" asp-action="Index">Cancel</a>
 
 </form>

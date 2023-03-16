@@ -1,0 +1,81 @@
+﻿@model Product
+<h2 class="mb-2">@ViewBag.Action Product</h2>
+<form method="post" asp-action=@ViewBag.Action>
+    <input type="hidden" asp-for="ProductID" />
+    <input type="hidden" asp-for="Quantity" />
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <input asp-for="Description" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Category" class="form-label">Category</label>
+        <select asp-for="CategoryId" class="form-select">
+            
+            @if (ViewBag.Action == "Edit")
+            {
+                <option value=@Model.CategoryId>@Model.Category.Name</option>
+                @foreach (Category c in ViewBag.Categories)
+                {
+                    if (c.CategoryID != Model.CategoryId)
+                    {
+                        <option value=@c.CategoryID>@c.Name</option>
+                    }
+                }
+            }
+            else{
+                <option value="">Select Category</option>
+                @foreach (Category c in ViewBag.Categories)
+                {
+                    <option value=@c.CategoryID>@c.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Supplier" class="form-label">Supplier</label>
+        <select asp-for="SupplierId" class="form-select">
+            @if (ViewBag.Action == "Edit")
+            {
+                <option value=@Model.SupplierId>@Model.Supplier.SupplierName</option>
+                @foreach (Supplier s in ViewBag.Suppliers)
+                {
+                    if (s.SupplierID != Model.SupplierId)
+                    {
+                        <option value=@s.SupplierID>@s.SupplierName</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value="">Select Supplier</option>
+                @foreach (Supplier s in ViewBag.Suppliers)
+                {
+                    <option value=@s.SupplierID>@s.SupplierName</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="WholesalePrice" class="form-label">Wholesale Price</label>
+        <input asp-for="WholesalePrice" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="ShelfPrice" class="form-label">ShelfPrice</label>
+        <input asp-for="ShelfPrice" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="MinimumLevel" class="form-label">Minimum Level</label>
+        <input asp-for="MinimumLevel" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="MaximumLevel" class="form-label">Maximum Level</label>
+        <input asp-for="MaximumLevel" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <a class="btn btn-primary" asp-contoller="Product" asp-action="Index">Cancel</a>
+
+</form>

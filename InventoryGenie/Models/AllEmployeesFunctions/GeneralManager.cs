@@ -38,6 +38,11 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             }
         }
 
+        public override List<Role> GetAllRoles()
+        {
+            return Context.Roles.OrderBy(x => x.RoleName).ToList();
+        }
+
         public override void CreateEmployee(Employee employee)
         {
             employee.UserName = "jbivuvukbnuhquheqhweuidqd12341e31ws123";
