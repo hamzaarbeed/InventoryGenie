@@ -1,6 +1,8 @@
 ﻿@model Product
 <h2 class="mb-2">@ViewBag.Action Product</h2>
 <form method="post" asp-action=@ViewBag.Action>
+    <label class="text-danger">@TempData["Msg"]</label>
+    <div asp-validation-summary=All class=" text-danger"></div>
     <input type="hidden" asp-for="ProductID" />
     <input type="hidden" asp-for="Quantity" />
     <div class="mb-3">
@@ -51,7 +53,6 @@
             }
             else
             {
-                <option value="">Select Supplier</option>
                 @foreach (Supplier s in ViewBag.Suppliers)
                 {
                     <option value=@s.SupplierID>@s.SupplierName</option>
@@ -75,6 +76,7 @@
         <label asp-for="MaximumLevel" class="form-label">Maximum Level</label>
         <input asp-for="MaximumLevel" class="form-control">
     </div>
+    
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
     <a class="btn btn-primary" asp-contoller="Product" asp-action="Index">Cancel</a>
 

@@ -63,11 +63,17 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee.LoggedInEmployee.CreateSupplier(supplier);
-
+                try
+                {
+                    Employee.LoggedInEmployee.CreateSupplier(supplier);
+                }catch (Exception) { 
+                    TempData["Msg"] = "This Supplier name already in use"; 
+                    return RedirectToAction("Add");
+                }
                 return View("Details", supplier);
             }
-            return RedirectToAction("Add");
+            ViewBag.Action = "Add";
+            return View("Edit",supplier);
         }
 
         [HttpGet]

@@ -2,7 +2,8 @@
 <h2 class="mb-2">@ViewBag.Action Supplier</h2>
 <form method="post" asp-action=@ViewBag.Action>
     <input type="hidden" asp-for="SupplierID" />
-
+    <label class="text-danger">@TempData["Msg"]</label>
+    <label asp-validation-summary=All class=" text-danger"></label>
     <div class="mb-3">
         <label asp-for="SupplierName" class="form-label">Supplier Name</label>
         <input asp-for="SupplierName" class="form-control">

@@ -69,8 +69,14 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee.LoggedInEmployee.CreateProduct(product);
-
+                try
+                {
+                    Employee.LoggedInEmployee.CreateProduct(product);
+                }catch (Exception)
+                {
+                    TempData["Msg"] = "This product name already in use";
+                    return RedirectToAction("Add");
+                }
                 //fully load product with category and Supplier to be able to show them in "Details" view
                 product =Employee.LoggedInEmployee.GetProductByID(product.ProductID);
                 return View("Details",product);

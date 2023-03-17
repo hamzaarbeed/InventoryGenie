@@ -8,7 +8,7 @@ namespace InventoryGenie.Models
         public int SupplierID { get; set; }
 
         [Required(ErrorMessage = "Please enter supplier name")]
-        public string SupplierName { get; set; } = string.Empty;
+        public string SupplierName { get; set; }
 
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }

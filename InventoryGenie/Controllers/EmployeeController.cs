@@ -63,8 +63,14 @@ namespace InventoryGenie.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee.LoggedInEmployee.CreateEmployee(employee);
-                
+                try
+                {
+                    Employee.LoggedInEmployee.CreateEmployee(employee);
+                }catch (Exception)
+                {
+                    TempData["Msg"] = "This username already in use";
+                    return RedirectToAction("Add");
+                }
                 return View("Details",employee);
             }
             return RedirectToAction("Add");
