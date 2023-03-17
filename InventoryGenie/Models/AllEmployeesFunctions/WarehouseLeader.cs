@@ -98,10 +98,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
         {
             return Context.Suppliers.OrderBy(x => x.SupplierName).ToList();
         }
-        public override Product? GetProductByID(int productID)
-        {
-            return Context.Products.Include(x=>x.Category).Include(x=>x.Supplier).FirstOrDefault(x=>x.ProductID==productID);
-        }
+
 
         public override void CreateProduct(Product productID)
         {

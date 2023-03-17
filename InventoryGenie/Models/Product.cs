@@ -6,6 +6,8 @@ namespace InventoryGenie.Models
     public class Product
     {
         
+
+
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Please enter product name")]

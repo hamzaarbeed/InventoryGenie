@@ -15,6 +15,9 @@ namespace InventoryGenie.Models
 
         public static ApplicationDbContext? Context { get; set; }
 
+        
+        public static List<Employee> Employees { get; set; } = new List<Employee>();
+
         public int EmployeeID { get; set; }
 
         [Required]
@@ -29,6 +32,7 @@ namespace InventoryGenie.Models
         [ValidateNever]
         public Role Role { get; set; } = null!;
 
+        
         public static void Login(string UserName, string Password)
         {
             //finds employee with the same Username and password
@@ -108,6 +112,11 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
+        public virtual List<Product> SalesManagementSearchProducts(string sortBy, string searchText)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
         public virtual void ChangeQuantityTo(int newQuantity, int productID)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
@@ -123,7 +132,11 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
-        public virtual void CheckOut(int quantityExchanged, int productID)
+        public virtual void ProcessTransaction()
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+        public virtual Product GetProductByID(int productID)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
@@ -160,11 +173,6 @@ namespace InventoryGenie.Models
         }
 
         public virtual List<Product> ProductManagementSearchProducts(string sortBy, string searchText)
-        {
-            throw new Exception("Unauthorized Access. Can't perform this function");
-        }
-
-        public virtual Product GetProductByID(int productID)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

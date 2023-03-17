@@ -24,9 +24,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (Employee.LoggedInEmployee == null)
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            {
+                Employee.Logout();
                 return RedirectToAction("Index", "Login");
-            else
+            }else
             {
                 ViewBag.SortByOptions = sortByOptions;
                 string defaultSortBy = "Product ID";

@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class Associate:Employee
     {
-               
+      
 
         public override List<Product> StockManagementSearchProducts(string sortBy, string searchText)
         {
@@ -36,6 +35,38 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             }
         }
 
+        public override List<Product> SalesManagementSearchProducts(string sortBy, string searchText)
+        {
+            IQueryable<Product> query;
+            if (searchText != null)
+            {
+                query = Context.Products.Include(x => x.Supplier).Include(x => x.Category).Where(x =>
+                    x.ProductID.ToString().Contains(searchText) ||
+                    x.Name.Contains(searchText) ||
+                    x.Description.Contains(searchText) ||
+                    x.Supplier.SupplierName.Contains(searchText) ||
+                    x.Category.Name.Contains(searchText));
+            }
+            else
+            {
+                query = Context.Products.Include(x => x.Supplier).Include(x => x.Category);
+            }
+            switch (sortBy)
+            {
+                default:
+                case "Product ID":
+                    return query.OrderBy(x => x.ProductID).ToList();
+                case "Name":
+                    return query.OrderBy(x => x.Name).ToList();
+                case "Category":
+                    return query.OrderBy(x => x.Category.Name).ToList();
+                case "Supplier":
+                    return query.OrderBy(x => x.Supplier.SupplierName).ToList();
+                case "Shelf Price":
+                    return query.OrderBy(x => x.ShelfPrice).ToList();
+            }
+        }
+
         public override void ChangeQuantityTo( int newQuantity, int productID)
         {
             Context.Products.Find(productID).Quantity = newQuantity;
@@ -54,20 +85,28 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.SaveChanges();
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
-        public override void CheckOut(int quantityExchanged, int productID)
+        public override void ProcessTransaction()
         {
-            Product product = Context.Products.Find(productID);
-            SaleRecord SaleRecord = new SaleRecord()
-            {
-                ProductId = productID,
-                QuantityExchanged = quantityExchanged,
-                ShelfPrice = product.ShelfPrice * quantityExchanged,
-                WholesalePrice = product.WholesalePrice * quantityExchanged,
-                CreatedOn = DateTime.Now,
-            };
+            foreach (var cartItem in DbQueriesHolder.Cart) {
+                Product product = GetProductByID(cartItem.Key);
+                product.Quantity -= cartItem.Value;
+                SaleRecord SaleRecord = new SaleRecord()
+                {
+                    ProductName = product.Name,
+                    SupplierName = product.Supplier.SupplierName,
+                    QuantityExchanged = cartItem.Value,
+                    ShelfPrice = product.ShelfPrice * cartItem.Value,
+                    WholesalePrice = product.WholesalePrice * cartItem.Value,
+                    CreatedOn = DateTime.Now,
+                };
+                Context.SaleRecords.Add(SaleRecord);
+            }
+            Context.SaveChanges();
+        }
 
-            //changed quantityExchanged to negative to decrease Quantity
-            ChangeQuantityBy(-quantityExchanged, product);
+        public override Product? GetProductByID(int productID)
+        {
+            return Context.Products.Include(x => x.Category).Include(x => x.Supplier).FirstOrDefault(x => x.ProductID == productID);
         }
     }
 }

@@ -7,7 +7,9 @@
         public int QuantityExchanged { get; set; }
         public double WholesalePrice { get; set; }
         public double ShelfPrice { get; set; }
-        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string SupplierName { get; set; }
+
 
     }
 }
