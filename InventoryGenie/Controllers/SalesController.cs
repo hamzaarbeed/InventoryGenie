@@ -30,9 +30,9 @@ namespace InventoryGenie.Controllers
             {
                 ViewBag.SortByOptions = sortByOptions;
                 string defaultSortBy = "Product ID";
-                DbQueriesHolder.Products =
+                ApplicationDbContext.QProducts =
                     Employee.LoggedInEmployee.SalesManagementSearchProducts(defaultSortBy, null);
-                return View(DbQueriesHolder.Products);
+                return View(ApplicationDbContext.QProducts);
             }
         }
 
@@ -40,16 +40,16 @@ namespace InventoryGenie.Controllers
         public IActionResult Index(string searchText, string sortBy)
         {
             ViewBag.SortByOptions = sortByOptions;
-            DbQueriesHolder.Products =
+            ApplicationDbContext.QProducts =
                 Employee.LoggedInEmployee.SalesManagementSearchProducts(sortBy, searchText);
-            return View(DbQueriesHolder.Products);
+            return View(ApplicationDbContext.QProducts);
 
         }
         [HttpGet]
         public IActionResult SearchResult()
         {
             ViewBag.SortByOptions = sortByOptions;
-            return View("Index", DbQueriesHolder.Products);
+            return View("Index", ApplicationDbContext.QProducts);
         }
 
         [HttpGet]
@@ -63,27 +63,27 @@ namespace InventoryGenie.Controllers
         public IActionResult AddToCart(int productID, int quantityToBeAddedToCart)
         {
             
-            if (!DbQueriesHolder.Cart.ContainsKey(productID))
-                DbQueriesHolder.Cart.Add(productID, quantityToBeAddedToCart);
+            if (!ApplicationDbContext.Cart.ContainsKey(productID))
+                ApplicationDbContext.Cart.Add(productID, quantityToBeAddedToCart);
             else
-                DbQueriesHolder.Cart[productID] += quantityToBeAddedToCart;
+                ApplicationDbContext.Cart[productID] += quantityToBeAddedToCart;
             return RedirectToAction("SearchResult");
         }
 
         [HttpGet]
         public IActionResult ViewCart()
         {
-            DbQueriesHolder.Products = new List<Product>();
-            foreach(KeyValuePair<int,int> cartItem in DbQueriesHolder.Cart)
-                DbQueriesHolder.Products.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
-            return View(new Tuple<List<Product>,Dictionary<int,int>>(DbQueriesHolder.Products, DbQueriesHolder.Cart));
+            ApplicationDbContext.QProducts = new List<Product>();
+            foreach(KeyValuePair<int,int> cartItem in ApplicationDbContext.Cart)
+                ApplicationDbContext.QProducts.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
+            return View(new Tuple<List<Product>,Dictionary<int,int>>(ApplicationDbContext.QProducts, ApplicationDbContext.Cart));
         }
 
         [HttpPost]
         public IActionResult UpdateCart(int productID,int changeQuantityInCart)
         {
-            DbQueriesHolder.Cart[productID] = changeQuantityInCart;
-            return View("ViewCart", new Tuple<List<Product>, Dictionary<int, int>>(DbQueriesHolder.Products, DbQueriesHolder.Cart));
+            ApplicationDbContext.Cart[productID] = changeQuantityInCart;
+            return View("ViewCart", new Tuple<List<Product>, Dictionary<int, int>>(ApplicationDbContext.QProducts, ApplicationDbContext.Cart));
         }
     }
 }

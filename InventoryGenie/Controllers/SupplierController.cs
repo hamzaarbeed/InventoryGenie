@@ -28,9 +28,9 @@ namespace InventoryGenie.Controllers
             {
                 ViewBag.SortByOptions = sortByOptions;
                 string defaultSortBy = "Supplier ID";
-                List<Supplier> products =
+                ApplicationDbContext.QSuppliers =
                     Employee.LoggedInEmployee.SearchSuppliers(defaultSortBy, null);
-                return View(products);
+                return View(ApplicationDbContext.QSuppliers);
             }
         }
 
@@ -38,9 +38,16 @@ namespace InventoryGenie.Controllers
         public IActionResult Index(string searchText, string sortBy)
         {
             ViewBag.SortByOptions = sortByOptions;
-            List<Supplier> products =
+            ApplicationDbContext.QSuppliers =
                 Employee.LoggedInEmployee.SearchSuppliers(sortBy, searchText);
-            return View(products);
+            return View(ApplicationDbContext.QSuppliers);
+        }
+
+        [HttpGet]
+        public IActionResult SearchResult()
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            return View(ApplicationDbContext.QSuppliers);
         }
 
 
@@ -67,8 +74,9 @@ namespace InventoryGenie.Controllers
                 {
                     Employee.LoggedInEmployee.CreateSupplier(supplier);
                 }catch (Exception) { 
-                    TempData["Msg"] = "This Supplier name already in use"; 
-                    return RedirectToAction("Add");
+                    ViewBag.Msg = "This supplier name already in use";
+                    ViewBag.Action = "Add";
+                    return View("Edit", supplier);
                 }
                 return View("Details", supplier);
             }

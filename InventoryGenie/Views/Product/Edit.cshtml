@@ -1,7 +1,7 @@
 ﻿@model Product
 <h2 class="mb-2">@ViewBag.Action Product</h2>
 <form method="post" asp-action=@ViewBag.Action>
-    <label class="text-danger">@TempData["Msg"]</label>
+    <label class="text-danger">@ViewBag.Msg</label>
     <div asp-validation-summary=All class=" text-danger"></div>
     <input type="hidden" asp-for="ProductID" />
     <input type="hidden" asp-for="Quantity" />
@@ -78,6 +78,6 @@
     </div>
     
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
-    <a class="btn btn-primary" asp-contoller="Product" asp-action="Index">Cancel</a>
+    <a class="btn btn-primary" asp-contoller="Product" asp-action="SearchResult">Cancel</a>
 
 </form>

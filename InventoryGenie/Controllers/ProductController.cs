@@ -18,6 +18,8 @@ namespace InventoryGenie.Controllers
         public ProductController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
+            ApplicationDbContext.QCategories = Employee.LoggedInEmployee.GetAllCategories();
+            ApplicationDbContext.QSuppliers = Employee.LoggedInEmployee.GetAllSuppliers();
         }
 
 
@@ -32,9 +34,9 @@ namespace InventoryGenie.Controllers
             {
                 ViewBag.SortByOptions = sortByOptions;
                 string defaultSortBy = "Product ID";
-                List<Product> products =
+                ApplicationDbContext.QProducts =
                     Employee.LoggedInEmployee.ProductManagementSearchProducts(defaultSortBy, null);
-                return View(products);
+                return View(ApplicationDbContext.QSuppliers);
             }
         }
 
@@ -42,9 +44,16 @@ namespace InventoryGenie.Controllers
         public IActionResult Index(string searchText, string sortBy)
         {
             ViewBag.SortByOptions = sortByOptions;
-            List<Product> products =
+            ApplicationDbContext.QProducts =
                 Employee.LoggedInEmployee.ProductManagementSearchProducts(sortBy, searchText);
-            return View(products);
+            return View(ApplicationDbContext.QSuppliers);
+        }
+
+        [HttpGet]
+        public IActionResult SearchResult()
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            return View(ApplicationDbContext.QSuppliers);
         }
 
 
@@ -55,14 +64,21 @@ namespace InventoryGenie.Controllers
             return View(product);
         }
 
+        private void PrepareViewBagFor(string actionName)
+        {
+            ViewBag.Action = actionName;
+            ViewBag.Categories = ApplicationDbContext.QCategories;
+            ViewBag.Suppliers = ApplicationDbContext.QSuppliers;
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add";
-            ViewBag.Categories = Employee.LoggedInEmployee.GetAllCategories();
-            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
+            PrepareViewBagFor("Add");
             return View("Edit", new Product());
         }
+
+        
 
         [HttpPost]
         public IActionResult Add(Product product)
@@ -74,24 +90,24 @@ namespace InventoryGenie.Controllers
                     Employee.LoggedInEmployee.CreateProduct(product);
                 }catch (Exception)
                 {
-                    TempData["Msg"] = "This product name already in use";
-                    return RedirectToAction("Add");
+                    ViewBag.Msg = "This product name already in use";
+                    PrepareViewBagFor("Add");
+                    return View("Edit", product);
                 }
                 //fully load product with category and Supplier to be able to show them in "Details" view
                 product =Employee.LoggedInEmployee.GetProductByID(product.ProductID);
                 return View("Details",product);
                 
             }
-            return RedirectToAction("Add");
+            PrepareViewBagFor("Add");
+            return View("Edit",product);
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Product product = Employee.LoggedInEmployee.GetProductByID(id);
-            ViewBag.Action = "Edit";
-            ViewBag.Categories = Employee.LoggedInEmployee.GetAllCategories();
-            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
+            PrepareViewBagFor("Edit");
             return View("Edit", product);
         }
 
@@ -104,9 +120,7 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Action = "Edit";
-            ViewBag.Categories = Employee.LoggedInEmployee.GetAllCategories();
-            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
+            PrepareViewBagFor("Edit");
             return View("Edit", product);
         }
 

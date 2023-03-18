@@ -2,7 +2,7 @@
 <h2 class="mb-2">@ViewBag.Action Employee</h2>
 <form method="post" asp-action=@ViewBag.Action>
     <input type="hidden" asp-for="EmployeeID" />
-    <label class="text-danger">@TempData["Msg"]</label>
+    <label class="text-danger">@ViewBag.Msg</label>
     <div asp-validation-summary=All class=" text-danger"></div>
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label">First Name</label>
@@ -53,6 +53,6 @@
         </div>
     }
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
-    <a class="btn btn-primary" asp-contoller="Employee" asp-action="Index">Cancel</a>
+    <a class="btn btn-primary" asp-contoller="Employee" asp-action="SearchResult">Cancel</a>
 
 </form>

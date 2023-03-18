@@ -16,6 +16,7 @@ namespace InventoryGenie.Controllers
         public EmployeeController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
+            ApplicationDbContext.QRoles = Employee.LoggedInEmployee.GetAllRoles();
         }
 
         [HttpGet]
@@ -28,19 +29,25 @@ namespace InventoryGenie.Controllers
             }
             ViewBag.SortByOptions = sortByOptions;
             string defaultSortBy = "Employee ID";
-            List<Employee> employees= Employee.LoggedInEmployee.SearchEmployees(defaultSortBy,null);
-            return View(employees);
+            ApplicationDbContext.QEmployees = 
+                Employee.LoggedInEmployee.SearchEmployees(defaultSortBy,null);
+            return View(ApplicationDbContext.QEmployees);
         }
 
         [HttpPost]
         public IActionResult Index(string sortBy, string searchText)
         {
             ViewBag.SortByOptions = sortByOptions;
-            List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(sortBy, searchText);
-            return View(employees);
+            ApplicationDbContext.QEmployees = Employee.LoggedInEmployee.SearchEmployees(sortBy, searchText);
+            return View(ApplicationDbContext.QEmployees);
         }
 
-        
+        public IActionResult SearchResult()
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            return View(ApplicationDbContext.QEmployees);
+        }
+
 
         [HttpGet]
         public IActionResult Details(int id)
@@ -49,12 +56,15 @@ namespace InventoryGenie.Controllers
             return View("Details", employee);
         }
 
-        [HttpGet]
+        private void PrepareViewBagFor(string actionName)
+        {
+            ViewBag.Action = actionName;
+            ViewBag.Roles = ApplicationDbContext.QRoles;
+        }
+            [HttpGet]
         public IActionResult Add()
         {
-
-            ViewBag.Action = "Add";
-            ViewBag.Roles = Employee.LoggedInEmployee.GetAllRoles();
+            PrepareViewBagFor("Add");
             return View("Edit", new Employee());
         }
 
@@ -68,12 +78,14 @@ namespace InventoryGenie.Controllers
                     Employee.LoggedInEmployee.CreateEmployee(employee);
                 }catch (Exception)
                 {
-                    TempData["Msg"] = "This username already in use";
-                    return RedirectToAction("Add");
+                    ViewBag.Msg = "This username already in use";
+                    PrepareViewBagFor("Add");
+                    return View("Edit", employee);
                 }
                 return View("Details",employee);
             }
-            return RedirectToAction("Add");
+            PrepareViewBagFor("Add");
+            return View("Edit",employee);
         }
 
         [HttpGet]
@@ -81,8 +93,7 @@ namespace InventoryGenie.Controllers
         {
 
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
-            ViewBag.Action = "Edit";
-            ViewBag.Roles = Employee.LoggedInEmployee.GetAllRoles();
+            PrepareViewBagFor("Edit");
             return View("Edit", employee);
         }
 
@@ -99,8 +110,7 @@ namespace InventoryGenie.Controllers
                 Employee.LoggedInEmployee.UpdateEmployee(employee);
                 return RedirectToAction("Index");
             }
-
-            
+            PrepareViewBagFor("Edit");
             return View("Edit", employee);
         }
 

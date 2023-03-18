@@ -13,6 +13,20 @@ namespace InventoryGenie.Data
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
+
+
+        //List contains last query result
+        public static Dictionary<int, int> Cart = new();
+        public static List<Product> QProducts = new();
+        public static List<Employee> QEmployees = new();
+        public static List<Supplier> QSuppliers = new();
+        public static List<OrderRecord> QOrderRecords = new();
+        public static List<SaleRecord> QSaleRecords = new();
+        public static List<Category> QCategories = new();
+        public static List<Role> QRoles = new();
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //prevent deleting all products that has certain supplier when deleting that supplier
@@ -27,13 +41,13 @@ namespace InventoryGenie.Data
             modelBuilder.Entity<Supplier>().HasIndex(u => u.SupplierName).IsUnique();
 
             //these must exist in db Everytime the application start
-            addEssentialData(modelBuilder);
+            AddEssentialData(modelBuilder);
 
             //these are optional. For demonstration purpose
-            addDummyData(modelBuilder);
+            AddDummyData(modelBuilder);
         }
 
-        private void addEssentialData(ModelBuilder modelBuilder)
+        private void AddEssentialData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(
 
@@ -116,7 +130,7 @@ namespace InventoryGenie.Data
             );
 
         }
-        private void addDummyData(ModelBuilder modelBuilder)
+        private void AddDummyData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasData(
 

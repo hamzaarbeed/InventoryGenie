@@ -23,7 +23,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Update(int newQuantity,int productID)
         {
             Employee.LoggedInEmployee.ChangeQuantityTo(newQuantity,productID);
-            return RedirectToAction("Index","Stock");
+            return RedirectToAction("SearchResult");
         }
 
         [HttpGet]
@@ -35,19 +35,27 @@ namespace InventoryGenie.Controllers
             {
                 ViewBag.SortByOptions = sortByOptions;
                 string defaultSortBy = "Product ID";
-                List<Product> products =
+                ApplicationDbContext.QProducts = 
                     Employee.LoggedInEmployee.StockManagementSearchProducts(defaultSortBy, null);
-                return View(products);
+                return View(ApplicationDbContext.QProducts);
             }
         }
+
+        [HttpGet]
+        public IActionResult SearchResult()
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            return View(ApplicationDbContext.QProducts);
+        }
+
 
         [HttpPost]
         public IActionResult Index(string searchText,string sortBy)
         {
             ViewBag.SortByOptions = sortByOptions;
-            List<Product> products =
-                Employee.LoggedInEmployee.StockManagementSearchProducts(sortBy, searchText); 
-            return View(products);
+            ApplicationDbContext.QProducts = 
+                Employee.LoggedInEmployee.StockManagementSearchProducts(sortBy, searchText);
+            return View(ApplicationDbContext.QProducts);
 
         }
     }
