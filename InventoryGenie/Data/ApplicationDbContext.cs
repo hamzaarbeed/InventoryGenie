@@ -15,15 +15,7 @@ namespace InventoryGenie.Data
         public DbSet<Category> Categories { get; set; } = null!;
 
 
-        //List contains last query result
-        public static Dictionary<int, int> Cart = new();
-        public static List<Product> QProducts = new();
-        public static List<Employee> QEmployees = new();
-        public static List<Supplier> QSuppliers = new();
-        public static List<OrderRecord> QOrderRecords = new();
-        public static List<SaleRecord> QSaleRecords = new();
-        public static List<Category> QCategories = new();
-        public static List<Role> QRoles = new();
+
 
 
 

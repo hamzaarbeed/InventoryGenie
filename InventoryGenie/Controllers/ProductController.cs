@@ -1,12 +1,18 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 
 namespace InventoryGenie.Controllers
 {
     public class ProductController : Controller
     {
+        private static string? SearchText;
+        private static string? SortBy;
+        private static List<Supplier> QSuppliers = new();
+        private static List<Category> QCategories = new();
+
         readonly string[] sortByOptions =
         {
             "Product ID",
@@ -18,8 +24,8 @@ namespace InventoryGenie.Controllers
         public ProductController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-            ApplicationDbContext.QCategories = Employee.LoggedInEmployee.GetAllCategories();
-            ApplicationDbContext.QSuppliers = Employee.LoggedInEmployee.GetAllSuppliers();
+            QCategories = Employee.LoggedInEmployee.GetAllCategories();
+            QSuppliers = Employee.LoggedInEmployee.GetAllSuppliers();
         }
 
 
@@ -32,28 +38,27 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Login");
             }else
             {
-                ViewBag.SortByOptions = sortByOptions;
-                string defaultSortBy = "Product ID";
-                ApplicationDbContext.QProducts =
-                    Employee.LoggedInEmployee.ProductManagementSearchProducts(defaultSortBy, null);
-                return View(ApplicationDbContext.QSuppliers);
+                SortBy = "Product ID";
+                SearchText = null;
+                return RedirectToAction("Search");
             }
         }
 
         [HttpPost]
-        public IActionResult Index(string searchText, string sortBy)
+        public IActionResult Search(string searchText, string sortBy)
         {
-            ViewBag.SortByOptions = sortByOptions;
-            ApplicationDbContext.QProducts =
-                Employee.LoggedInEmployee.ProductManagementSearchProducts(sortBy, searchText);
-            return View(ApplicationDbContext.QSuppliers);
+            SortBy = sortBy;
+            SearchText= searchText;
+            return RedirectToAction("Search");
         }
 
         [HttpGet]
-        public IActionResult SearchResult()
+        public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            return View(ApplicationDbContext.QSuppliers);
+            List<Product> products =
+                Employee.LoggedInEmployee.ProductManagementSearchProducts(SortBy, SearchText);
+            return View("Index",products);
         }
 
 
@@ -67,8 +72,8 @@ namespace InventoryGenie.Controllers
         private void PrepareViewBagFor(string actionName)
         {
             ViewBag.Action = actionName;
-            ViewBag.Categories = ApplicationDbContext.QCategories;
-            ViewBag.Suppliers = ApplicationDbContext.QSuppliers;
+            ViewBag.Categories = QCategories;
+            ViewBag.Suppliers = QSuppliers;
         }
 
         [HttpGet]
@@ -117,7 +122,7 @@ namespace InventoryGenie.Controllers
             if (ModelState.IsValid)
             {
                 Employee.LoggedInEmployee.UpdateProduct(product);
-                return RedirectToAction("Index");
+                return RedirectToAction("Search");
             }
 
             PrepareViewBagFor("Edit");
@@ -137,7 +142,7 @@ namespace InventoryGenie.Controllers
         {
 
             Employee.LoggedInEmployee.DeleteProduct(product);
-            return RedirectToAction("Index");
+            return RedirectToAction("Search");
         }
     }
 }

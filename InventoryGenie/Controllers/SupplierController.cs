@@ -6,6 +6,8 @@ namespace InventoryGenie.Controllers
 {
     public class SupplierController : Controller
     {
+        private static string? SearchText;
+        private static string? SortBy;
         readonly string[] sortByOptions =
         {
             "Supplier ID",
@@ -26,28 +28,27 @@ namespace InventoryGenie.Controllers
             }
             else
             {
-                ViewBag.SortByOptions = sortByOptions;
-                string defaultSortBy = "Supplier ID";
-                ApplicationDbContext.QSuppliers =
-                    Employee.LoggedInEmployee.SearchSuppliers(defaultSortBy, null);
-                return View(ApplicationDbContext.QSuppliers);
+                SortBy = "Supplier ID";
+                SearchText = null;
+                return RedirectToAction("Search");
             }
         }
 
         [HttpPost]
-        public IActionResult Index(string searchText, string sortBy)
+        public IActionResult Search(string searchText, string sortBy)
         {
-            ViewBag.SortByOptions = sortByOptions;
-            ApplicationDbContext.QSuppliers =
-                Employee.LoggedInEmployee.SearchSuppliers(sortBy, searchText);
-            return View(ApplicationDbContext.QSuppliers);
+            SearchText = searchText;
+            SortBy = sortBy;
+            return RedirectToAction("Search");
         }
 
         [HttpGet]
-        public IActionResult SearchResult()
+        public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            return View(ApplicationDbContext.QSuppliers);
+            List<Supplier> QSuppliers =
+                Employee.LoggedInEmployee.SearchSuppliers(SortBy, SearchText);
+            return View("Index",QSuppliers);
         }
 
 
@@ -98,7 +99,7 @@ namespace InventoryGenie.Controllers
             if (ModelState.IsValid)
             {
                 Employee.LoggedInEmployee.UpdateSupplier(supplier);
-                return RedirectToAction("Index");
+                return RedirectToAction("Search");
             }
 
             ViewBag.Action = "Edit";
@@ -118,7 +119,7 @@ namespace InventoryGenie.Controllers
         {
             
             Employee.LoggedInEmployee.DeleteSupplier(supplier);
-            return RedirectToAction("Index");
+            return RedirectToAction("Search");
         }
     }
 }

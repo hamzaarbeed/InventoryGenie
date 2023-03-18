@@ -6,6 +6,9 @@ namespace InventoryGenie.Controllers
 {
     public class EmployeeController : Controller
     {
+        private static List<Role> QRoles = new();
+        private static string? SearchText;
+        private static string? SortBy;
         readonly string[] sortByOptions ={
             "Employee ID",
             "Username",
@@ -16,7 +19,7 @@ namespace InventoryGenie.Controllers
         public EmployeeController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-            ApplicationDbContext.QRoles = Employee.LoggedInEmployee.GetAllRoles();
+            QRoles = Employee.LoggedInEmployee.GetAllRoles();
         }
 
         [HttpGet]
@@ -27,25 +30,26 @@ namespace InventoryGenie.Controllers
                 Employee.Logout();
                 return RedirectToAction("Index","Login");
             }
-            ViewBag.SortByOptions = sortByOptions;
-            string defaultSortBy = "Employee ID";
-            ApplicationDbContext.QEmployees = 
-                Employee.LoggedInEmployee.SearchEmployees(defaultSortBy,null);
-            return View(ApplicationDbContext.QEmployees);
+            
+            SortBy = "Employee ID";
+            SearchText = null;
+            return RedirectToAction("Search");
         }
 
         [HttpPost]
-        public IActionResult Index(string sortBy, string searchText)
+        public IActionResult Search(string sortBy, string searchText)
         {
-            ViewBag.SortByOptions = sortByOptions;
-            ApplicationDbContext.QEmployees = Employee.LoggedInEmployee.SearchEmployees(sortBy, searchText);
-            return View(ApplicationDbContext.QEmployees);
+            SortBy = sortBy;
+            SearchText = searchText;
+            return RedirectToAction("Search");
         }
 
-        public IActionResult SearchResult()
+        [HttpGet]
+        public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            return View(ApplicationDbContext.QEmployees);
+            List < Employee > QEmployees= Employee.LoggedInEmployee.SearchEmployees(SortBy, SearchText);
+            return View("Index",QEmployees);
         }
 
 
@@ -59,9 +63,11 @@ namespace InventoryGenie.Controllers
         private void PrepareViewBagFor(string actionName)
         {
             ViewBag.Action = actionName;
-            ViewBag.Roles = ApplicationDbContext.QRoles;
+            ViewBag.Roles = QRoles;
         }
-            [HttpGet]
+
+
+        [HttpGet]
         public IActionResult Add()
         {
             PrepareViewBagFor("Add");
@@ -108,7 +114,7 @@ namespace InventoryGenie.Controllers
                     employee.IsTemporaryPassword = true;
                 }
                 Employee.LoggedInEmployee.UpdateEmployee(employee);
-                return RedirectToAction("Index");
+                return RedirectToAction("Search");
             }
             PrepareViewBagFor("Edit");
             return View("Edit", employee);
@@ -129,9 +135,7 @@ namespace InventoryGenie.Controllers
             //Employee can't delete himself
             if(Employee.LoggedInEmployee.EmployeeID!=employee.EmployeeID)
                 Employee.LoggedInEmployee.DeleteEmployee(employee);
-            return RedirectToAction("Index");
+            return RedirectToAction("Search");
         }
-
-        
     }
 }

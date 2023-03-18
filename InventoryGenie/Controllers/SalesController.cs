@@ -6,6 +6,11 @@ namespace InventoryGenie.Controllers
 {
     public class SalesController : Controller
     {
+        private static string? SearchText;
+        private static string? SortBy;
+
+        private static Dictionary<int, int> Cart = new();
+        private static List<Product> ProductsInCart = new();
 
         readonly string[] sortByOptions =
         {
@@ -28,62 +33,63 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Login");
             else
             {
-                ViewBag.SortByOptions = sortByOptions;
-                string defaultSortBy = "Product ID";
-                ApplicationDbContext.QProducts =
-                    Employee.LoggedInEmployee.SalesManagementSearchProducts(defaultSortBy, null);
-                return View(ApplicationDbContext.QProducts);
+                SortBy = "Product ID";
+                SearchText = null;
+                return RedirectToAction("Search");
             }
         }
 
         [HttpPost]
-        public IActionResult Index(string searchText, string sortBy)
+        public IActionResult Search(string searchText, string sortBy)
         {
-            ViewBag.SortByOptions = sortByOptions;
-            ApplicationDbContext.QProducts =
-                Employee.LoggedInEmployee.SalesManagementSearchProducts(sortBy, searchText);
-            return View(ApplicationDbContext.QProducts);
+            SortBy = sortBy;
+            SearchText = searchText;
+            return RedirectToAction("Search");
 
         }
         [HttpGet]
-        public IActionResult SearchResult()
+        public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            return View("Index", ApplicationDbContext.QProducts);
+            List<Product> products =
+                Employee.LoggedInEmployee.SalesManagementSearchProducts(SortBy, SearchText);
+            return View("Index", products);
         }
 
-        [HttpGet]
-        public IActionResult ProcessTransaction()
-        {
-            Employee.LoggedInEmployee.ProcessTransaction();
-            return RedirectToAction("Index");
-        }
-
+        
         [HttpPost]
         public IActionResult AddToCart(int productID, int quantityToBeAddedToCart)
         {
             
-            if (!ApplicationDbContext.Cart.ContainsKey(productID))
-                ApplicationDbContext.Cart.Add(productID, quantityToBeAddedToCart);
+            if (!Cart.ContainsKey(productID))
+                Cart.Add(productID, quantityToBeAddedToCart);
             else
-                ApplicationDbContext.Cart[productID] += quantityToBeAddedToCart;
-            return RedirectToAction("SearchResult");
+                Cart[productID] += quantityToBeAddedToCart;
+            return RedirectToAction("Search");
         }
 
         [HttpGet]
         public IActionResult ViewCart()
         {
-            ApplicationDbContext.QProducts = new List<Product>();
-            foreach(KeyValuePair<int,int> cartItem in ApplicationDbContext.Cart)
-                ApplicationDbContext.QProducts.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
-            return View(new Tuple<List<Product>,Dictionary<int,int>>(ApplicationDbContext.QProducts, ApplicationDbContext.Cart));
+            ProductsInCart = new List<Product>();
+            foreach(KeyValuePair<int,int> cartItem in Cart)
+                ProductsInCart.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
+            return View(new Tuple<List<Product>,Dictionary<int,int>>(ProductsInCart, Cart));
         }
 
         [HttpPost]
         public IActionResult UpdateCart(int productID,int changeQuantityInCart)
         {
-            ApplicationDbContext.Cart[productID] = changeQuantityInCart;
-            return View("ViewCart", new Tuple<List<Product>, Dictionary<int, int>>(ApplicationDbContext.QProducts, ApplicationDbContext.Cart));
+            Cart[productID] = changeQuantityInCart;
+            return View("ViewCart", new Tuple<List<Product>, Dictionary<int, int>>(ProductsInCart, Cart));
+        }
+
+        [HttpGet]
+        public IActionResult ProcessTransaction()
+        {
+            Employee.LoggedInEmployee.ProcessTransaction(ProductsInCart,Cart);
+            Cart = new();
+            return RedirectToAction("Index");
         }
     }
 }

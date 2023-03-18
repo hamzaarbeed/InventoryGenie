@@ -132,7 +132,7 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
-        public virtual void ProcessTransaction()
+        public virtual void ProcessTransaction(List<Product> productsInCart, Dictionary<int, int> cart)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

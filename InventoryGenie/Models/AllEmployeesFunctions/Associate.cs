@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryGenie.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryGenie.Models.AllEmployeesFunctions
 {
@@ -85,18 +86,20 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.SaveChanges();
         }
         //quantityExchanged can be positive(sold) or be negative(returned)
-        public override void ProcessTransaction()
+        public override void ProcessTransaction(List<Product> productsInCart,Dictionary<int,int> cart)
         {
-            foreach (var cartItem in DbQueriesHolder.Cart) {
-                Product product = GetProductByID(cartItem.Key);
-                product.Quantity -= cartItem.Value;
+            for (int i =0; i < cart.Count(); i++) {
+                Product product = productsInCart[i];
+                int quantityInCart = cart.GetValueOrDefault(product.ProductID);
+
+                product.Quantity -= quantityInCart;
                 SaleRecord SaleRecord = new SaleRecord()
                 {
                     ProductName = product.Name,
                     SupplierName = product.Supplier.SupplierName,
-                    QuantityExchanged = cartItem.Value,
-                    ShelfPrice = product.ShelfPrice * cartItem.Value,
-                    WholesalePrice = product.WholesalePrice * cartItem.Value,
+                    QuantityExchanged = quantityInCart,
+                    ShelfPrice = product.ShelfPrice * quantityInCart,
+                    WholesalePrice = product.WholesalePrice * quantityInCart,
                     CreatedOn = DateTime.Now,
                 };
                 Context.SaleRecords.Add(SaleRecord);

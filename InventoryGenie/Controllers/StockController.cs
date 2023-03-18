@@ -7,6 +7,11 @@ namespace InventoryGenie.Controllers
 {
     public class StockController : Controller
     {
+        private static string? SearchText;
+        private static string? SortBy;
+
+        private static List<Product> products;
+
         readonly string[] sortByOptions =
         {
             "Name",
@@ -19,12 +24,6 @@ namespace InventoryGenie.Controllers
             Employee.Context = ctx;
         }
 
-        [HttpPost]
-        public IActionResult Update(int newQuantity,int productID)
-        {
-            Employee.LoggedInEmployee.ChangeQuantityTo(newQuantity,productID);
-            return RedirectToAction("SearchResult");
-        }
 
         [HttpGet]
         public IActionResult Index()
@@ -33,30 +32,37 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Login");
             else
             {
-                ViewBag.SortByOptions = sortByOptions;
-                string defaultSortBy = "Product ID";
-                ApplicationDbContext.QProducts = 
-                    Employee.LoggedInEmployee.StockManagementSearchProducts(defaultSortBy, null);
-                return View(ApplicationDbContext.QProducts);
+                SortBy = "Product ID";
+                SearchText = null;
+                return RedirectToAction("Search");
             }
         }
 
-        [HttpGet]
-        public IActionResult SearchResult()
+        [HttpPost]
+        public IActionResult Search(string searchText, string sortBy)
         {
-            ViewBag.SortByOptions = sortByOptions;
-            return View(ApplicationDbContext.QProducts);
+            SortBy= sortBy;
+            SearchText = searchText;
+            return RedirectToAction("Search");
+
         }
 
+        [HttpGet]
+        public IActionResult Search()
+        {
+            ViewBag.SortByOptions = sortByOptions;
+            products = Employee.LoggedInEmployee.StockManagementSearchProducts(SortBy, SearchText);
+            return View("Index",products);
+        }
 
         [HttpPost]
-        public IActionResult Index(string searchText,string sortBy)
+        public IActionResult Update(int newQuantity, int productID)
         {
+            Employee.LoggedInEmployee.ChangeQuantityTo(newQuantity, productID);
             ViewBag.SortByOptions = sortByOptions;
-            ApplicationDbContext.QProducts = 
-                Employee.LoggedInEmployee.StockManagementSearchProducts(sortBy, searchText);
-            return View(ApplicationDbContext.QProducts);
-
+            return View("Index",products);
         }
+
+
     }
 }
