@@ -6,7 +6,7 @@ namespace InventoryGenie.Controllers
 {
     public class EmployeeController : Controller
     {
-        private static List<Role> QRoles = new();
+        private static List<Role> Roles = new();
         private static string? SearchText;
         private static string? SortBy;
         readonly string[] sortByOptions ={
@@ -19,7 +19,7 @@ namespace InventoryGenie.Controllers
         public EmployeeController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-            QRoles = Employee.LoggedInEmployee.GetAllRoles();
+            Roles = Employee.LoggedInEmployee.GetAllRoles();
         }
 
         [HttpGet]
@@ -48,8 +48,8 @@ namespace InventoryGenie.Controllers
         public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            List < Employee > QEmployees= Employee.LoggedInEmployee.SearchEmployees(SortBy, SearchText);
-            return View("Index",QEmployees);
+            List < Employee > employees= Employee.LoggedInEmployee.SearchEmployees(SortBy, SearchText);
+            return View("Index",employees);
         }
 
 
@@ -63,7 +63,7 @@ namespace InventoryGenie.Controllers
         private void PrepareViewBagFor(string actionName)
         {
             ViewBag.Action = actionName;
-            ViewBag.Roles = QRoles;
+            ViewBag.Roles = Roles;
         }
 
 

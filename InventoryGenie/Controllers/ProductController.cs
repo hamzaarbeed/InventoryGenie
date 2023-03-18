@@ -10,8 +10,8 @@ namespace InventoryGenie.Controllers
     {
         private static string? SearchText;
         private static string? SortBy;
-        private static List<Supplier> QSuppliers = new();
-        private static List<Category> QCategories = new();
+        private static List<Supplier> Suppliers = new();
+        private static List<Category> Categories = new();
 
         readonly string[] sortByOptions =
         {
@@ -24,8 +24,8 @@ namespace InventoryGenie.Controllers
         public ProductController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-            QCategories = Employee.LoggedInEmployee.GetAllCategories();
-            QSuppliers = Employee.LoggedInEmployee.GetAllSuppliers();
+            Categories = Employee.LoggedInEmployee.GetAllCategories();
+            Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
         }
 
 
@@ -72,8 +72,8 @@ namespace InventoryGenie.Controllers
         private void PrepareViewBagFor(string actionName)
         {
             ViewBag.Action = actionName;
-            ViewBag.Categories = QCategories;
-            ViewBag.Suppliers = QSuppliers;
+            ViewBag.Categories = Categories;
+            ViewBag.Suppliers = Suppliers;
         }
 
         [HttpGet]

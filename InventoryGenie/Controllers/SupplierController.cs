@@ -46,9 +46,9 @@ namespace InventoryGenie.Controllers
         public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            List<Supplier> QSuppliers =
+            List<Supplier> suppliers =
                 Employee.LoggedInEmployee.SearchSuppliers(SortBy, SearchText);
-            return View("Index",QSuppliers);
+            return View("Index",suppliers);
         }
 
 
