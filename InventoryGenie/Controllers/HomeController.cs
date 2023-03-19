@@ -20,10 +20,10 @@ namespace InventoryGenie.Controllers
                 if (Employee.LoggedInEmployee.RoleId != 3)
                 {
                     //stockouts are products with quantity 0
-                    ViewBag.stockoutCount = Employee.LoggedInEmployee.GetStockOutCount();
+                    ViewBag.stockoutCount = Employee.LoggedInEmployee.GetStockOut().Count();
 
                     //lowstock are products below their minimim level not including stockouts
-                    ViewBag.lowstockCount = Employee.LoggedInEmployee.GetLowStockCount();
+                    ViewBag.lowstockCount = Employee.LoggedInEmployee.GetLowStock().Count();
                 }
                 return View();
             }

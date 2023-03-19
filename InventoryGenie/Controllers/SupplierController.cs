@@ -55,8 +55,21 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
+            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
             Supplier supplier=Employee.LoggedInEmployee.GetSupplierByID(id);
             return View(supplier);
+        }
+
+        [HttpPost]
+        
+        public IActionResult ChangeProductSupplier(int productID,int newSupplierID)
+        {
+            Product product = Employee.LoggedInEmployee.GetProductByID(productID);
+            int? currentSupplierID = product.SupplierId;
+            product.SupplierId = newSupplierID;
+            Employee.LoggedInEmployee.UpdateProduct(product);
+
+            return RedirectToAction("Details",new { id= currentSupplierID });
         }
 
         [HttpGet]
@@ -119,6 +132,24 @@ namespace InventoryGenie.Controllers
         {
             
             Employee.LoggedInEmployee.DeleteSupplier(supplier);
+            return RedirectToAction("Search");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeState(int supplierID)
+        {
+            Supplier supplier = Employee.LoggedInEmployee.GetSupplierByID(supplierID);
+
+            //Change supplier from active to inactive or the opposite
+            supplier.IsActive = supplier.IsActive ? false : true;
+
+            // Change all products of active supplier to active or the opposite
+            foreach (Product product in supplier.Products)
+            {
+                product.IsActive = supplier.IsActive;
+            }
+
+            Employee.LoggedInEmployee.UpdateSupplier(supplier);
             return RedirectToAction("Search");
         }
     }

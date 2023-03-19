@@ -140,8 +140,16 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Delete(Product product)
         {
-
             Employee.LoggedInEmployee.DeleteProduct(product);
+            return RedirectToAction("Search");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeState(int productID)
+        {
+            Product product = Employee.LoggedInEmployee.GetProductByID(productID);
+            product.IsActive = product.IsActive ? false : true;
+            Employee.LoggedInEmployee.UpdateProduct(product);
             return RedirectToAction("Search");
         }
     }

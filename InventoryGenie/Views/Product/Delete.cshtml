@@ -1,8 +1,7 @@
 ﻿@model Product
 <h2>Confirm Deletion</h2>
-<h3>@Model.Name</h3>
 <form method="post" asp-action="Delete">
-
+    <div><label class="text-primary" asp-for="Name">@Model.Name</Label></div>
     <input type="hidden" asp-for="ProductID" />
     <button type="submit" class="btn btn-primary" >Delete</button>
     <a asp-controller="Product" asp-action="Search" class="btn btn-primary">Cancel</a>

@@ -122,15 +122,6 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
-        //quantityChange can be positive(to increase Quantity) or negative (to decrease Quantity)
-        public virtual void ChangeQuantityBy(int quantityChange, Product product)
-        {
-            throw new Exception("Unauthorized Access. Can't perform this function");
-        }
-        public virtual void ChangeQuantityBy(int quantityChange, int productID)
-        {
-            throw new Exception("Unauthorized Access. Can't perform this function");
-        }
         //quantityExchanged can be positive(sold) or be negative(returned)
         public virtual void ProcessTransaction(List<Product> productsInCart, Dictionary<int, int> cart)
         {
@@ -142,11 +133,11 @@ namespace InventoryGenie.Models
         }
 
         //----------------------------Warehouse Leader Functions -------------------------------------
-        public virtual int GetStockOutCount()
+        public virtual List<Product> GetStockOut()
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
-        public virtual int GetLowStockCount()
+        public virtual List<Product> GetLowStock()
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

@@ -59,8 +59,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Update(int newQuantity, int productID)
         {
             Employee.LoggedInEmployee.ChangeQuantityTo(newQuantity, productID);
-            ViewBag.SortByOptions = sortByOptions;
-            return View("Index",products);
+            return RedirectToAction("Search");
         }
 
 

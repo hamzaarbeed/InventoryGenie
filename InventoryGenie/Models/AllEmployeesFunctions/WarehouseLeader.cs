@@ -4,30 +4,31 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
 {
     public class WarehouseLeader:Associate
     {
-        public override int GetStockOutCount()
+        public override List<Product> GetStockOut()
         {
-            return Context.Products.Where(x=>x.Quantity ==0).Count();
+            return Context.Products.Where(x=>x.Quantity ==0 && x.IsActive).ToList();
         }
-        public override int GetLowStockCount()
+        public override List<Product> GetLowStock()
         {
             return Context.Products.Where(x => 
-                x.Quantity > 0 && x.Quantity <= x.MinimumLevel).Count();
+                x.Quantity > 0 && x.Quantity <= x.MinimumLevel && x.IsActive).ToList();
         }
 
         public override List<Supplier> SearchSuppliers(string sortBy, string searchText)
         {
             IQueryable<Supplier> query;
-            if (searchText != null)
+            if (searchText != null && searchText != string.Empty)
             {
-                query = Context.Suppliers.Where(x =>
+                query = Context.Suppliers.Include(x=>x.Products).Where(x =>
                     x.SupplierID.ToString().Contains(searchText) ||
                     x.SupplierName.Contains(searchText) 
                 );
             }
             else
             {
-                query = Context.Suppliers;
+                query = Context.Suppliers.Include(x => x.Products);
             }
+
             switch (sortBy)
             {
                 default:
@@ -39,7 +40,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
         }
 
         public override Supplier GetSupplierByID(int supplierID) {
-            return Context.Suppliers.Find(supplierID);
+            return Context.Suppliers.Include(x=>x.Products).FirstOrDefault(x=>x.SupplierID == supplierID);
         }
 
         public override void CreateSupplier(Supplier supplierID)
@@ -99,7 +100,6 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             return Context.Suppliers.OrderBy(x => x.SupplierName).ToList();
         }
 
-
         public override void CreateProduct(Product productID)
         {
             Context.Products.Add(productID);
@@ -111,6 +111,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.Products.Update(productID);
             Context.SaveChanges();
         }
+
 
         public override void DeleteProduct(Product product)
         {

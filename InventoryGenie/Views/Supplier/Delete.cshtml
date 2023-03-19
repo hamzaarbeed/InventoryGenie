@@ -2,7 +2,6 @@
 <h2>Confirm Deletion</h2>
 <h3>@Model.SupplierName</h3>
 <form method="post" asp-action="Delete">
-
     <input type="hidden" asp-for="SupplierID" />
     <button type="submit" class="btn btn-primary">Delete</button>
     <a asp-controller="Supplier" asp-action="Search" class="btn btn-primary">Cancel</a>

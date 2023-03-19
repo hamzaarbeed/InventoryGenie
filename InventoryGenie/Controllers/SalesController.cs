@@ -88,6 +88,7 @@ namespace InventoryGenie.Controllers
         public IActionResult ProcessTransaction()
         {
             Employee.LoggedInEmployee.ProcessTransaction(ProductsInCart,Cart);
+            ProductsInCart = new ();
             Cart = new();
             return RedirectToAction("Index");
         }

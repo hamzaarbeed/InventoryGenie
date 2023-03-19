@@ -7,7 +7,7 @@
         public int QuantityOrdered { get; set; }
         public double WholesalePrice { get; set; }
         public bool IsReceived { get; set; }
-        public int ProductId { get; set; }
-        
+        public string ProductName { get; set; }
+        public string SupplierName { get; set; }
     }
 }

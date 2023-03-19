@@ -12,31 +12,45 @@
     <button class="btn btn-primary" type="submit">Search</button>
     <a class="btn btn-primary" asp-controller="Product" asp-action="Add">Add New Product</a>
 </form>
-
+<div>Note : You can't delete a product if the quantity is not 0.</div>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th></th>
+            <th>Active</th>
             <th>Product ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Category</th>
+            <th>Quantity</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var product in Model)
         {
+            string buttonName = product.IsActive ? "Deactivate" : " Activate ";
+            string activeColumnValue = product.IsActive ? "Yes" : "No";
             <tr>
+                <th>
+                    <form asp-action="ChangeState" method="post">
+                        <button class="btn btn-outline-primary" type="submit">@buttonName</button>
+                        <input hidden name="productID" value=@product.ProductID>
+                    </form>
+                </th>
+                <th>@activeColumnValue</th>
                 <th>@product.ProductID</th>
                 <th>@product.Name</th>
                 <th>@product.Description</th>
                 <th>@product.Category.Name</th>
-
+                <th>@product.Quantity</th>
                 <th>
                     <a asp-controller="Product" asp-action="Details" asp-route-id=@product.ProductID>Details</a>
                     <a asp-controller="Product" asp-action="Edit" asp-route-id=@product.ProductID>Edit</a>
-                    <a asp-controller="Product" asp-action="Delete" asp-route-id=@product.ProductID>Delete</a>
+                    @if (product.Quantity == 0)
+                    {
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id=@product.ProductID>Delete</a>
+                    }
                 </th>
-
             </tr>
 
         }

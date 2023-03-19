@@ -7,9 +7,11 @@ namespace InventoryGenie.Models
     {
         
 
-
+        
         public int ProductID { get; set; }
 
+        public bool IsActive { get; set; } = true;
+        
         [Required(ErrorMessage = "Please enter product name")]
         public string Name { get; set; } = string.Empty;
 

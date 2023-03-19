@@ -74,17 +74,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             Context.SaveChanges();
         }
 
-        //quantityChange can be positive(to increase Quantity) or negative (to decrease Quantity)
-        public override void ChangeQuantityBy(int quantityChange, Product product)
-        {
-            product.Quantity += quantityChange;
-            Context.SaveChanges();
-        }
-        public override void ChangeQuantityBy(int quantityChange, int productID)
-        {
-            Context.Products.Find(productID).Quantity += quantityChange;
-            Context.SaveChanges();
-        }
+        
         //quantityExchanged can be positive(sold) or be negative(returned)
         public override void ProcessTransaction(List<Product> productsInCart,Dictionary<int,int> cart)
         {
@@ -93,6 +83,7 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                 int quantityInCart = cart.GetValueOrDefault(product.ProductID);
 
                 product.Quantity -= quantityInCart;
+                Context.Products.Update(product);
                 SaleRecord SaleRecord = new SaleRecord()
                 {
                     ProductName = product.Name,
