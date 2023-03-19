@@ -145,11 +145,12 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             {
                 query = Context.OrderRecords;
             }
+            
             switch (sortBy)
             {
                 default:
                 case "Date & Time":
-                    return query.OrderBy(x => x.OrderedOn).ToList();
+                    return query.OrderByDescending(x => x.OrderedOn).ToList();
                 case "Product":
                     return query.OrderBy(x => x.ProductName).ToList();
                 case "Category":
