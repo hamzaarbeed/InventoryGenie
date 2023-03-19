@@ -1,13 +1,23 @@
 ﻿@model Supplier
 <h2 class="mb-2">@ViewBag.Action Supplier</h2>
+@if (ViewBag.Action == "Edit")
+{
+    <h3 class="mb-3">@Model.SupplierName</h3>
+}
 <form method="post" asp-action=@ViewBag.Action>
     <input type="hidden" asp-for="SupplierID" />
     <label class="text-danger">@ViewBag.Msg</label>
     <div asp-validation-summary=All class=" text-danger"></div>
-    <div class="mb-3">
-        <label asp-for="SupplierName" class="form-label">Supplier Name</label>
-        <input asp-for="SupplierName" class="form-control">
-    </div>
+    @if (ViewBag.Action == "Edit")
+    {
+        <input type="hidden" asp-for="SupplierName" />
+    }
+    else{
+        <div class="mb-3">
+            <label asp-for="SupplierName" class="form-label">Supplier Name</label>
+            <input asp-for="SupplierName" class="form-control">
+        </div>
+    }
     <div class="mb-3">
         <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
         <input asp-for="PhoneNumber" class="form-control">

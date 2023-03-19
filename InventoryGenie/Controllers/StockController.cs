@@ -10,12 +10,10 @@ namespace InventoryGenie.Controllers
         private static string? SearchText;
         private static string? SortBy;
 
-        private static List<Product> products;
-
         readonly string[] sortByOptions =
         {
-            "Name",
             "Product ID",
+            "Name",
             "Quantity",
             "Minimum Level"
         };
@@ -51,7 +49,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
-            products = Employee.LoggedInEmployee.StockManagementSearchProducts(SortBy, SearchText);
+            List<Product> products = Employee.LoggedInEmployee.StockManagementSearchProducts(SortBy, SearchText);
             return View("Index",products);
         }
 

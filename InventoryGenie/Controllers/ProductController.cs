@@ -56,8 +56,14 @@ namespace InventoryGenie.Controllers
         public IActionResult Search()
         {
             ViewBag.SortByOptions = sortByOptions;
+            List<int> QuantityNotReceivedCount = new List<int>();
             List<Product> products =
                 Employee.LoggedInEmployee.ProductManagementSearchProducts(SortBy, SearchText);
+            foreach (Product product in products)
+            {
+                QuantityNotReceivedCount.Add(Employee.LoggedInEmployee.GetQuantityNotReceivedForProduct(product.Name));
+            }
+            ViewBag.OrdersNotReceivedCount = QuantityNotReceivedCount;
             return View("Index",products);
         }
 

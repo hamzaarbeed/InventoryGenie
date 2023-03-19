@@ -138,7 +138,7 @@ namespace InventoryGenie.Data
                 },
                 new Employee
                 {
-                    EmployeeID =3,
+                    EmployeeID = 3,
                     UserName = "E1003",
                     RoleId = 3,
                     FirstName = "Adam",
@@ -153,7 +153,7 @@ namespace InventoryGenie.Data
                     {
                         SupplierID = 1,
                         SupplierName = "Monster",
-                        
+
                     },
                     new Supplier
                     {
@@ -174,7 +174,7 @@ namespace InventoryGenie.Data
                         ShelfPrice = 1.52,
                         WholesalePrice = 1.15,
                         MinimumLevel = 30,
-                        MaximumLevel= 500,
+                        MaximumLevel = 500,
                         SupplierId = 1
                     },
                     new Product
@@ -193,6 +193,28 @@ namespace InventoryGenie.Data
 
                 );
 
+            modelBuilder.Entity<OrderRecord>().HasData(
+                   new OrderRecord
+                   {
+                       OrderRecordID = 1,
+                       OrderedOn = DateTime.Now,
+                       ProductName = "Lays Chips",
+                       CategoryName = "Food",
+                       SupplierName = "Lays",
+                       QuantityOrdered = 150,
+                       WholesalePrice = 300, 
+                   },
+                   new OrderRecord
+                   {
+                       OrderRecordID = 2,
+                       OrderedOn = DateTime.Now,
+                       ProductName = "Monster Energy Drink",
+                       CategoryName = "Food",
+                       SupplierName = "Monster",
+                       QuantityOrdered = 80,
+                       WholesalePrice = 92,
+                   }
+            );
         }
     }
 }

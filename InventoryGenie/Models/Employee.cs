@@ -193,6 +193,33 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
+        public virtual List<OrderRecord> SearchOrderRecords(string sortBy, string searchText)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual int GetQuantityNotReceivedForProduct(string productName)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+        public virtual void ReceiveOrder(int orderRecordID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+        public virtual OrderRecord GetOrderRecordByID(int orderRecordID)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual List<Product> OrderManagementSearchProducts(string sortBy, string searchText, bool showOnlyBelowMinimumLevel)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void PlaceOrder(int productID, int orderQuantity)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
         //----------------------General Manager Functions--------------------------------------------
 
         public virtual List<Employee> SearchEmployees(string sortBy, string searchText)

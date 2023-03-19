@@ -89,9 +89,10 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
                     ProductName = product.Name,
                     SupplierName = product.Supplier.SupplierName,
                     QuantityExchanged = quantityInCart,
-                    ShelfPrice = product.ShelfPrice * quantityInCart,
-                    WholesalePrice = product.WholesalePrice * quantityInCart,
+                    ShelfPrice = Math.Round(product.ShelfPrice * quantityInCart,2),
+                    WholesalePrice = Math.Round(product.WholesalePrice * quantityInCart,2),
                     CreatedOn = DateTime.Now,
+                    CategoryName = product.Category.Name,
                 };
                 Context.SaleRecords.Add(SaleRecord);
             }
