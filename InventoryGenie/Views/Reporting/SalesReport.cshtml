@@ -1,0 +1,53 @@
+﻿@model List<SaleRecord>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Quantity Exchanged</th>
+            <th>Wholesale Price</th>
+            <th>Shelf Price</th>
+            <th>Profit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            
+            int totalQuantityExchanged = 0;
+            double totalWholsalePrice = 0;
+            double totalShelfPrice = 0;
+            double totalProfit = 0;
+        }
+        @foreach (SaleRecord saleRecord in Model)
+        {
+            double profit = saleRecord.ShelfPrice - saleRecord.WholesalePrice;
+            totalQuantityExchanged += saleRecord.QuantityExchanged;
+            totalWholsalePrice += saleRecord.WholesalePrice;
+            totalShelfPrice += saleRecord.ShelfPrice;
+            totalProfit += profit;
+            <tr>
+                <th>@saleRecord.ProductName</th>
+                <th>@saleRecord.CategoryName</th>
+                <th>@saleRecord.SupplierName</th>
+                <th>@saleRecord.QuantityExchanged</th>
+
+                <th>@saleRecord.WholesalePrice.ToString("c2")</th>
+                <th>@saleRecord.ShelfPrice.ToString("c2")</th>
+                <th>@profit.ToString("c2")</th>
+            </tr>
+
+        }
+        <tr></tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Totals</th>
+            <th>@totalQuantityExchanged</th>
+            <th>@totalWholsalePrice.ToString("c2")</th>
+            <th>@totalShelfPrice.ToString("c2")</th>
+            <th>@totalProfit.ToString("c2")</th>
+        </tr>
+    </tbody>
+
+</table>

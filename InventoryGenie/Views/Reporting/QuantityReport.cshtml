@@ -1,0 +1,43 @@
+﻿@model List<Product>
+
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Minimum Level</th>
+            <th>Current Quantity</th>
+            <th>Quantity Not Received</th>
+            <th>Maximum Level</th>
+            <th>Recommended Order Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            int quantityNotReceived = ViewBag.QuantityNotReceivedCount[i];
+            int recommendedQuantity = Model[i].MaximumLevel - @Model[i].Quantity - quantityNotReceived;
+            if (recommendedQuantity <= 0)
+            {
+                recommendedQuantity = 0;
+            }
+
+            <tr>
+                <th>@Model[i].ProductID</th>
+                <th>@Model[i].Name</th>
+                <th>@Model[i].MinimumLevel</th>
+                <th>@Model[i].Quantity</th>
+                <th>@quantityNotReceived</th>
+                <th>@Model[i].MaximumLevel</th>
+                <th>@recommendedQuantity</th>
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+
+

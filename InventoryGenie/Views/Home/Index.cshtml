@@ -8,8 +8,32 @@
     @{
         if (Employee.LoggedInEmployee.RoleId == 1 || Employee.LoggedInEmployee.RoleId == 2)
         {
-            <div>@ViewBag.stockoutCount stockouts </div>
-            <div>@ViewBag.lowstockCount low stocks</div>
+            string bgColor;
+            if (ViewBag.stockoutCount > 0)
+            {
+                bgColor = "bg-danger";
+            }
+            else if ( ViewBag.lowstockCount > 0)
+            {
+                bgColor = "bg-warning";
+            }
+            else
+            {
+                bgColor = "bg-success";
+            }
+
+            <div class="card @bgColor col-3 mx-auto">
+                @if (ViewBag.stockoutCount > 0 || ViewBag.lowstockCount > 0)
+                {
+                    <a asp-controller="Order" asp-action="SearchProduct">@ViewBag.stockoutCount stockouts </a>
+                    <a asp-controller="Order" asp-action="SearchProduct">@ViewBag.lowstockCount low stocks</a>
+                }
+                else
+                {
+                    <div>@ViewBag.stockoutCount stockouts </div>
+                    <div>@ViewBag.lowstockCount low stocks</div>
+                }
+            </div>
         }
     }
-</div>
+</>

@@ -212,5 +212,32 @@ namespace InventoryGenie.Models.AllEmployeesFunctions
             });
             Context.SaveChanges();
         }
+
+        public override List<SaleRecord> GenerateSalesReport(string from,string to)
+        {
+            DateTime fromDateTime = DateOnly.Parse(from).ToDateTime(TimeOnly.Parse("00:00:00"));
+            DateTime toDateTime = DateOnly.Parse(to).ToDateTime(TimeOnly.Parse("23:59:59"));
+
+            IQueryable<SaleRecord> query = Context.SaleRecords.Where(x => x.CreatedOn >= fromDateTime && x.CreatedOn <= toDateTime);
+            query = query.GroupBy(x => x.ProductName).Select(g => new SaleRecord
+            {
+                ProductName = g.First().ProductName,
+                CategoryName = g.First().CategoryName,
+                SupplierName = g.First().SupplierName,
+                ShelfPrice = g.Sum(x=>x.ShelfPrice),
+                WholesalePrice = g.Sum(x=>x.WholesalePrice),
+                QuantityExchanged = g.Sum(x=>x.QuantityExchanged),
+            }) ;
+            return query.ToList();
+        }
+
+        public override List<OrderRecord> GenerateOrdersReport(string from, string to)
+        {
+            DateTime fromDateTime = DateOnly.Parse(from).ToDateTime(TimeOnly.Parse("00:00:00"));
+            DateTime toDateTime = DateOnly.Parse(to).ToDateTime(TimeOnly.Parse("23:59:59"));
+
+            IQueryable<OrderRecord> query = Context.OrderRecords.Where(x => x.OrderedOn >= fromDateTime && x.OrderedOn <= toDateTime);
+            return query.ToList();
+        }
     }
 }

@@ -1,0 +1,47 @@
+﻿@model List<OrderRecord>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ordered On</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Quantity Ordered</th>
+            <th>Wholesale Price</th>
+            <th>Received</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int totalQuantityOrdered = 0;
+            double totalWholeSalePrice = 0;
+        }
+        @foreach (OrderRecord orderRecord in Model)
+        {
+            string receivedYesNo = orderRecord.IsReceived ? "Yes" : "No";
+            totalQuantityOrdered += orderRecord.QuantityOrdered;
+            totalWholeSalePrice += orderRecord.WholesalePrice;
+            <tr>
+                <th>@orderRecord.OrderedOn</th>
+                <th>@orderRecord.ProductName</th>
+                <th>@orderRecord.CategoryName</th>
+                <th>@orderRecord.SupplierName</th>
+                <th>@orderRecord.QuantityOrdered</th>
+                <th>@orderRecord.WholesalePrice.ToString("c2")</th>
+                <th>@receivedYesNo</th>
+            </tr>
+
+        }
+        <tr></tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Totals</th>
+            <th>@totalQuantityOrdered</th>
+            <th>@totalWholeSalePrice.ToString("c2")</th>
+            <th></th>
+        </tr>
+    </tbody>
+
+</table>

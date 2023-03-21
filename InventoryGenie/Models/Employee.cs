@@ -220,6 +220,17 @@ namespace InventoryGenie.Models
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
+
+        public virtual List<SaleRecord> GenerateSalesReport(string from, string to)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual List<OrderRecord> GenerateOrdersReport(string from, string to)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
         //----------------------General Manager Functions--------------------------------------------
 
         public virtual List<Employee> SearchEmployees(string sortBy, string searchText)
