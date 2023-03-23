@@ -129,7 +129,7 @@ namespace InventoryGenie.Data
                 new Employee
                 {
                     EmployeeID = 2,
-                    UserName = "E1002",
+                    UserName = "e1002",
                     RoleId = 2,
                     FirstName = "William",
                     LastName = "Leonard",
@@ -139,7 +139,7 @@ namespace InventoryGenie.Data
                 new Employee
                 {
                     EmployeeID = 3,
-                    UserName = "E1003",
+                    UserName = "e1003",
                     RoleId = 3,
                     FirstName = "Adam",
                     LastName = "Cash",

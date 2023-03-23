@@ -7,8 +7,7 @@ namespace InventoryGenie.Controllers
 {
     public class ReportingController : Controller
     {
-        private static string From;
-        private static string To;
+
         public ReportingController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;

@@ -104,11 +104,11 @@ namespace InventoryGenie.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Employee employee, string tempPassword)
+        public IActionResult Edit(Employee employee, string? tempPassword)
         {
             if (ModelState.IsValid)
             {
-                if (tempPassword != "")
+                if (tempPassword != "" && tempPassword != null)
                 {
                     employee.Password = tempPassword;
                     employee.IsTemporaryPassword = true;
