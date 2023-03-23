@@ -113,6 +113,10 @@ namespace InventoryGenie.Controllers
                     employee.Password = tempPassword;
                     employee.IsTemporaryPassword = true;
                 }
+                else
+                {
+                    employee.IsTemporaryPassword = false;
+                }
                 Employee.LoggedInEmployee.UpdateEmployee(employee);
                 return RedirectToAction("Search");
             }

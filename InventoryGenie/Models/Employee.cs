@@ -54,7 +54,7 @@ namespace InventoryGenie.Models
             {
                 LoggedInEmployee = LoggedInEmployee = JsonConvert.DeserializeObject<WarehouseLeader>(serializedEmployee);
             }
-            else
+            else 
             {
                 LoggedInEmployee = LoggedInEmployee = JsonConvert.DeserializeObject<Associate>(serializedEmployee);
             }
