@@ -6,6 +6,7 @@
 
 <h2 class="mb-2">Welcome to Inventory Genie! Please enter your username and password.</h2>
 <h2 class="mb-2">@ViewBag.Title</h2>
+
 <form method="post" asp-action="Login">
     <div class="mb-3">
         <label asp-for="UserName" class="form-label">User Name</label>
@@ -15,8 +16,7 @@
         <label asp-for="Password" class="form-label">Password</label>
         <input asp-for="Password" type="password" class="form-control">
     </div>
-    @{
-
+    @{ // if Msg is not null then show the Msg
         if (ViewBag.Msg != null)
         {
             <div class="mb-3">

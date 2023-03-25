@@ -1,7 +1,15 @@
-﻿@model List<Employee>
+﻿@{
+    ViewData["Title"] = "Employees Page";
+}
+
+@model List<Employee>
+
 
 <form method="post" asp-controller="Employee" asp-action="Search">
+    
     <input class="form-control col-3" type="text" name="searchText">
+
+    <!--populate select menu with sortOptions-->
     <select name="sortBy" class="form-select">
         @foreach (string columnName in ViewBag.SortByOptions)
         {
@@ -12,6 +20,8 @@
     
     <a class="btn btn-primary" asp-controller="Employee" asp-action="Add">Add New Employee</a>
 </form>
+
+<!--table that show employees stored in List<Employee>  -->
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -32,6 +42,9 @@
                 <th>@employee.UserName</th>
                 <th>@employee.Role.RoleName</th>
 
+                <!--show hyperlinks to show employee's detail, edit employee, or delete
+                    it will pass employee id in asp-route-id to its controller these are [HttpGet].
+                -->
                 <th>
                     <a asp-controller="Employee" asp-action="Details" asp-route-id=@employee.EmployeeID>Details</a>
                     <a asp-controller="Employee" asp-action="Edit" asp-route-id=@employee.EmployeeID>Edit</a>

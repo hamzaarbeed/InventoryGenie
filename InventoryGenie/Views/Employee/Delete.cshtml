@@ -1,4 +1,8 @@
-﻿@model Employee
+﻿@{
+    ViewData["Title"] = "Employees Page";
+}
+
+@model Employee
 <h2>Confirm Deletion</h2>
 <h3>@Model.FirstName @Model.LastName (@Model.UserName)</h3>
 <form method="post" asp-action="Delete">

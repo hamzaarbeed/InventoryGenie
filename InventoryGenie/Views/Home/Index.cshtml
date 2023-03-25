@@ -2,12 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!--
+    Hi Employee name
+    Role Name
+-->
 <div class="text-center">
     <h1 class="display-4">Hi @Employee.LoggedInEmployee.FirstName @Employee.LoggedInEmployee.LastName!</h1>
     <h6 class="mb-5">(@Employee.LoggedInEmployee.Role.RoleName)</h6>
     @{
+        <!--show stock out and low stock if the Role is GM(1) or WL(2)-->
         if (Employee.LoggedInEmployee.RoleId == 1 || Employee.LoggedInEmployee.RoleId == 2)
         {
+            <!--if there is stock out the baground color is red, otherwise if there is low stock yellow, otherwise green-->
             string bgColor;
             if (ViewBag.stockoutCount > 0)
             {
@@ -22,7 +28,10 @@
                 bgColor = "bg-success";
             }
 
+
             <div class="card @bgColor col-3 mx-auto">
+            <!-- there is stockout or low stock the infos are hyperlink to ordering window
+            otherwise they are just plain text-->
                 @if (ViewBag.stockoutCount > 0 || ViewBag.lowstockCount > 0)
                 {
                     <a asp-controller="Order" asp-action="SearchProduct">@ViewBag.stockoutCount stockouts </a>
@@ -36,4 +45,4 @@
             </div>
         }
     }
-</>
+</div>

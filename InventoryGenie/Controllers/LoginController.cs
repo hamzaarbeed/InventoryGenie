@@ -7,14 +7,15 @@ namespace InventoryGenie.Controllers
 {
     public class LoginController : Controller
     {
-
+        //move database context to Employee so that employee can manipulate database
         public LoginController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
         }
-        //first function called in Login Page
-        //it will create a new temproray User that will get
-        //username and password back to Login action
+
+        //default action called in Login Controller
+        // it will make new employee object to prompt employee to enter username and password
+        // other fields are not necessary
         [HttpGet]
         public IActionResult Index()
         {
@@ -22,45 +23,48 @@ namespace InventoryGenie.Controllers
         }
 
 
-        //after user enter username and password inside Index view
-        //it comes back to here user holds username and password only. other field are empty
+        //after employee enter username and password inside Index view
+        //it comes back to here employee holds username and password only. other field are empty
         [HttpPost]
         public IActionResult Login(Employee employee)
         {
-            //will search for user with the same username and password, and save it in LoggedInEmployee if not found it saves null
+            //will search for employee with the same username and password, and save it in LoggedInEmployee if not found it saves null
             Employee.Login(employee.UserName, employee.Password);
             
-            if (Employee.LoggedInEmployee == null)//usr was not found then it's incorrect user name and password
+            if (Employee.LoggedInEmployee == null)//if LoggedInEmployee is null it means employee
+                                                  //was not found then it's incorrect username and password
             {
                 //clears form
                 ModelState.Clear();
 
                 //stores Msg to show this message in Login View
-                ViewBag.Msg = "Incorrect User name/password";
+                ViewBag.Msg = "Incorrect Username/password";
 
-                //direct user to Login page so the user tries again
+                //direct employee to Login page so the employee tries again
                 return View("Index");
             }
-            else //if user was found
+            else //if employee was found
             {
-                if (Employee.LoggedInEmployee.IsTemporaryPassword == true) //if user needs to change password it directs user to ChangePassword
+                if (Employee.LoggedInEmployee.IsTemporaryPassword == true) //if employee needs to change password
+                                                                           //it directs employee to ChangePassword
                 {
                     return View("ChangePassword", Employee.LoggedInEmployee);
                 }
-                //if user doesn't need to change password then userdata will be directed to Home page
+                //if employee doesn't need to change password then empoloyee will be directed to Home page
                 return RedirectToAction("Index", "Home");
             }
             
         }
 
-        //this will hand over user to ChangePassword View
+        //this will prompt employee to ChangePassword View
         [HttpGet]
         public IActionResult ChangePassword(Employee LoggedInEmployee)
         {
             return View(LoggedInEmployee);
         }
 
-        //Post method it brings back from ChangePassword View user(username, (old)password, and ID), new password and Confirmed new password
+        //Post method it brings back from ChangePassword View employee(username, (old)password, and ID),
+        //new password and Confirmed new password
         [HttpPost]
         public IActionResult ChangePassword(Employee LoggedInEmployee, string newPassword, string confirmedNewPassword)
         {
@@ -68,7 +72,7 @@ namespace InventoryGenie.Controllers
             //change password if all fields are ok, if not, it returns a message 
             ViewBag.Msg = Employee.ChangePassword(LoggedInEmployee.EmployeeID, newPassword, confirmedNewPassword);
             
-            //if password fields are not ok
+            //if password fields are not ok because not null msg means there is something wrong with the fields
             if (ViewBag.Msg != null)
             {
                 //open the same page again for another try
@@ -81,11 +85,11 @@ namespace InventoryGenie.Controllers
         }
 
 
-        //logs current user out
+        //logs current employee out
         [HttpGet]
         public IActionResult LogOut()
         {
-            //clear logged in user data
+            //clear logged in employee data
             Employee.Logout();
             //return to Login page
             return View("Index");
