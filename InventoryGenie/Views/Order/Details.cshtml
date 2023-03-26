@@ -1,4 +1,6 @@
 ﻿@model OrderRecord
+
+<!--This view to show order details-->
 <h2 class="mb-2">View Product</h2>
 
 <div class="mb-3">
@@ -26,8 +28,8 @@
     <input readonly value="@Model.WholesalePrice" class="form-control">
 </div>
 
-@{
-    string receivedYesNo = @Model.IsReceived ? "Yes" : "No";
+@{ // converts boolean value to Yes or No
+    string receivedYesNo = Model.IsReceived ? "Yes" : "No";
 }
 <div class="mb-3">
     <label class="form-label">Received</label>

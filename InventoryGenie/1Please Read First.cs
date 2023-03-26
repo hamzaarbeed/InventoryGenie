@@ -34,4 +34,17 @@ This will be helpful in development, but the final product will not be throwing 
 is on the wrong page, associate will be redirected to main page before trying to use functions that he is not suppose to.
 And if LoggedInEmployee is null It will Redirect user to login page.
 
+---------------------------------------------------------------------------------------
+
+Sales record are created as one record per product.
+If you have 10 items in cart. After processing tranaction. It will create 10 sales record 1 per product
+
+The same for placing orders. Employee will order products one by one. Each time order placed for a product it will create
+one order record
+
+
+----------------------------------------------------------------------------------------
+
+Note to self
+Include what each controller will search by
  */

@@ -1,5 +1,6 @@
 ﻿@model List<Product>
 
+<!--This to post searchby sortBy and ShowOnlyBelowMinimumLevel variables to SearchProduct action-->
 <form method="post" asp-controller="Order" asp-action="SearchProduct">
     <input class="form-control col-3" type="text" name="searchText">
 
@@ -11,10 +12,12 @@
     </select>
     <input type="checkbox" value=@ViewBag.ShowOnlyBelowMinimumLevel checked=@ViewBag.ShowOnlyBelowMinimumLevel name="showOnlyBelowMinimumLevel" />
     <labe class="me-4">Show Only Products Below Minimum Level</labe>
+    <!--check box for ShowOnlyBelowMinimumLevel-->
     <button class="btn btn-primary" type="submit">Search</button>
     <a class="btn btn-primary float-end" asp-action="Index">Back</a>
 </form>
 
+<!--Table that show list of products passed in List<Product>-->
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -30,8 +33,12 @@
     <tbody>
         @for (int i=0;i <Model.Count();i++)
         {
+            //for each product calculate recommended quantity to order which equals
+            // Max Level - Current Quantity - Quantity Not Received
             int quantityNotReceived = ViewBag.QuantityNotReceivedCount[i];
             int recommendedQuantity = Model[i].MaximumLevel - @Model[i].Quantity - quantityNotReceived;
+
+            // if recommended quantity was 0 or negative then RecommendedQuanitity is 0
             if (recommendedQuantity <= 0)
             {
                 recommendedQuantity = 0;
@@ -46,6 +53,9 @@
                 <th>@Model[i].MaximumLevel</th>
                 <th>@recommendedQuantity</th>
                 <th>
+                    <!--This is the form to post orderQuantity, productID
+                        these will be used to create order record
+                    -->
                     <form method="post" asp-controller="Order" asp-action="PlaceOrder">
                         <input type="number" name="orderQuantity" value=@recommendedQuantity>
                         <input type="number" hidden name="productID" value=@Model[i].ProductID>

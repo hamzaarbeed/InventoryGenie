@@ -1,7 +1,6 @@
 ﻿using InventoryGenie.Data;
 using InventoryGenie.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 
 namespace InventoryGenie.Controllers
@@ -32,16 +31,15 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
             if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
-            {
-                Employee.Logout();
-                return RedirectToAction("Index", "Login");
-            }else
-            {
-                SortBy = "Product ID";
-                SearchText = null;
-                return RedirectToAction("Search");
-            }
+                return RedirectToAction("Index", "Home");
+      
+            SortBy = "Product ID";
+            SearchText = null;
+            return RedirectToAction("Search");
+            
         }
 
         [HttpPost]
@@ -55,6 +53,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.SortByOptions = sortByOptions;
             List<int> QuantityNotReceivedCount = new List<int>();
             List<Product> products =
@@ -71,6 +74,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             Product product = Employee.LoggedInEmployee.GetProductByID(id);
             return View(product);
         }
@@ -85,6 +93,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             PrepareViewBagFor("Add");
             return View("Edit", new Product());
         }
@@ -117,6 +130,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             Product product = Employee.LoggedInEmployee.GetProductByID(id);
             PrepareViewBagFor("Edit");
             return View("Edit", product);
@@ -138,6 +156,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
 
             Product product = Employee.LoggedInEmployee.GetProductByID(id);
             return View("Delete", product);

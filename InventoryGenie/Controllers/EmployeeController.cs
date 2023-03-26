@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryGenie.Controllers
 {
-    // contoller to CRUD employees
+    // contoller to CRUD employees only General Manager have access to this
+    // everyone else will be directed to Home page
     public class EmployeeController : Controller
     {
         // to store all roles names in this list. It will save sometimes going to db to retrieve that
         private static List<Role> Roles = new();
 
         //search text will be blank and Sortby will be by ID once Index page is opened.
-        //after that, once the user search one time SearchText and Sortby will be changed to open the page again with the same
+        //after that, once the user search one time, SearchText and Sortby will be changed. To open the page again with the same
         //query result  
         private static string? SearchText;
         private static string? SortBy;
@@ -53,6 +54,12 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             // Store sortByOptions in ViewBag
             ViewBag.SortByOptions = sortByOptions;
             // gets list of Employees sorted by SortBy and Include the text in SearchText.
@@ -77,6 +84,12 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
+            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             return View("Details", employee);
         }
@@ -90,16 +103,21 @@ namespace InventoryGenie.Controllers
             ViewBag.Roles = Roles;
         }
 
-        // Adding user user
+        // Adding new employee
         [HttpGet]
         public IActionResult Add()
         {
+            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             PrepareViewBagFor("Add");
             //Start Edit view with new Employee
             return View("Edit", new Employee());
         }
 
-        //Adding new user
+        //Adding new employee
         [HttpPost]
         public IActionResult Add(Employee employee)
         {
@@ -125,6 +143,12 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             // gets employee from database using id
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             //Prepare ViewBag for edit window with all roles
@@ -173,6 +197,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee.RoleId != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             // get employee by id from database
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             //views it and asks the user to confirm deletion

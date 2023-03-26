@@ -1,5 +1,6 @@
 ﻿@model List<OrderRecord>
 
+<!--This will be the sortby searchtext form post-->
 <form method="post" asp-controller="Order" asp-action="Search">
     <input class="form-control col-3" type="text" name="searchText">
 
@@ -13,6 +14,7 @@
     <a class="btn btn-primary float-end" asp-controller ="Order" asp-action="PlaceOrderView">Place New Order</a>
 </form>
 
+<!--Table to show orders-->
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -38,8 +40,9 @@
                 <th>@orderRecord.QuantityOrdered</th>
                 <th>@receivedYesNo</th>
                 <th>
+                    <!-- This hyper link for each product to show product details-->
                     <a asp-controller="Order" asp-action="Details" asp-route-orderRecordId=@orderRecord.OrderRecordID>Details</a>
-                    @if (!orderRecord.IsReceived)
+                    @if (!orderRecord.IsReceived) // if order is not received then show receive button
                     {
                         <a asp-controller="Order" asp-action="Receive" asp-route-orderRecordId=@orderRecord.OrderRecordID>Receive</a>
                     }
