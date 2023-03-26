@@ -29,14 +29,15 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
             if (Employee.LoggedInEmployee == null)
                 return RedirectToAction("Index", "Login");
-            else
-            {
-                SortBy = "Product ID";
-                SearchText = null;
-                return RedirectToAction("Search");
-            }
+            
+            
+            SortBy = "Product ID";
+            SearchText = null;
+            return RedirectToAction("Search");
+            
         }
 
         [HttpPost]
@@ -50,6 +51,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
+            if (Employee.LoggedInEmployee == null)
+                return RedirectToAction("Index", "Login");
+
             ViewBag.SortByOptions = sortByOptions;
             List<Product> products =
                 Employee.LoggedInEmployee.SalesManagementSearchProducts(SortBy, SearchText);
@@ -71,6 +76,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult ViewCart()
         {
+            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
+            if (Employee.LoggedInEmployee == null)
+                return RedirectToAction("Index", "Login");
+
             ProductsInCart = new List<Product>();
             foreach(KeyValuePair<int,int> cartItem in Cart)
                 ProductsInCart.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
@@ -87,6 +96,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult ProcessTransaction()
         {
+            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
+            if (Employee.LoggedInEmployee == null)
+                return RedirectToAction("Index", "Login");
+
             Employee.LoggedInEmployee.ProcessTransaction(ProductsInCart,Cart);
             ProductsInCart = new ();
             Cart = new();

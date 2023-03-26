@@ -30,7 +30,6 @@ namespace InventoryGenie.Controllers
         public EmployeeController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
-            Roles = Employee.LoggedInEmployee.GetAllRoles();
         }
 
         //Main page in Employee controller
@@ -38,10 +37,12 @@ namespace InventoryGenie.Controllers
         public IActionResult Index()
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index","Home");
             }
+            //Gets all roles saved in Roles static List
+            Roles = Employee.LoggedInEmployee.GetAllRoles();
             
             //default field for query
             // This will show all employees sorted by Employee ID
@@ -55,7 +56,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Search()
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -85,7 +86,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Details(int id)
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -108,7 +109,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Add()
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -144,7 +145,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Edit(int id)
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -198,7 +199,7 @@ namespace InventoryGenie.Controllers
         public IActionResult Delete(int id)
         {
             // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
             {
                 return RedirectToAction("Index", "Home");
             }

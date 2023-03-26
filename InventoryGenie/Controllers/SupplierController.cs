@@ -21,17 +21,14 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId !=2)
-            {
-                Employee.Logout();
-                return RedirectToAction("Index", "Login");
-            }
-            else
-            {
-                SortBy = "Supplier ID";
-                SearchText = null;
-                return RedirectToAction("Search");
-            }
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
+            SortBy = "Supplier ID";
+            SearchText = null;
+            return RedirectToAction("Search");
         }
 
         [HttpPost]
@@ -45,6 +42,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
             ViewBag.SortByOptions = sortByOptions;
             List<Supplier> suppliers =
                 Employee.LoggedInEmployee.SearchSuppliers(SortBy, SearchText);
@@ -55,6 +56,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
             ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
             Supplier supplier=Employee.LoggedInEmployee.GetSupplierByID(id);
             return View(supplier);
@@ -75,6 +80,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.Action = "Add";
             return View("Edit", new Supplier());
         }
@@ -101,6 +111,11 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
+
             Supplier supplier = Employee.LoggedInEmployee.GetSupplierByID(id);
             ViewBag.Action = "Edit";
             return View("Edit", supplier);
@@ -122,6 +137,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            // if the role is not GM (1) and not WL (2) then redirect to Home.
+            // Home will redirect to login if there is no logged in Employee. 
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+                return RedirectToAction("Index", "Home");
 
             Supplier supplier = Employee.LoggedInEmployee.GetSupplierByID(id);
             return View("Delete", supplier);

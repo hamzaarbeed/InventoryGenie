@@ -49,7 +49,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId !=2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId !=2)
                 return RedirectToAction("Index", "Home");
 
             // sets sortby to the default Date & Time and searchText null
@@ -80,7 +80,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
                 return RedirectToAction("Index", "Home");
 
             ViewBag.SortByOptions = OrderRecordSortByOptions;
@@ -93,7 +93,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
                 return RedirectToAction("Index", "Home");
 
             //It will mark order in database as recieved then redirect to the same view that was posted from
@@ -106,7 +106,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
                 return RedirectToAction("Index", "Home");
 
             // Gets details of an order and show the detals in Details View
@@ -120,7 +120,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
                 return RedirectToAction("Index", "Home");
 
             //sets the static SortBy, SearchText, and ShowOnlyBelowMinimumLevel to their default values
@@ -150,7 +150,7 @@ namespace InventoryGenie.Controllers
         {
             // if the role is not GM (1) and not WL (2) then redirect to Home.
             // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
                 return RedirectToAction("Index", "Home");
 
             //prepare viewbag for sort by select menu and the check box show only below minimum level
