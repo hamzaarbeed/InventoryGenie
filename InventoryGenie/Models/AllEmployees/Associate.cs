@@ -1,7 +1,7 @@
 ﻿using InventoryGenie.Controllers;
 using Microsoft.EntityFrameworkCore;
 
-namespace InventoryGenie.Models.AllEmployeesFunctions
+namespace InventoryGenie.Models.AllEmployees
 {
     public class Associate:Employee
     {

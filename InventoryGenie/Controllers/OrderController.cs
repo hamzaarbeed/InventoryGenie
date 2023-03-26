@@ -47,9 +47,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId !=2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             // sets sortby to the default Date & Time and searchText null
@@ -78,9 +76,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             ViewBag.SortByOptions = OrderRecordSortByOptions;
@@ -91,9 +87,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Receive(int orderRecordId)
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             //It will mark order in database as recieved then redirect to the same view that was posted from
@@ -104,9 +98,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int orderRecordId)
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             // Gets details of an order and show the detals in Details View
@@ -118,9 +110,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult PlaceOrderView()
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             //sets the static SortBy, SearchText, and ShowOnlyBelowMinimumLevel to their default values
@@ -148,9 +138,7 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult SearchProduct()
         {
-            // if the role is not GM (1) and not WL (2) then redirect to Home.
-            // Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1 && Employee.LoggedInEmployee.RoleId != 2)
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
             //prepare viewbag for sort by select menu and the check box show only below minimum level
@@ -180,6 +168,14 @@ namespace InventoryGenie.Controllers
             Employee.LoggedInEmployee.PlaceOrder(productID, orderQuantity);
             return RedirectToAction("SearchProduct");
 
+        }
+
+        // if the LoggedInEmployee is not null and role is GM (1) or WL(2) then return true.
+        // if it's not true then user will be redirected to Home.
+        // Home will redirect to login if there is no logged in Employee. 
+        private static bool IsAuthenticatedAndAuthorized()
+        {
+            return Employee.LoggedInEmployee != null && (Employee.LoggedInEmployee.RoleId == 1 || Employee.LoggedInEmployee.RoleId == 2);
         }
 
     }

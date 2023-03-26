@@ -29,11 +29,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
-            if (Employee.LoggedInEmployee == null)
-                return RedirectToAction("Index", "Login");
-            
-            
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
+
+
             SortBy = "Product ID";
             SearchText = null;
             return RedirectToAction("Search");
@@ -51,9 +50,8 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
-            if (Employee.LoggedInEmployee == null)
-                return RedirectToAction("Index", "Login");
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
 
             ViewBag.SortByOptions = sortByOptions;
             List<Product> products =
@@ -76,9 +74,8 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult ViewCart()
         {
-            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
-            if (Employee.LoggedInEmployee == null)
-                return RedirectToAction("Index", "Login");
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
 
             ProductsInCart = new List<Product>();
             foreach(KeyValuePair<int,int> cartItem in Cart)
@@ -96,14 +93,22 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult ProcessTransaction()
         {
-            //All types of employees has acces if LoggedInEmployee is blank then redirect to login page
-            if (Employee.LoggedInEmployee == null)
-                return RedirectToAction("Index", "Login");
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
 
             Employee.LoggedInEmployee.ProcessTransaction(ProductsInCart,Cart);
             ProductsInCart = new ();
             Cart = new();
             return RedirectToAction("Index");
+        }
+
+        // if the LoggedInEmployee is not null and role is GM (1) or WL(2) or Assocaite(3) then return true.
+        // if it's not true then user will be redirected to Home.
+        // Home will redirect to login if there is no logged in Employee. 
+        private static bool IsAuthenticatedAndAuthorized()
+        {
+            return Employee.LoggedInEmployee != null && (Employee.LoggedInEmployee.RoleId == 1 ||
+                Employee.LoggedInEmployee.RoleId == 2 || Employee.LoggedInEmployee.RoleId == 3);
         }
     }
 }

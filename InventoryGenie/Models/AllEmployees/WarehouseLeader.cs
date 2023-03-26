@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
-namespace InventoryGenie.Models.AllEmployeesFunctions
+
+namespace InventoryGenie.Models.AllEmployees
 {
     public class WarehouseLeader:Associate
     {

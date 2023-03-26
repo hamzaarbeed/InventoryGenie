@@ -1,5 +1,5 @@
 ﻿using InventoryGenie.Data;
-using InventoryGenie.Models.AllEmployeesFunctions;
+using InventoryGenie.Models.AllEmployees;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -99,9 +99,9 @@ namespace InventoryGenie.Models
         }
         //------------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------------
-        //Virtual functions that will be overridden, functions that are not overridden will not do
-        //any action and will throw exception. If the object created overrides a function, it means
-        //that this object is authorized to use this function
+        //These are virtual functions that will be overridden. Functions that are not overridden will
+        //not do any action and will throw exception. If the object created overrides a function,
+        //it means that this object is authorized to use this function
         //------------------------------------------------------------------------------------------
 
         //---------------------Associate Functions--------------------------------------------------

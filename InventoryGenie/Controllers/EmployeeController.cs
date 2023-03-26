@@ -36,11 +36,10 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
-                return RedirectToAction("Index","Home");
-            }
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
+
+
             //Gets all roles saved in Roles static List
             Roles = Employee.LoggedInEmployee.GetAllRoles();
             
@@ -55,11 +54,8 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
-            }
 
             // Store sortByOptions in ViewBag
             ViewBag.SortByOptions = sortByOptions;
@@ -85,11 +81,8 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
-            }
 
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             return View("Details", employee);
@@ -108,11 +101,9 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
-            }
+
             PrepareViewBagFor("Add");
             //Start Edit view with new Employee
             return View("Edit", new Employee());
@@ -144,11 +135,8 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
-            }
 
             // gets employee from database using id
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
@@ -198,11 +186,9 @@ namespace InventoryGenie.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            // if the role is not GM (1) then redirect to Home. Home will redirect to login if there is no logged in Employee. 
-            if (Employee.LoggedInEmployee == null || Employee.LoggedInEmployee.RoleId != 1)
-            {
+            if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
-            }
+
             // get employee by id from database
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
             //views it and asks the user to confirm deletion
@@ -218,6 +204,15 @@ namespace InventoryGenie.Controllers
                 Employee.LoggedInEmployee.DeleteEmployee(employee);
             // Either deletion was successful or not redirect to employees search screen with the same previous search settings
             return RedirectToAction("Search");
+        }
+
+
+        // if the LoggedInEmployee is not null and role is GM (1) then return true.
+        // if it's not true then user will be redirected to Home.
+        // Home will redirect to login if there is no logged in Employee. 
+        private static bool IsAuthenticatedAndAuthorized()
+        {
+            return Employee.LoggedInEmployee != null && Employee.LoggedInEmployee.RoleId == 1;
         }
     }
 }

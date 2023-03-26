@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace InventoryGenie.Models.AllEmployeesFunctions
+namespace InventoryGenie.Models.AllEmployees
 {
     public class GeneralManager:WarehouseLeader
     {
