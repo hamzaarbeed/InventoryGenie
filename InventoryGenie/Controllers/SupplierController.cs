@@ -56,8 +56,6 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
-
             Supplier supplier=Employee.LoggedInEmployee.GetSupplierByID(id);
             return View(supplier);
         }
@@ -71,7 +69,7 @@ namespace InventoryGenie.Controllers
             product.SupplierId = newSupplierID;
             Employee.LoggedInEmployee.UpdateProduct(product);
 
-            return RedirectToAction("Details",new { id= currentSupplierID });
+            return RedirectToAction("Edit",new { id= currentSupplierID });
         }
 
         [HttpGet]
@@ -109,6 +107,7 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
+            ViewBag.Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
             Supplier supplier = Employee.LoggedInEmployee.GetSupplierByID(id);
             ViewBag.Action = "Edit";
             return View("Edit", supplier);

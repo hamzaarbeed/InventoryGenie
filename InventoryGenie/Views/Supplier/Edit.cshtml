@@ -34,3 +34,35 @@
     <a class="btn btn-primary" asp-contoller="Supplier" asp-action="Search">Cancel</a>
 
 </form>
+
+<table class="table table-bordered table-striped mt-2">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Supplier</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Product product in Model.Products)
+        {
+            <tr>
+                <th>@product.Name</th>
+                <th>
+                    <form method="post" asp-action="ChangeProductSupplier">
+                        <input hidden name="productID" value=@product.ProductID />
+                        <select name="newSupplierID">
+                            @foreach (Supplier supplier in ViewBag.Suppliers)
+                            {
+                                if (Model.SupplierID != supplier.SupplierID)
+                                {
+                                    <option value=@supplier.SupplierID>@supplier.SupplierName</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit">Change Supplier</button>
+                    </form>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
