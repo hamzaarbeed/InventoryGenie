@@ -20,7 +20,7 @@
                 <th>@product.Name</th>
                 <th>
                     <form asp-action="UpdateCart">
-                        <input type="number" name="changeQuantityInCart" value=@Model.Item2[product.ProductID]>
+                        <input type="number" name="changeQuantityInCart" min="0" oninput="validity.valid||(value='');" value=@Model.Item2[product.ProductID]>
                         <input type="number" hidden name="productID" value=@product.ProductID>
                         <button class="btn btn-outline-primary" type="submit">Update Cart</button>
                     </form>
@@ -42,7 +42,8 @@
             <th>
             </th>
             <th>
-                <a class="btn btn-primary" asp-controller="Sales" asp-action="ProcessTransaction">Process Transaction</a>
+                <a class="btn btn-primary" asp-controller="Sales" asp-action="Return">Return</a>
+                <a class="btn btn-primary float-end" asp-controller="Sales" asp-action="CheckOut">CheckOut</a>
             </th>
             <th>Total</th>
             <th>@total.ToString("c")</th>

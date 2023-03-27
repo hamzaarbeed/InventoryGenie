@@ -75,8 +75,8 @@ namespace InventoryGenie.Models.AllEmployees
         }
 
         
-        //quantityExchanged can be positive(sold) or be negative(returned)
-        public override void ProcessTransaction(List<Product> productsInCart,Dictionary<int,int> cart)
+
+        public override void CheckOut(List<Product> productsInCart,Dictionary<int,int> cart)
         {
             for (int i =0; i < cart.Count(); i++) {
                 Product product = productsInCart[i];
@@ -91,6 +91,30 @@ namespace InventoryGenie.Models.AllEmployees
                     QuantityExchanged = quantityInCart,
                     ShelfPrice = Math.Round(product.ShelfPrice * quantityInCart,2),
                     WholesalePrice = Math.Round(product.WholesalePrice * quantityInCart,2),
+                    CreatedOn = DateTime.Now,
+                    CategoryName = product.Category.Name,
+                };
+                Context.SaleRecords.Add(SaleRecord);
+            }
+            Context.SaveChanges();
+        }
+
+        public override void Return(List<Product> productsInCart, Dictionary<int, int> cart)
+        {
+            for (int i = 0; i < cart.Count(); i++)
+            {
+                Product product = productsInCart[i];
+                int quantityInCart = cart.GetValueOrDefault(product.ProductID);
+
+                product.Quantity += quantityInCart;
+                Context.Products.Update(product);
+                SaleRecord SaleRecord = new SaleRecord()
+                {
+                    ProductName = product.Name,
+                    SupplierName = product.Supplier.SupplierName,
+                    QuantityExchanged = -quantityInCart,
+                    ShelfPrice = -Math.Round(product.ShelfPrice * quantityInCart, 2),
+                    WholesalePrice = -Math.Round(product.WholesalePrice * quantityInCart, 2),
                     CreatedOn = DateTime.Now,
                     CategoryName = product.Category.Name,
                 };

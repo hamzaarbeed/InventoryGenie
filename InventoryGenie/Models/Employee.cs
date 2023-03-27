@@ -1,4 +1,5 @@
-﻿using InventoryGenie.Data;
+﻿using InventoryGenie.Controllers;
+using InventoryGenie.Data;
 using InventoryGenie.Models.AllEmployees;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +63,10 @@ namespace InventoryGenie.Models
 
         public static void Logout()
         {
+            //empty the shopping cart
+            SalesController.Cart = new();
+            SalesController.ProductsInCart = new();
+
             LoggedInEmployee = null;
         }
 
@@ -122,8 +127,12 @@ namespace InventoryGenie.Models
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
 
-        //quantityExchanged can be positive(sold) or be negative(returned)
-        public virtual void ProcessTransaction(List<Product> productsInCart, Dictionary<int, int> cart)
+        public virtual void CheckOut(List<Product> productsInCart, Dictionary<int, int> cart)
+        {
+            throw new Exception("Unauthorized Access. Can't perform this function");
+        }
+
+        public virtual void Return(List<Product> productsInCart, Dictionary<int, int> cart)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

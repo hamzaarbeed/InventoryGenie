@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model Tuple<List<Product>,Dictionary<int,int>>
 
 <form method="post" asp-controller="Sales" asp-action="Index">
     <input class="form-control col-3" type="text" name="searchText">
@@ -10,7 +10,10 @@
         }
     </select>
     <button class="btn btn-primary" type="submit">Search</button>
-    <a class="btn btn-primary float-end" asp-controller="Sales" asp-action="ViewCart">Cart</a>
+
+    <a class="btn btn-primary float-end m-2" asp-controller="Sales" asp-action="ViewCart">Cart @Model.Item2.Sum(x=>x.Value)</a>
+    <a class="btn btn-primary float-end m-2" asp-controller="Sales" asp-action="ClearCart">Clear Cart</a>
+    
 </form>
 
 <table class="table table-bordered table-striped">
@@ -21,29 +24,31 @@
             <th>Description</th>
             <th>Category</th>
             <th>Supplier</th>
-
             <th>Shelf Price</th>
             <th>Transaction Quantity</th>
+            <th>Items in Cart</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model)
+        @foreach (var product in Model.Item1)
         {
             <tr>
-                <th>@product.ProductID</th>
-                <th>@product.Name</th>
-                <th>@product.Description</th>
-                <th>@product.Category.Name</th>
-                <th>@product.Supplier.SupplierName</th>
-                <th>@product.ShelfPrice</th>
-                <th>
+                <td>@product.ProductID</td>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.Category.Name</td>
+                <td>@product.Supplier.SupplierName</td>
+                <td>@product.ShelfPrice</td>
+                <td>
                     <form method="post" asp-controller="Sales" asp-action="AddToCart">
-                        <input type="number" name ="quantityToBeAddedToCart" value=1>
+                        <input type="number" name="quantityToBeAddedToCart" min="0" oninput="validity.valid||(value='');" value=1>
                         <input type="number" hidden name="productID" value=@product.ProductID>
                         <button class="btn btn-outline-primary" type="submit">Add to Cart</button>
                     </form>
-                </th>
-
+                </td>
+                <td>
+                    @Model.Item2.GetValueOrDefault(product.ProductID)
+                </td>
             </tr>
 
         }

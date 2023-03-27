@@ -9,8 +9,8 @@ namespace InventoryGenie.Controllers
         private static string? SearchText;
         private static string? SortBy;
 
-        private static Dictionary<int, int> Cart = new();
-        private static List<Product> ProductsInCart = new();
+        public static Dictionary<int, int> Cart = new();
+        public static List<Product> ProductsInCart =new();
 
         readonly string[] sortByOptions =
         {
@@ -56,18 +56,32 @@ namespace InventoryGenie.Controllers
             ViewBag.SortByOptions = sortByOptions;
             List<Product> products =
                 Employee.LoggedInEmployee.SalesManagementSearchProducts(SortBy, SearchText);
-            return View("Index", products);
+            return View("Index", new Tuple<List<Product>, Dictionary<int, int>>(products, Cart));
         }
 
-        
+        [HttpGet]
+        public IActionResult ClearCart()
+        {
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
+            Cart = new();
+            ProductsInCart = new();
+
+            return RedirectToAction("Search");
+        }
+
         [HttpPost]
         public IActionResult AddToCart(int productID, int quantityToBeAddedToCart)
         {
-            
+
             if (!Cart.ContainsKey(productID))
+            {
                 Cart.Add(productID, quantityToBeAddedToCart);
+                ProductsInCart.Add(Employee.LoggedInEmployee.GetProductByID(productID));
+            }
             else
                 Cart[productID] += quantityToBeAddedToCart;
+
             return RedirectToAction("Search");
         }
 
@@ -77,9 +91,6 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
-            ProductsInCart = new List<Product>();
-            foreach(KeyValuePair<int,int> cartItem in Cart)
-                ProductsInCart.Add(Employee.LoggedInEmployee.GetProductByID(cartItem.Key));
             return View(new Tuple<List<Product>,Dictionary<int,int>>(ProductsInCart, Cart));
         }
 
@@ -91,17 +102,28 @@ namespace InventoryGenie.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProcessTransaction()
+        public IActionResult CheckOut()
         {
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
-            Employee.LoggedInEmployee.ProcessTransaction(ProductsInCart,Cart);
+            Employee.LoggedInEmployee.CheckOut(ProductsInCart,Cart);
             ProductsInCart = new ();
             Cart = new();
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Return()
+        {
+            if (!IsAuthenticatedAndAuthorized())
+                return RedirectToAction("Index", "Home");
+
+            Employee.LoggedInEmployee.Return(ProductsInCart, Cart);
+            ProductsInCart = new();
+            Cart = new();
+            return RedirectToAction("Index");
+        }
         // if the LoggedInEmployee is not null and role is GM (1) or WL(2) or Assocaite(3) then return true.
         // if it's not true then user will be redirected to Home.
         // Home will redirect to login if there is no logged in Employee. 

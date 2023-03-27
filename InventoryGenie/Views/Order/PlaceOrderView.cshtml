@@ -57,7 +57,9 @@
                         these will be used to create order record
                     -->
                     <form method="post" asp-controller="Order" asp-action="PlaceOrder">
-                        <input type="number" name="orderQuantity" value=@recommendedQuantity>
+                        <!-- min="0" oninput="validity.valid||(value='');"  This prevent numbers from being
+                        negative-->
+                        <input type="number" name="orderQuantity" min="0" oninput="validity.valid||(value='');" value=@recommendedQuantity>
                         <input type="number" hidden name="productID" value=@Model[i].ProductID>
                         <button class="btn btn-outline-primary" type="submit">Place Order</button>
                     </form>

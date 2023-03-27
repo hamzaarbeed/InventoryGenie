@@ -30,9 +30,9 @@
                 <th>@product.MinimumLevel</th>
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">
-                    <input type="number" name="newQuantity" value=@product.Quantity>
-                    <input type ="number" hidden name="productID" value="@product.ProductID">
-                    <button class="btn btn-outline-primary" type="submit">Update</button>
+                        <input type="number" name="newQuantity" min="0" oninput="validity.valid||(value='');" value=@product.Quantity>
+                        <input type ="number" hidden name="productID" value="@product.ProductID">
+                        <button class="btn btn-outline-primary" type="submit">Update</button>
                     </form>
                 </th>
                 
