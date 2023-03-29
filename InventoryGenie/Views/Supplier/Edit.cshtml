@@ -34,7 +34,7 @@
     <a class="btn btn-primary" asp-contoller="Supplier" asp-action="Search">Cancel</a>
 
 </form>
-
+@if (Model.Products != null && Model.Products.Count > 0){
 <table class="table table-bordered table-striped mt-2">
     <thead>
         <tr>
@@ -66,3 +66,4 @@
         }
     </tbody>
 </table>
+}
