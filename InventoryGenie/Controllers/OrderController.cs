@@ -90,8 +90,16 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
-            //It will mark order in database as recieved then redirect to the same view that was posted from
-            Employee.LoggedInEmployee.ReceiveOrder(orderRecordId);
+
+            OrderRecord orderRecord = Employee.LoggedInEmployee.GetOrderRecordByID(orderRecordId);
+            ViewBag.Action = "Confirm";
+            return View("Details",orderRecord);
+        }
+
+        [HttpPost]
+        public IActionResult Receive(OrderRecord orderRecord)
+        {
+            Employee.LoggedInEmployee.ReceiveOrder(orderRecord);
             return RedirectToAction("Search");
         }
 
@@ -101,6 +109,7 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
+            ViewBag.Action = "Details";
             // Gets details of an order and show the detals in Details View
             OrderRecord orderRecord = Employee.LoggedInEmployee.GetOrderRecordByID(orderRecordId);
             return View("Details",orderRecord);

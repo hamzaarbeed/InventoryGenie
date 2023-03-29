@@ -37,7 +37,7 @@ And if LoggedInEmployee is null It will Redirect user to login page.
 ---------------------------------------------------------------------------------------
 
 Sales record are created as one record per product.
-If you have 10 items in cart. After processing tranaction. It will create 10 sales record 1 per product
+If you have 10 items in cart, after processing tranaction, it will create 10 sales record, 1 per product.
 
 The same for placing orders. Employee will order products one by one. Each time order placed for a product it will create
 one order record
@@ -47,6 +47,8 @@ one order record
 
 Note to self
 Include what each controller will search by
+Hide delete button in employee. GM can't delete himself.
+Delete product and supplier are hidden when necessary, but needs extra protection(url access)
 
 return exception handler
  */

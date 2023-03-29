@@ -211,7 +211,7 @@ namespace InventoryGenie.Models
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }
-        public virtual void ReceiveOrder(int orderRecordID)
+        public virtual void ReceiveOrder(OrderRecord orderRecord)
         {
             throw new Exception("Unauthorized Access. Can't perform this function");
         }

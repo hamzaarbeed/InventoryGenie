@@ -48,7 +48,11 @@
                 <th>
                     <a asp-controller="Employee" asp-action="Details" asp-route-id=@employee.EmployeeID>Details</a>
                     <a asp-controller="Employee" asp-action="Edit" asp-route-id=@employee.EmployeeID>Edit</a>
-                    <a asp-controller="Employee" asp-action="Delete" asp-route-id=@employee.EmployeeID>Delete</a>
+                    <!--hide delete button from in front of logged in employee-->
+                    @if (ViewBag.LoggedInEmployeeID != employee.EmployeeID)
+                    {
+                        <a asp-controller="Employee" asp-action="Delete" asp-route-id=@employee.EmployeeID>Delete</a>
+                    }
                 </th>
 
             </tr>

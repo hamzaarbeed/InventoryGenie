@@ -1,38 +1,72 @@
 ﻿@model OrderRecord
+@{
+    double WholesalePricePerUnit = Model.WholesalePrice / Model.QuantityOrdered; 
+}
 
 <!--This view to show order details-->
-<h2 class="mb-2">View Product</h2>
-
-<div class="mb-3">
-    <label class="form-label">Order On</label>
-    <input readonly value="@Model.OrderedOn" class="form-control">
-</div>
-<div class="mb-3">
-    <label class="form-label">Product</label>
-    <input readonly value="@Model.ProductName" class="form-control">
-</div>
-<div class="mb-3">
-    <label class="form-label">Category</label>
-    <input readonly value="@Model.CategoryName" class="form-control">
-</div>
-<div class="mb-3">
-    <label class="form-label">Supplier</label>
-    <input readonly value="@Model.SupplierName" class="form-control">
-</div>
-<div class="mb-3">
-    <label class="form-label">QuantityOrdered</label>
-    <input readonly value="@Model.QuantityOrdered" class="form-control">
-</div>
-<div class="mb-3">
-    <label class="form-label">Total Wholesale Price</label>
-    <input readonly value="@Model.WholesalePrice" class="form-control">
-</div>
-
-@{ // converts boolean value to Yes or No
-    string receivedYesNo = Model.IsReceived ? "Yes" : "No";
-}
-<div class="mb-3">
-    <label class="form-label">Received</label>
-    <input readonly value=@receivedYesNo class="form-control">
-</div>
-<a class="btn btn-primary" asp-contoller="Order" asp-action="Search">OK</a>
+<h2 class="mb-2">@ViewBag.Action Order</h2>
+<form method="post" asp-action="Receive" >
+    <div class="mb-3">
+        <label class="form-label">Order On</label>
+        <input readonly asp-for="OrderedOn" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Product</label>
+        <input readonly asp-for="ProductName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input readonly asp-for="CategoryName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Supplier</label>
+        <input readonly asp-for="SupplierName" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Total Wholesale Price</label>
+        <!--There is two wholesalePriceFields, one for form submition, the other one for formatting
+            I can't format asp-for field'
+        -->
+        <input id="WholesalePrice" hidden asp-for='WholesalePrice'>
+        <input id="WholesalePrice2" readonly value='@Model.WholesalePrice.ToString("c2")' class="form-control">
+    </div>
+    @if (ViewBag.Action == "Details")
+    {
+        <div class="mb-3">
+            <label class="form-label">QuantityOrdered</label>
+            <input readonly value="@Model.QuantityOrdered" class="form-control">
+        </div>
+        
+        // converts boolean value to Yes or No
+        string receivedYesNo = Model.IsReceived ? "Yes" : "No";
+        <div class="mb-3">
+            <label class="form-label">Received</label>
+        <input readonly value=@receivedYesNo class="form-control">
+        </div>
+        <a class="btn btn-primary" asp-contoller="Order" asp-action="Search">Ok</a>
+    }
+    else if (ViewBag.Action == "Confirm")
+    {
+        <div class="mb-3">
+            <label class="form-label">QuantityOrdered</label>
+            <input id = "QuantityOrdered" asp-for="QuantityOrdered" class="form-control" min="0" 
+            oninput="updateWholeSalePrice();validity.valid||(value='');">
+        </div>
+        <input hidden asp-for="OrderRecordID"/>
+        <button class="btn btn-primary" type="submit">Confirm</button>
+        <a class="btn btn-primary" asp-contoller="Order" asp-action="Search">Cancel</a>
+    }
+    <script>
+        //this function calculates the new wholesale price total and format to currency
+        function updateWholeSalePrice(){
+            
+            let USDollar = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            });
+            let newWholesalePriceTotal = parseFloat(document.getElementById('QuantityOrdered').value) * @WholesalePricePerUnit;
+            document.getElementById('WholesalePrice').value = newWholesalePriceTotal;
+            document.getElementById('WholesalePrice2').value = USDollar.format(newWholesalePriceTotal);
+        }
+    </script>
+</form>

@@ -160,12 +160,12 @@ namespace InventoryGenie.Models.AllEmployees
             }
         }
 
-        public override void ReceiveOrder(int orderRecordID)
+        public override void ReceiveOrder(OrderRecord orderRecord)
         {
-            OrderRecord orderRecord = Context.OrderRecords.Find(orderRecordID);
             if (orderRecord.IsReceived)
                 return;
-            orderRecord.IsReceived= true;
+            orderRecord.IsReceived = true;
+            Context.OrderRecords.Update(orderRecord);
             Product product = Context.Products.FirstOrDefault(x => x.Name == orderRecord.ProductName);
             product.Quantity += orderRecord.QuantityOrdered;
             Context.SaveChanges();

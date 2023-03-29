@@ -59,6 +59,9 @@ namespace InventoryGenie.Controllers
 
             // Store sortByOptions in ViewBag
             ViewBag.SortByOptions = sortByOptions;
+            
+            //used to hide delete button for the Logged in employee not not delete himself/herself 
+            ViewBag.LoggedInEmployeeID = Employee.LoggedInEmployee.EmployeeID;
             // gets list of Employees sorted by SortBy and Include the text in SearchText.
             // SearchText will search all columns shown on screen except the ones with numbers.
             List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(SortBy, SearchText);
