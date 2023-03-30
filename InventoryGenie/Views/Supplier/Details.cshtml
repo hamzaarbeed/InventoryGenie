@@ -18,21 +18,21 @@
     <input readonly value=@Model.OrderingInstructions class="form-control">
 </div>
 @if (Model.Products != null && Model.Products.Count > 0){
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Products Provided By Supplier @Model.SupplierName</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Product product in Model.Products)
-        {
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@product.Name</td>
+                <th>Products Provided By Supplier @Model.SupplierName</th>
+
             </tr>
-        }
-    </tbody>
-</table>
-    }
+        </thead>
+        <tbody>
+            @foreach (Product product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+ }
 <a class="btn btn-primary" asp-contoller="Supplier" asp-action="Search">OK</a>
