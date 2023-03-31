@@ -52,6 +52,8 @@ namespace InventoryGenie.Controllers
 
             ViewBag.SortByOptions = sortByOptions;
             List<Product> products = Employee.LoggedInEmployee.StockManagementSearchProducts(SortBy, SearchText);
+            ViewBag.SortBy = SortBy;
+            ViewBag.SearchText = SearchText;
             return View("Index",products);
         }
 

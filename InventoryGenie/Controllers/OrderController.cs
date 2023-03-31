@@ -81,6 +81,8 @@ namespace InventoryGenie.Controllers
 
             ViewBag.SortByOptions = OrderRecordSortByOptions;
             List<OrderRecord> orderRecords = Employee.LoggedInEmployee.SearchOrderRecords(SortBy, SearchText);
+            ViewBag.SortBy = SortBy;
+            ViewBag.SearchText = SearchText;
             return View("Index", orderRecords);
         }
 
@@ -166,6 +168,8 @@ namespace InventoryGenie.Controllers
                 QuantityNotReceivedCount.Add(Employee.LoggedInEmployee.GetQuantityNotReceivedForProduct(product.Name));
             }
             ViewBag.QuantityNotReceivedCount = QuantityNotReceivedCount;
+            ViewBag.SortBy = SortBy;
+            ViewBag.SearchText = SearchText;
             return View("PlaceOrderView", products);
         }
 

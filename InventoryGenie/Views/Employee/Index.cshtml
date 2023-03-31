@@ -7,13 +7,20 @@
 
 <form method="post" asp-controller="Employee" asp-action="Search">
     
-    <input class="form-control col-3" type="text" name="searchText">
+    <input class="form-control col-3" type="text" name="searchText" value="@ViewBag.SearchText">
 
     <!--populate select menu with sortOptions-->
     <select name="sortBy" class="form-select">
         @foreach (string columnName in ViewBag.SortByOptions)
         {
-            <option value=@columnName>@columnName</option>
+            if (ViewBag.SortBy == columnName)
+            {
+                <option selected value=@columnName>@columnName</option>
+            }
+            else
+            {
+                <option value=@columnName>@columnName</option>
+            }
         }
     </select>
     <button class="btn btn-primary" type="submit">Search</button>

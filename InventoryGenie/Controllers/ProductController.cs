@@ -63,7 +63,8 @@ namespace InventoryGenie.Controllers
             {
                 QuantityNotReceivedCount[i] = Employee.LoggedInEmployee.GetQuantityNotReceivedForProduct(products[i].Name);
             }
-
+            ViewBag.SortBy = SortBy;
+            ViewBag.SearchText = SearchText;
             ViewBag.QuantityNotReceivedCount = QuantityNotReceivedCount;
             return View("Index",products);
         }

@@ -65,6 +65,8 @@ namespace InventoryGenie.Controllers
             // gets list of Employees sorted by SortBy and Include the text in SearchText.
             // SearchText will search all columns shown on screen except the ones with numbers.
             List<Employee> employees = Employee.LoggedInEmployee.SearchEmployees(SortBy, SearchText);
+            ViewBag.SortBy = SortBy;
+            ViewBag.SearchText=SearchText;
             return View("Index", employees);
         }
 
