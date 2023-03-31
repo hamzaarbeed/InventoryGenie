@@ -1,13 +1,21 @@
 ﻿<form method="post" asp-action="SalesReport">
+   
+    <label>From:</label>
     <input class="col-form-label" name="from" type="date" />
+
+    <label>To:</label>
     <input class="col-form-label" name="to" type="date" />
     <button class="btn btn-primary" type="submit">Generate Sales Report</button>
-</form>
+</form><br />
 
 <form method="post" asp-action="OrdersReport">
+    
+    <label>From:</label>
     <input class="col-form-label" name="from" type="date" />
+   
+    <label>To:</label>
     <input class="col-form-label" name="to" type="date" />
     <button class="btn btn-primary" type="submit">Generate Orders Report</button>
-</form>
+</form><br />
 
 <a class = "btn btn-primary" asp-action="QuantityReport">Generate Quantity Report</a>

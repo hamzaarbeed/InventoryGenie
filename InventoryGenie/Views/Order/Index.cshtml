@@ -2,8 +2,11 @@
 
 <!--This will be the sortby searchtext form post-->
 <form method="post" asp-controller="Order" asp-action="Search">
-    <input class="form-control col-3" type="text" name="searchText" value="@ViewBag.SearchText">
+    
+    <label>Search Order:</label><br>
+    <input class="form-control col-3" type="text" name="searchText" value="@ViewBag.SearchText"><br />
 
+    <label>Sort Order by:</label><br>
     <select name="sortBy" class="form-select">
         @foreach (string columnName in ViewBag.SortByOptions)
         {
@@ -16,10 +19,10 @@
                 <option value=@columnName>@columnName</option>
             }
         }
-    </select>
+    </select><br />
     <button class="btn btn-primary" type="submit">Search</button>
     <a class="btn btn-primary float-end" asp-controller ="Order" asp-action="PlaceOrderView">Place New Order</a>
-</form>
+</form><br />
 
 <!--Table to show orders-->
 <table class="table table-bordered table-striped">
