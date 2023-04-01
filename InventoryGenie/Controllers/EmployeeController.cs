@@ -194,8 +194,13 @@ namespace InventoryGenie.Controllers
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
+            //Employee can't delete himself. redirect back to Employee search result page
+            if (Employee.LoggedInEmployee.EmployeeID == id)
+                return RedirectToAction("Search");
             // get employee by id from database
             Employee employee = Employee.LoggedInEmployee.GetEmployeeById(id);
+            
+
             //views it and asks the user to confirm deletion
             return View("Delete", employee);
         }
@@ -204,10 +209,8 @@ namespace InventoryGenie.Controllers
         [HttpPost]
         public IActionResult Delete(Employee employee)
         {
-            //Employee can't delete himself
-            if(Employee.LoggedInEmployee.EmployeeID!=employee.EmployeeID)
-                Employee.LoggedInEmployee.DeleteEmployee(employee);
-            // Either deletion was successful or not redirect to employees search screen with the same previous search settings
+            Employee.LoggedInEmployee.DeleteEmployee(employee);
+            // redirect to employees search screen with the same previous search settings
             return RedirectToAction("Search");
         }
 

@@ -153,6 +153,8 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Home");
 
             Product product = Employee.LoggedInEmployee.GetProductByID(id);
+            if (product.Quantity !=0 || Employee.LoggedInEmployee.GetQuantityNotReceivedForProduct(product.Name) != 0)
+                return RedirectToAction("Search");
             return View("Delete", product);
         }
 
