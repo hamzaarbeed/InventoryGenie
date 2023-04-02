@@ -83,7 +83,7 @@ namespace InventoryGenie.Models.AllEmployees
                 int quantityInCart = cart.GetValueOrDefault(product.ProductID);
 
                 product.Quantity -= quantityInCart;
-                Context.Products.Update(product);
+                Context.Entry(product).State = EntityState.Modified;
                 SaleRecord SaleRecord = new SaleRecord()
                 {
                     ProductName = product.Name,
@@ -107,7 +107,7 @@ namespace InventoryGenie.Models.AllEmployees
                 int quantityInCart = cart.GetValueOrDefault(product.ProductID);
 
                 product.Quantity += quantityInCart;
-                Context.Products.Update(product);
+                Context.Entry(product).State = EntityState.Modified;
                 SaleRecord SaleRecord = new SaleRecord()
                 {
                     ProductName = product.Name,
