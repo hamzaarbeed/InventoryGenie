@@ -3,7 +3,7 @@
     public class SaleRecord
     {
         public int SaleRecordID { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime SoldOn { get; set; }
         public int QuantityExchanged { get; set; }
         public double WholesalePrice { get; set; }
         public double ShelfPrice { get; set; }

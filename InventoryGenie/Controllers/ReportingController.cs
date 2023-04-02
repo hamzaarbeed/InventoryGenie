@@ -26,6 +26,9 @@ namespace InventoryGenie.Controllers
         public IActionResult SalesReport(string from,string to)
         {
             List<SaleRecord> salesReport = Employee.LoggedInEmployee.GenerateSalesReport(from, to);
+            ViewBag.SalesFromDate = from;
+            ViewBag.SalesToDate = to;
+
             return View(salesReport);
         }
 
@@ -33,6 +36,8 @@ namespace InventoryGenie.Controllers
         public IActionResult OrdersReport(string from, string to)
         {
             List<OrderRecord> OrdersReport = Employee.LoggedInEmployee.GenerateOrdersReport(from, to);
+            ViewBag.OrdersFromDate = from;
+            ViewBag.OrdersToDate = to;
             return View(OrdersReport);
         }
 

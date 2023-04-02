@@ -1,6 +1,8 @@
 ﻿@model List<SaleRecord>
 
 <h1>Sales Report</h1>
+<h2>From @ViewBag.SalesFromDate to @ViewBag.SalesToDate</h2>
+
 <button class="btn btn-primary float-end mb-3" type="button" onclick="window.print()">Print</button>
 <table class="table table-bordered table-striped">
     <thead>
