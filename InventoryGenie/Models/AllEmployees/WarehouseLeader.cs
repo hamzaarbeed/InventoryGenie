@@ -218,7 +218,7 @@ namespace InventoryGenie.Models.AllEmployees
             DateTime fromDateTime = DateOnly.Parse(from).ToDateTime(TimeOnly.Parse("00:00:00"));
             DateTime toDateTime = DateOnly.Parse(to).ToDateTime(TimeOnly.Parse("23:59:59"));
 
-            IQueryable<SaleRecord> query = Context.SaleRecords.Where(x => x.SoldOn >= fromDateTime && x.SoldOn <= toDateTime);
+            IQueryable<SaleRecord> query = Context.SaleRecords.Where(x => x.CreatedOn >= fromDateTime && x.CreatedOn <= toDateTime);
             query = query.GroupBy(x => x.ProductName).Select(g => new SaleRecord
             {
                 ProductName = g.First().ProductName,

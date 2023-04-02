@@ -16,6 +16,8 @@ namespace InventoryGenie.Models
         public string Name { get; set; } = string.Empty;
 
         public string? Description { get; set; }
+
+        //CategoryID is a foreign key
         public int CategoryId { get; set; }
         [ValidateNever]
         public Category Category { get; set; } = null!;
