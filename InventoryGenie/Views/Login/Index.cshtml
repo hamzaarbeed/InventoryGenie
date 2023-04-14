@@ -3,26 +3,32 @@
     ViewData["Title"] = "Login";
 }
 
+<link rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
+      integrity="sha-long-hash_code" crossorigin="anonymous">
+<h2 class="mb-2 text-center">Welcome!</h2>
 
-<h2 class="mb-2">Welcome to Inventory Genie! Please enter your username and password.</h2>
-<h2 class="mb-2">@ViewBag.Title</h2>
 
-<form method="post" asp-action="Login">
-    <div class="mb-3">
-        <label asp-for="UserName" class="form-label">User Name</label>
-        <input asp-for="UserName" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label">Password</label>
-        <input asp-for="Password" type="password" class="form-control">
-    </div>
-    @{ // if Msg is not null then show the Msg
-        if (ViewBag.Msg != null)
-        {
-            <div class="mb-3">
-                <label class="text-danger">@ViewBag.Msg</label>
-            </div>
+<div class="loginpage">
+    <h2 class="mb-2 fa fa-regular">@ViewBag.Title</h2>
+    <form method="post" asp-action="Login">
+        <div class="mb-3 col-md-3">
+            <label asp-for="UserName" class="form-label">User Name</label>
+            <input asp-for="UserName" class="form-control" placeholder="Your Username Here...">
+        </div>
+        <div class="mb-3 col-md-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Your Password Here...">
+        </div>
+        @{
+            // if Msg is not null then show the Msg
+            if (ViewBag.Msg != null)
+            {
+                <div class="mb-3">
+                    <label class="text-danger">@ViewBag.Msg</label>
+                </div>
+            }
         }
-    }
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+        <button type="submit" class="btn btn-outline-primary fas fa-sign-in">&nbsp;Login</button>
+    </form>
+</div>
