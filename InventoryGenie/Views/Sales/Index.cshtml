@@ -7,7 +7,7 @@
 
     <div class="alig col-md-3">
         <label> Search Product:</label>
-        <input class="form-control" type="text" name="searchText" value="@ViewBag.SearchText">
+        <input class="form-control" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText">
         <label>Sort Product by:</label>
         <select name="sortBy" class="form-select">
             @foreach (string columnName in ViewBag.SortByOptions)

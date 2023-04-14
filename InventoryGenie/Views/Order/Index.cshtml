@@ -4,7 +4,7 @@
 <form method="post" asp-controller="Order" asp-action="Search">
     
     <label>Search Order:</label><br>
-    <input class="form-control col-3" type="text" name="searchText" value="@ViewBag.SearchText"><br />
+    <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText"><br />
 
     <label>Sort Order by:</label><br>
     <select name="sortBy" class="form-select">
