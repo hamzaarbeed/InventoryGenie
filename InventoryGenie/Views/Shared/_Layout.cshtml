@@ -21,69 +21,97 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <i class="fa-sharp fa-solid fa-database"></i><a class="navbar-brand  fa fa-regular" asp-area="" asp-controller="Home" asp-action="Index">&nbsp;&nbsp;Inventory Genie</a>
+        <div class="header-left">
+            <i class="fa-sharp fa-solid fa-database"></i>
+            <a class="logo navbar-brand fa fa-regular">Inventory Genie</a>
+            <input type="checkbox" id="nav_check" hidden />
+            <nav>
+                    <i class="logo fa-sharp fa-solid fa-database"></i>
+                    <a class="logo navbar-brand fa fa-regular">Inventory Genie</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul>
 
+                        @if (ViewBag.Role == 1 || ViewBag.Role == 2 || ViewBag.Role == 3)
+                        {
+                            <li class="nav-item">
+                                <a class="active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        }
                         @if (ViewBag.Role == 1)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+                                <a asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2)
                         {
                             <li class="nav-item">
-
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Supplier" asp-action="Index">Suppliers</a>
+                                <a asp-area="" asp-controller="Supplier" asp-action="Index">Suppliers</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                                <a asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2 || ViewBag.Role == 3)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Stock" asp-action="Index">Stocks</a>
+                                <a asp-area="" asp-controller="Stock" asp-action="Index">Stocks</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reporting" asp-action="Index">Reports</a>
+                                <a class="" asp-area="" asp-controller="Reporting" asp-action="Index">Reports</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2 || ViewBag.Role == 3)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
+                                <a class="" asp-area="" asp-controller="Sales" asp-action="Index">Sales</a>
                             </li>
                         }
                         @if (ViewBag.Role == 1 || ViewBag.Role == 2)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                                <a asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                            </li>
+                        }
+                        @if (ViewBag.Role != 0)
+                        {
+                            <li class="logout-btn-burger">
+                                <a class="btn btn-outline-primary fa-solid fa-text" asp-area="" asp-controller="Login" asp-action="LogOut">Log Out&nbsp;<i class="fa fa-sign-out"></i></a>
                             </li>
                         }
                     </ul>
-                </div>
+            </nav>
+        </div>
+        <div class="header-right">
+            <ul>
                 @if (ViewBag.Role != 0)
                 {
-                    <a class="btn btn-outline-primary fa-solid fa-text" asp-area="" asp-controller="Login" asp-action="LogOut">Log Out&nbsp;<i class="fa fa-sign-out"></i></a>
+                    <li class="logout-btn-right">
+                        <a class="btn btn-outline-primary fa-solid fa-text" asp-area="" asp-controller="Login" asp-action="LogOut">Log Out&nbsp;<i class="fa fa-sign-out"></i></a>
+                    </li>
                 }
+            </ul>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
-        </nav>
+        </div>
     </header>
+    <!-- Script to activate the hamburger menu when resizing screen. -->
+    <script>
+        hamburger = document.querySelector(".hamburger");
+        nav = document.querySelector("nav");
+        hamburger.onclick = function () {
+            nav.classList.toggle("active");
+        };
+    </script>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -95,9 +123,29 @@
             &copy; 2023 - InventoryGenie
         </div>
     </footer>
+    <script type="module"
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Set navbar elements to active when selected. -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-item a').forEach(link => {
+                if (link.getAttribute('href').toLowerCase() === location.pathname.toLowerCase()) {
+                    link.classList.add('active');
+                }
+                else if (link.getAttribute('href').toLowerCase() + "search/" === location.pathname.toLowerCase()) {
+                    link.classList.add('active');
+                }
+                else {
+                    link.classList.remove('active');
+                }
+            });
+        })
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

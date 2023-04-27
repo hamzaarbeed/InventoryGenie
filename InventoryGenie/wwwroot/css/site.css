@@ -1,5 +1,19 @@
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css");
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+i {
+    margin-right: 10px;
+}
+
 html {
   font-size: 14px;
+  z-index: 9999;
 }
 
 @media (min-width: 768px) {
@@ -15,4 +29,225 @@ html {
 
 body {
   margin-bottom: 60px;
+  height: 100%;
+}
+
+header {
+    height: 70px;
+    background: #e3e9f7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-radius: 0 0 10px 10px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+header .header-left {
+    display: flex;
+    align-items: center;
+}
+
+header .header-left .logo {
+    width: 100%;
+    color: black;
+}
+
+header .header-left nav {
+    margin-left: 80px;
+}
+
+header .header-left nav ul {
+    display: flex;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav .logo {
+    display: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #212526;
+    display: block;
+    padding: 5px 10px;
+    transition: 0.2s;
+    border-radius: 20px;
+    margin-top: 15px;
+}
+
+nav ul li a:hover {
+    background: #68acf0;
+    color: #fff;
+}
+
+nav ul li a.active {
+    background: #1976D2;
+    color: #fff;
+}
+
+.nav-item a.active {
+    background: #1976D2;
+    color: #fff;
+}
+
+header .header-right {
+    display: flex;
+    align-items: center;
+}
+
+header .header-right .hamburger {
+    margin-left: 9px;
+    cursor: pointer;
+    display: none;
+}
+
+header .header-right .hamburger div {
+    width: 20px;
+    height: 2px;
+    margin: 4px 0;
+    background: #212526;
+}
+
+.logout-btn-right {
+    float: right;
+    margin-top: 10px;
+}
+
+.logout-btn-burger {
+    display: none;
+}
+
+/* Hamburger menu styling. */
+@media only screen and (max-width: 1100px) {
+    header {
+        padding: 0 10px;
+    }
+
+    header .header-right .hamburger {
+        display: block;
+    }
+
+    header .header-left nav {
+        margin: 0;
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        background-color: #e3e9f7;
+        transition: 0.3s;
+        text-align: center;
+        z-index: 999;
+    }
+
+    header .header-left nav.active {
+        top: 70px;
+    }
+
+    header .header-left nav ul {
+        display: block;
+        margin-left: -25px;
+    }
+
+    .logout-btn-right {
+        display: none;
+    }
+
+    .logout-btn-burger {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 10px) {
+    header .header-right {
+        display: none;
+    }
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.form-box {
+    position: relative;
+    width: 400px;
+    height: 450px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    font-family: FontAwesome;
+    font-size: 2em;
+    color: #000;
+    text-align: center;
+}
+
+.inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #000;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #000;
+    font-size: 1em;
+    pointer-events: none;
+    /* Time for text to transition up. */
+    transition: 0.5s;
+}
+
+/* Animation for the labels to move when selected in login form. */
+input:focus ~ label,
+input:valid ~ label {
+    top: -5px;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: #000;
+}
+
+/* Position of icons in login form. */
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #000;
+    font-size: 1.2em;
+    top: 20px;
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #63c3e9;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
 }
