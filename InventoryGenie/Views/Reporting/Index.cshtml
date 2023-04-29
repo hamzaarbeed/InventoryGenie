@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Reports";
 }
+<h1>Sales Report</h1>
 <form method="post" asp-action="SalesReport">
    
     <label>From:</label>
@@ -8,17 +9,21 @@
 
     <label>To:</label>
     <input class="col-form-label" name="to" type="date" />
-    <button class="btn btn-outline-primary fa-solid fa-text" type="submit">Generate Sales Report</button>
+    <button class="btn btn-outline-primary col-md-5 fa-solid fa-text" type="submit">Generate Sales Report</button>
 </form><br />
+<hr />
 
+<h1>Orders Report</h1>
 <form method="post" asp-action="OrdersReport">
     
     <label>From:</label>
     <input class="col-form-label" name="from" type="date" />
    
     <label>To:</label>
-    <input class="col-form-label" name="to" type="date" />
-    <button class="btn btn-outline-primary fa-solid fa-text" type="submit">Generate Orders Report</button>
+    <input class="col-form-label" name="to" type="date"/>
+    <button class="btn btn-outline-primary col-md-5 fa-solid fa-text" type="submit">Generate Orders Report</button>
 </form><br />
+<hr />
 
-<a class="btn btn-outline-primary fa-solid fa-text" asp-action="QuantityReport">Generate Quantity Report</a>
+<h1>Quantity Report</h1>
+<a class="btn btn-outline-primary col-md-5 fa-solid fa-text" asp-action="QuantityReport">Generate Quantity Report</a>
