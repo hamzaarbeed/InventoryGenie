@@ -7,11 +7,15 @@ namespace InventoryGenie.Controllers
 {
     public class ProductController : Controller
     {
+        //holds SearchText and SortBy 
         private static string? SearchText;
         private static string? SortBy;
+
+        //Gets all Suppliers and all Categories to save many trips to database
         private static List<Supplier> Suppliers = new();
         private static List<Category> Categories = new();
 
+        //sortby options
         readonly string[] sortByOptions =
         {
             "Product ID",
@@ -20,12 +24,14 @@ namespace InventoryGenie.Controllers
             "Category",
             
         };
+
+        //give DbContext to Employee 
         public ProductController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
         }
 
-
+        //first function to be called in this controller
         [HttpGet]
         public IActionResult Index()
         {
@@ -35,12 +41,18 @@ namespace InventoryGenie.Controllers
             Categories = Employee.LoggedInEmployee.GetAllCategories();
             Suppliers = Employee.LoggedInEmployee.GetAllSuppliers();
 
+            //The default settings for sortby and searchtext
             SortBy = "Product ID";
             SearchText = null;
+
+            //after getting default settings set up redirect to HttpGet Search to show all products in Index view 
             return RedirectToAction("Search");
             
         }
 
+        // when pressing search button
+        //it set the static fields sortby and searchtext to values passed in the parameter
+        // then redirect to HttpGet Search to show the products accordingly
         [HttpPost]
         public IActionResult Search(string searchText, string sortBy)
         {
@@ -49,6 +61,7 @@ namespace InventoryGenie.Controllers
             return RedirectToAction("Search");
         }
 
+        //This is the function that will show the products according to SortBy and SearchText
         [HttpGet]
         public IActionResult Search()
         {
@@ -70,6 +83,7 @@ namespace InventoryGenie.Controllers
         }
 
 
+        //this shows details of a product
         [HttpGet]
         public IActionResult Details(int id)
         {
@@ -80,6 +94,7 @@ namespace InventoryGenie.Controllers
             return View(product);
         }
 
+        //this prepare the ViewBag for HttpGet Search
         private void PrepareViewBagFor(string actionName)
         {
             ViewBag.Action = actionName;
@@ -87,6 +102,7 @@ namespace InventoryGenie.Controllers
             ViewBag.Suppliers = Suppliers;
         }
 
+        //to add new product
         [HttpGet]
         public IActionResult Add()
         {
@@ -97,8 +113,8 @@ namespace InventoryGenie.Controllers
             return View("Edit", new Product());
         }
 
-        
 
+        //to add new product
         [HttpPost]
         public IActionResult Add(Product product)
         {
@@ -122,6 +138,7 @@ namespace InventoryGenie.Controllers
             return View("Edit",product);
         }
 
+        //to edit a product
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -133,6 +150,7 @@ namespace InventoryGenie.Controllers
             return View("Edit", product);
         }
 
+        //to edit a product
         [HttpPost]
         public IActionResult Edit(Product product)
         {
@@ -146,6 +164,8 @@ namespace InventoryGenie.Controllers
             return View("Edit", product);
         }
 
+
+        //to delete a product
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -158,6 +178,7 @@ namespace InventoryGenie.Controllers
             return View("Delete", product);
         }
 
+        //to delete a product
         [HttpPost]
         public IActionResult Delete(Product product)
         {
@@ -165,6 +186,7 @@ namespace InventoryGenie.Controllers
             return RedirectToAction("Search");
         }
 
+        //to change state of product from active to inactive.
         [HttpPost]
         public IActionResult ChangeState(int productID)
         {

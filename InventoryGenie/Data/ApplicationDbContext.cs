@@ -36,7 +36,7 @@ namespace InventoryGenie.Data
             AddEssentialData(modelBuilder);
 
             //these are optional. For demonstration purpose
-            AddDummyData(modelBuilder);
+            //AddDummyData(modelBuilder);
         }
 
         private void AddEssentialData(ModelBuilder modelBuilder)

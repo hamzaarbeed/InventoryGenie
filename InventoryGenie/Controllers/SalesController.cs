@@ -9,6 +9,8 @@ namespace InventoryGenie.Controllers
         private static string? SearchText;
         private static string? SortBy;
 
+        //these hold the items in the cart and the quantity of the product in the cart
+        //cart is emptied after checkout or return, or at logout  
         public static Dictionary<int, int> Cart = new();
         public static List<Product> ProductsInCart =new();
 
@@ -20,24 +22,29 @@ namespace InventoryGenie.Controllers
             "Supplier",
             "Shelf Price"
         };
+
+        //gives DbContext to Employee
         public SalesController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
         }
 
-
+        //first function to be called in this controller
         [HttpGet]
         public IActionResult Index()
         {
             if (!IsAuthenticatedAndAuthorized())
                 return RedirectToAction("Index", "Home");
 
-
+            //The default settings for sortby and searchtext
             SortBy = "Product ID";
             SearchText = null;
+
+            //after getting default settings set up redirect to HttpGet Search to show all products in Index view 
             return RedirectToAction("Search");
             
         }
+
 
         [HttpPost]
         public IActionResult Search(string searchText, string sortBy)

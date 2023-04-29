@@ -6,13 +6,13 @@ namespace InventoryGenie.Controllers
 {
     public class ReportingController : Controller
     {
-
+        //gives DbContext to Employee
         public ReportingController(ApplicationDbContext ctx)
         {
             Employee.Context = ctx;
         }
 
-
+        //first funciton to be called in this controller
         [HttpGet]
         public IActionResult Index()
         {
@@ -22,6 +22,7 @@ namespace InventoryGenie.Controllers
             return View();
         }
 
+        //This generates SalesReport and open Sales report view
         [HttpPost]
         public IActionResult SalesReport(string from,string to)
         {
@@ -32,6 +33,7 @@ namespace InventoryGenie.Controllers
             return View(salesReport);
         }
 
+        //This generates OrdersReport and open Orders report view
         [HttpPost]
         public IActionResult OrdersReport(string from, string to)
         {
@@ -41,6 +43,7 @@ namespace InventoryGenie.Controllers
             return View(OrdersReport);
         }
 
+        //This generates Quantity and open Quantity report view
         [HttpGet]
         public IActionResult QuantityReport()
         {
