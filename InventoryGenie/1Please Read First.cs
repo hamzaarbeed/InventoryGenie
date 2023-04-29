@@ -43,12 +43,4 @@ The same for placing orders. Employee will order products one by one. Each time 
 one order record
 
 
-----------------------------------------------------------------------------------------
-
-Note to self
-Include what each controller will search by
-Hide delete button in employee. GM can't delete himself.
-Delete product and supplier are hidden when necessary, but needs extra protection(url access)
-
-return exception handler
  */

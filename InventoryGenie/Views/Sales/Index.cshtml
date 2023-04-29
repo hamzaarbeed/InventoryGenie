@@ -1,34 +1,45 @@
-﻿@model Tuple<List<Product>,Dictionary<int,int>>
+﻿@{
+    ViewData["Title"] = "Sales";
+}
+@model Tuple<List<Product>,Dictionary<int,int>>
 
 <link rel="stylesheet"
       href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"
       integrity="sha-long-hash_code" crossorigin="anonymous">
 <form method="post" asp-controller="Sales" asp-action="Search">
+    <div class="row">
+        <div class="col-md-6">
+            <label> Search Product:</label>
+            <input class="form-control" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText">
+        </div>
+        <div class="col-md-3">
+            <label>Sort Product by:</label>
+            <select name="sortBy" class="form-select">
+                @foreach (string columnName in ViewBag.SortByOptions)
+                {
+                    if (ViewBag.SortBy == columnName)
+                    {
+                        <option selected value=@columnName>@columnName</option>
+                    }
+                    else
+                    {
+                        <option value=@columnName>@columnName</option>
+                    }
+                }
+            </select>
+        </div>
 
-    <div class="alig col-md-3">
-        <label> Search Product:</label>
-        <input class="form-control" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText">
-        <label>Sort Product by:</label>
-        <select name="sortBy" class="form-select">
-            @foreach (string columnName in ViewBag.SortByOptions)
-            {
-                if (ViewBag.SortBy == columnName)
-                {
-                    <option selected value=@columnName>@columnName</option>
-                }
-                else
-                {
-                    <option value=@columnName>@columnName</option>
-                }
-            }
-        </select>
+        <div class="col-md-3">
+            <br />
+            <button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button>
+            <br />
+        </div>
     </div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button><br /></div>
-
-    <div>
+    <div class="col-md-3 float-end">
         <br />
-        <a class="btn btn-outline-primary float-end m-2 fas fa-shopping-cart" asp-controller="Sales" asp-action="ViewCart">&nbsp;Cart&nbsp;<span class="badge bg-primary">@Model.Item2.Sum(x=>x.Value)</span></a>
-        <a class="btn btn-outline-primary float-end m-2 fas fa-trash" asp-controller="Sales" asp-action="ClearCart">&nbsp;Clear Cart</a>
+        <a class="btn btn-outline-primary m-2 fas fa-trash" asp-controller="Sales" asp-action="ClearCart">&nbsp;Clear Cart</a>
+        <a class="btn btn-outline-primary m-2 fas fa-shopping-cart" asp-controller="Sales" asp-action="ViewCart">&nbsp;Cart&nbsp;<span class="badge bg-primary">@Model.Item2.Sum(x=>x.Value)</span></a>
+        
     </div>
 </form>
 <br />

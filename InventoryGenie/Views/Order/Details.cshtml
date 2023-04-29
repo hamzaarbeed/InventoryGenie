@@ -1,4 +1,7 @@
-﻿@model OrderRecord
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+@model OrderRecord
 @{
     double WholesalePricePerUnit = Model.WholesalePrice / Model.QuantityOrdered; 
 }

@@ -1,4 +1,7 @@
-﻿@model Product
+﻿@{
+    ViewData["Title"] = "Products";
+}
+@model Product
 <h2>Confirm Deletion</h2>
 <form method="post" asp-action="Delete">
     <div><label class="text-primary" asp-for="Name">@Model.Name</Label></div>

@@ -1,4 +1,7 @@
-﻿<form method="post" asp-action="SalesReport">
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+<form method="post" asp-action="SalesReport">
    
     <label>From:</label>
     <input class="col-form-label" name="from" type="date" />

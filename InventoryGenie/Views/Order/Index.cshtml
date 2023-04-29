@@ -1,28 +1,40 @@
-﻿@model List<OrderRecord>
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+@model List<OrderRecord>
 
 <!--This will be the sortby searchtext form post-->
 <form method="post" asp-controller="Order" asp-action="Search">
+    <div class="row"> 
+        <div class="col-md-6">
+            <label>Search Order:</label><br/>
+            <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText">
+        </div>
+        <div class="col-md-3">
+            <label>Sort Order by:</label><br/>
+            <select name="sortBy" class="form-select">
+                @foreach (string columnName in ViewBag.SortByOptions)
+                {
+                    if (ViewBag.SortBy == columnName)
+                    {
+                        <option selected value=@columnName>@columnName</option>
+                    }
+                    else
+                    {
+                        <option value=@columnName>@columnName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <br/>
+            <button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button>
+        </div>
+    </div>
+    <br />
+    <a class="btn btn-outline-primary fa-solid fa-text mb-3 col-md-3 float-end" asp-controller="Order" asp-action="PlaceOrderView">Place New Order</a>
     
-    <label>Search Order:</label><br>
-    <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText"><br />
-
-    <label>Sort Order by:</label><br>
-    <select name="sortBy" class="form-select">
-        @foreach (string columnName in ViewBag.SortByOptions)
-        {
-            if (ViewBag.SortBy == columnName)
-            {
-                <option selected value=@columnName>@columnName</option>
-            }
-            else
-            {
-                <option value=@columnName>@columnName</option>
-            }
-        }
-    </select><br />
-    <button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button>
-    <a class="btn btn-outline-primary fa-solid fa-text float-end" asp-controller="Order" asp-action="PlaceOrderView">Place New Order</a>
-</form><br />
+</form>
 
 <!--Table to show orders-->
 <table class="table table-bordered table-striped">

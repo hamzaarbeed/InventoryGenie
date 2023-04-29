@@ -1,4 +1,7 @@
-﻿@model Supplier
+﻿@{
+    ViewData["Title"] = "Suppliers";
+}
+@model Supplier
 <h2 class="mb-2">@ViewBag.Action Supplier</h2>
 @if (ViewBag.Action == "Edit")
 {
@@ -30,8 +33,10 @@
         <label asp-for="OrderingInstructions" class="form-label">Ordering Instructions</label>
         <textarea asp-for="OrderingInstructions" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
-    <a class="btn btn-primary" asp-contoller="Supplier" asp-action="Search">Cancel</a>
+    <div class="row">
+        <button type="submit" class="btn m-md-3 col-md-3 btn-primary">@ViewBag.Action</button>
+        <a class="btn btn-primary col-md-3 m-md-3" asp-contoller="Supplier" asp-action="Search">Cancel</a>
+    </div>
 
 </form>
 @if (Model.Products != null && Model.Products.Count > 0){

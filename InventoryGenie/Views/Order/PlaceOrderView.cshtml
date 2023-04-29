@@ -1,27 +1,44 @@
-﻿@model List<Product>
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+@model List<Product>
 
 <!--This to post searchby sortBy and ShowOnlyBelowMinimumLevel variables to SearchProduct action-->
 <form method="post" asp-controller="Order" asp-action="SearchProduct">
-    <input class="form-control col-3" type="text" name="searchText" value="@ViewBag.SearchText">
+    <div class="row">
+        <div class="col-md-3">
+            <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText">
+        </div>
+        <div class="col-md-3">
+            <select name="sortBy" class="form-select">
+                @foreach (string columnName in ViewBag.SortByOptions)
+                {
+                    if (ViewBag.SortBy == columnName)
+                    {
+                        <option selected value=@columnName>@columnName</option>
+                    }
+                    else
+                    {
+                        <option value=@columnName>@columnName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="checkbox" value=@ViewBag.ShowOnlyBelowMinimumLevel checked=@ViewBag.ShowOnlyBelowMinimumLevel name="showOnlyBelowMinimumLevel" />
+            <label >Show Only Products Below Minimum Level</label>
+            <!--check box for ShowOnlyBelowMinimumLevel-->
+            
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
 
-    <select name="sortBy" class="form-select">
-        @foreach (string columnName in ViewBag.SortByOptions)
-        {
-            if (ViewBag.SortBy == columnName)
-            {
-                <option selected value=@columnName>@columnName</option>
-            }
-            else
-            {
-                <option value=@columnName>@columnName</option>
-            }
-        }
-    </select>
-    <input type="checkbox" value=@ViewBag.ShowOnlyBelowMinimumLevel checked=@ViewBag.ShowOnlyBelowMinimumLevel name="showOnlyBelowMinimumLevel" />
-    <labe class="me-4">Show Only Products Below Minimum Level</labe>
-    <!--check box for ShowOnlyBelowMinimumLevel-->
-    <button class="btn btn-primary" type="submit">Search</button>
-    <a class="btn btn-primary float-end" asp-action="Index">Back</a>
+    
+    </div>
+    <br />
+    <a class="btn mb-3 btn-primary float-end" asp-action="Index">Back</a>
+    
 </form>
 
 <!--Table that show list of products passed in List<Product>-->
@@ -66,9 +83,15 @@
                     <form method="post" asp-controller="Order" asp-action="PlaceOrder">
                         <!-- min="0" oninput="validity.valid||(value='');"  This prevent numbers from being
                         negative-->
-                        <input type="number" name="orderQuantity" min="0" oninput="validity.valid||(value='');" value=@recommendedQuantity>
-                        <input type="number" hidden name="productID" value=@Model[i].ProductID>
-                        <button class="btn btn-outline-primary" type="submit">Place Order</button>
+                        <div class="row">
+                            <div class="col float-start">
+                                <input class="w-75 input-group-text bg-white" type="number" name="orderQuantity" min="0" oninput="validity.valid||(value='');" value=@recommendedQuantity>
+                            </div>
+                            <div class="col float-end">
+                                <button class="btn btn-outline-primary" type="submit">Place Order</button>
+                            </div>
+                            <input type="number" hidden name="productID" value=@Model[i].ProductID>
+                        </div>
                     </form>
                 </th>
 

@@ -1,25 +1,35 @@
-﻿@model List<Product>
+﻿@{
+    ViewData["Title"] = "Stocks";
+}
+@model List<Product>
 
 <form method="post" asp-controller="Stock" asp-action="Search">
-    
-    <label>Search Product:</label><br>
-    <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText"><br />
-
-    <label>Sort Product by:</label><br>
-    <select name="sortBy" class="form-select">
-        @foreach (string columnName in ViewBag.SortByOptions)
-        {
-            if (ViewBag.SortBy == columnName)
-            {
-                <option selected value=@columnName>@columnName</option>
-            }
-            else
-            {
-                <option value=@columnName>@columnName</option>
-            }
-        }
-    </select><br />
-    <button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Search Product:</label><br>
+            <input class="form-control col-3" placeholder="Leave Blank to Show All." type="text" name="searchText" value="@ViewBag.SearchText"><br />
+        </div>
+        <div class="col-md-3">
+            <label>Sort Product by:</label><br>
+            <select name="sortBy" class="form-select">
+                @foreach (string columnName in ViewBag.SortByOptions)
+                {
+                    if (ViewBag.SortBy == columnName)
+                    {
+                        <option selected value=@columnName>@columnName</option>
+                    }
+                    else
+                    {
+                        <option value=@columnName>@columnName</option>
+                    }
+                }
+            </select><br />
+        </div>
+        <div class="col-md-3">
+            <br />
+            <button class="btn btn-outline-primary fa fa-search" type="submit">&nbsp;Search</button>
+        </div>
+    </div>
 </form><br />
 
 <table class="table table-bordered table-striped">
@@ -40,9 +50,16 @@
                 <th>@product.MinimumLevel</th>
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">
-                        <input type="number" name="newQuantity" min="0" oninput="validity.valid||(value='');" value=@product.Quantity>
-                        <input type ="number" hidden name="productID" value="@product.ProductID">
-                        <button class="btn btn-outline-primary" type="submit">Update</button>
+                        <div class="row">
+                            <div class="col float-start">
+                                <input class="input-group-text bg-white" type="number" name="newQuantity" min="0" oninput="validity.valid||(value='');" value=@product.Quantity>
+                            </div>
+                            
+                            <div class="col float-end">
+                                <button class="btn btn-outline-primary" type="submit">Update</button>
+                            </div>
+                            <input type="number" hidden name="productID" value="@product.ProductID">
+                        </div>
                     </form>
                 </th>
                 

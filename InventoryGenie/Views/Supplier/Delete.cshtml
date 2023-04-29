@@ -1,4 +1,7 @@
-﻿@model Supplier
+﻿@{
+    ViewData["Title"] = "Suppliers";
+}
+@model Supplier
 <h2>Confirm Deletion</h2>
 <h3>@Model.SupplierName</h3>
 <form method="post" asp-action="Delete">
