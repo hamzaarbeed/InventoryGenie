@@ -54,17 +54,19 @@
                     <th>@product.Name</th>
                     <th>
                         <form method="post" asp-action="ChangeProductSupplier">
-                            <input hidden name="productID" value=@product.ProductID />
-                            <select name="newSupplierID">
-                                @foreach (Supplier supplier in ViewBag.Suppliers)
-                                {
-                                    if (Model.SupplierID != supplier.SupplierID)
+                            <input  hidden name="productID" value=@product.ProductID />
+                            <div class="row p-1">
+                                <select class="col me-1 form-select" name="newSupplierID">
+                                    @foreach (Supplier supplier in ViewBag.Suppliers)
                                     {
-                                        <option value=@supplier.SupplierID>@supplier.SupplierName</option>
+                                        if (Model.SupplierID != supplier.SupplierID)
+                                        {
+                                            <option value=@supplier.SupplierID>@supplier.SupplierName</option>
+                                        }
                                     }
-                                }
-                            </select>
-                            <button type="submit">Change Supplier</button>
+                                </select>
+                                <button class="col btn btn-outline-primary" type="submit">Change Supplier</button>
+                            </div>
                         </form>
                     </th>
                 </tr>

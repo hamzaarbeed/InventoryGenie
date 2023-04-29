@@ -69,9 +69,18 @@
                 <td>@product.ShelfPrice</td>
                 <td>
                     <form method="post" asp-controller="Sales" asp-action="AddToCart">
-                        <input type="number" name="quantityToBeAddedToCart" min="0" oninput="validity.valid||(value='');" value=1>
-                        <input type="number" hidden name="productID" value=@product.ProductID>
-                        <button class="btn btn-outline-primary" type="submit">Add to Cart</button>
+                        <div class="row">
+                            <div class="col float-start">
+                                <input class="w-75" type="number" name="quantityToBeAddedToCart" min="0" oninput="validity.valid||(value='');" value=1>
+                            </div>
+                            <div class="col float-end">
+                                <button class="btn btn-outline-primary" type="submit">Add to Cart</button>
+                            </div>
+                            <input type="number" hidden name="productID" value=@product.ProductID>
+                        </div>
+                        
+                        
+                        
                     </form>
                 </td>
                 <td>
