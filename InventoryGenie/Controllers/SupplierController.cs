@@ -135,9 +135,11 @@ namespace InventoryGenie.Controllers
                 return RedirectToAction("Index", "Home");
 
             Supplier supplier = Employee.LoggedInEmployee.GetSupplierByID(id);
-            if (supplier.Products != null || supplier.Products.Count !=0)
+
+            if (supplier.Products == null || supplier.Products.Count ==0)
+                return View("Delete", supplier);
+            else
                 return RedirectToAction("Search");
-            return View("Delete", supplier);
         }
 
         [HttpPost]
