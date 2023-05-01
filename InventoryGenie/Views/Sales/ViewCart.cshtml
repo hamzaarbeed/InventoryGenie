@@ -23,9 +23,11 @@
                 <th>@product.Name</th>
                 <th>
                     <form asp-action="UpdateCart">
-                        <input type="number" name="changeQuantityInCart" min="0" oninput="validity.valid||(value='');" value=@Model.Item2[product.ProductID]>
-                        <input type="number" hidden name="productID" value=@product.ProductID>
-                        <button class="btn btn-outline-primary" type="submit">Update Cart</button>
+                        <div class="row">   
+                            <input class="col-5 input-group-text bg-white" type="number" name="changeQuantityInCart" min="0" oninput="validity.valid||(value='');" value=@Model.Item2[product.ProductID]>
+                            <input type="number" hidden name="productID" value=@product.ProductID>
+                            <button class="col-5 btn btn-outline-primary float-end" type="submit">Update Cart</button>
+                        </div>
                     </form>
                 </th>
 

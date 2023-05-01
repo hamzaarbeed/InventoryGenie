@@ -51,13 +51,11 @@
                 <th>
                     <form method="post" asp-controller="Stock" asp-action="Update">
                         <div class="row">
-                            <div class="col float-start">
-                                <input class="input-group-text bg-white" type="number" name="newQuantity" min="0" oninput="validity.valid||(value='');" value=@product.Quantity>
-                            </div>
                             
-                            <div class="col float-end">
-                                <button class="btn btn-outline-primary" type="submit">Update</button>
-                            </div>
+                            <input class="col-4 m-1 input-group-text bg-white" type="number" name="newQuantity" min="0" oninput="validity.valid||(value='');" value=@product.Quantity>
+
+                            <button class="col-6 m-1 btn btn-outline-primary" type="submit">Update</button>
+                           
                             <input type="number" hidden name="productID" value="@product.ProductID">
                         </div>
                     </form>

@@ -84,12 +84,11 @@
                         <!-- min="0" oninput="validity.valid||(value='');"  This prevent numbers from being
                         negative-->
                         <div class="row">
-                            <div class="col float-start">
-                                <input class="w-75 input-group-text bg-white" type="number" name="orderQuantity" min="0" oninput="validity.valid||(value='');" value=@recommendedQuantity>
-                            </div>
-                            <div class="col-7 float-end">
-                                <button class="btn btn-outline-primary" type="submit">Place Order</button>
-                            </div>
+                            
+                            <input class="col-4 m-1 input-group-text bg-white" type="number" name="orderQuantity" min="0" oninput="validity.valid||(value='');" value=@recommendedQuantity>
+
+                            <button class="col-6 m-1 btn btn-outline-primary" type="submit">Place Order</button>
+                            
                             <input type="number" hidden name="productID" value=@Model[i].ProductID>
                         </div>
                     </form>
