@@ -70,12 +70,12 @@
                 <td>
                     <form method="post" asp-controller="Sales" asp-action="AddToCart">
                         <div class="row">
-                            <div class="col float-start">
-                                <input class="w-75" type="number" name="quantityToBeAddedToCart" min="0" oninput="validity.valid||(value='');" value=1>
-                            </div>
-                            <div class="col float-end">
-                                <button class="btn btn-outline-primary" type="submit">Add</button>
-                            </div>
+
+                            <input class="col-4 m-1 input-group-text bg-white" type="number" name="quantityToBeAddedToCart" min="0" oninput="validity.valid||(value='');" value=1>
+                            
+                            
+                            <button class="col-6 m-1 btn btn-outline-primary" type="submit">Add</button>
+                            
                             <input type="number" hidden name="productID" value=@product.ProductID>
                         </div>
                         
