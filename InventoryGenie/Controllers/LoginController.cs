@@ -75,7 +75,7 @@ namespace InventoryGenie.Controllers
             if (ViewBag.Msg != null)
             {
                 //open the same page again for another try
-                View("ChangePassword", LoggedInEmployee);
+                return View("ChangePassword", LoggedInEmployee);
             }
 
             //if sucessful in changing the password. employee will be logged in

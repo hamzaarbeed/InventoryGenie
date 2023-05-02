@@ -84,7 +84,7 @@ namespace InventoryGenie.Models
             if (newPassword == LoggedInEmployee.Password)
             {
                 //then save this message to be shown in ChangePassword view
-                return "new password doesn't match confirmed new password";
+                return "new password must be different than the old password";
             }
 
 
